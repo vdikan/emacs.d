@@ -54,6 +54,7 @@
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
+  (set-face-attribute 'default nil :height 180)
   :custom
   (scroll-step 1)
   (inhibit-startup-screen t "Don't show splash screen")
@@ -155,6 +156,20 @@
   :config
   (evil-mode 1))
 
+(use-package projectile
+  :custom
+  ;; (projectile-indexing-method 'alien)
+  (projectile-completion-system 'ivy))
+
+(defun generate-fortran-tags ()
+  (interactive)
+  (compile
+   (concat "fortran-tags.py -g " buffer-file-name
+           " -o " (file-name-directory buffer-file-name) "TAGS"))
+  (setq fortran-tags-path (concat
+                           (file-name-directory buffer-file-name)
+                           "TAGS")))
+
 (use-package f90
   :custom
   (f90-if-indent 2
@@ -169,6 +184,7 @@
                 (setq comment-start "!!")
                 ;; f90-directive-comment-re "!!$"
                 ;; f90-indented-comment-re "!!"
+                (generate-fortran-tags)
                 )))
 
 ;; TODO fork for quelpa
@@ -188,6 +204,9 @@
    "a"   '(:ignore t :which-key "Applications")
    "ad"  'dired
 
+   ;; Projects
+   "p"   '(:keymap projectile-command-map :package projectile)
+
    ;; Language-specific
    ;; TODO rework into keymaps
    ;; "l"   '(:ignore t :which-key "Language-specific commands")
@@ -203,4 +222,9 @@
    "bb"  'ivy-switch-buffer
    "bk"  'kill-buffer
    "TAB" '(switch-to-next-buffer :which-key "next buffer")
+
+   ;; Shortcuts
+   "ed" '(lambda() (interactive)
+           (find-file "~/.emacs.d/init.el")
+           :which-key "edit dotemacs config")
   ))
