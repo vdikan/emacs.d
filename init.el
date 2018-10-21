@@ -166,14 +166,16 @@
   ;; (projectile-indexing-method 'alien)
   (projectile-completion-system 'ivy))
 
-(defun generate-fortran-tags ()
+(defun generate-fortran-project-tags ()  ;; TODO: hide in fortran-tags use-package
+  "Generate FORTAGS file used by `fortran-tags` in the project root."
   (interactive)
   (compile
-   (concat "fortran-tags.py -g " buffer-file-name
-           " -o " (file-name-directory buffer-file-name) "TAGS"))
-  (setq fortran-tags-path (concat
-                           (file-name-directory buffer-file-name)
-                           "TAGS")))
+   (concat "fortran-tags.py -g "
+           ;; NOTE: Fortags has troubles with lowcase file extensions. Report this.
+           (projectile-project-root) "Src/**/*.F "
+           (projectile-project-root) "Src/**/*.F90 "
+           ;; " -o " (file-name-directory buffer-file-name) "TAGS"))
+           " -o " (projectile-project-root) "FORTAGS")))
 
 (use-package f90
   :custom
@@ -183,13 +185,16 @@
    f90-continuation-indent 2
    f90-comment-region "!"
    f90-break-before-delimiters t
-   f90-beginning-ampersand nil)
+   f90-beginning-ampersand nil
+   )
   :hook
   (f90-mode . (lambda ()
                 (setq comment-start "!!")
                 ;; f90-directive-comment-re "!!$"
                 ;; f90-indented-comment-re "!!"
-                (generate-fortran-tags)
+                ;; (generate-fortran-tags)
+                (setq fortran-tags-path
+                      (concat (projectile-project-root) "FORTAGS"))
                 )))
 
 ;; TODO fork for quelpa
