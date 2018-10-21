@@ -144,7 +144,12 @@
   :hook
   (org-mode . org-bullets-mode))
 
-(use-package ivy)
+(use-package ivy
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-count-format "(%d/%d) ")
+  :config
+  (ivy-mode 1))
 
 (use-package counsel)
 
