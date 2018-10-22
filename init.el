@@ -55,6 +55,10 @@
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
   (set-face-attribute 'default nil :height 180)
+  (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
+  (set-face-attribute 'mode-line-buffer-id nil :background "RoyalBlue3" :foreground "white smoke")
+  (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
+  (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
   :custom
   (scroll-step 1)
   (inhibit-startup-screen t "Don't show splash screen")
@@ -73,7 +77,9 @@
   (sentence-end-double-space nil)
   (default-fill-column 80)
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
-  (debug-on-quit nil))
+  (debug-on-quit nil)
+  (column-number-mode 1)
+  )
 
 ;;; Appearance
 (blink-cursor-mode 0)
@@ -193,7 +199,7 @@
                 ;; f90-directive-comment-re "!!$"
                 ;; f90-indented-comment-re "!!"
                 ;; (generate-fortran-tags)
-                (setq fortran-tags-path
+                (setq fortran-tags-path  ;; doesnt work?
                       (concat (projectile-project-root) "FORTAGS"))
                 )))
 
