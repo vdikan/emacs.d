@@ -130,7 +130,13 @@
   :custom
   (uniquify-buffer-name-style 'forward))
 
-(use-package which-key :ensure t)
+(use-package which-key
+  :ensure t
+  :custom
+  (which-key-idle-delay 0.5)
+  (which-key-add-column-padding 2)
+  :config
+  (which-key-mode))
 
 (use-package org
   ;; to be sure we have latest Org version
@@ -221,9 +227,10 @@
    "ad"  'dired
 
    ;; Projects
-   "p"   '(:keymap projectile-command-map :package projectile)
+   "p"   '(:keymap projectile-command-map :package projectile
+           :which-key "Projectile")
    ;; ...versions
-   "v"   '(:keymap vc-prefix-map :which-key "Version control")
+   "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
    ;; Language-specific
    ;; TODO rework into keymaps
@@ -236,13 +243,14 @@
    ",d" 'fortran-procedures-in-buffer
 
    ;; Buffers
-   "b"   '(:ignore t :which-key "Buffer manipulations")
+   "b"   '(:ignore t :which-key "Buffers")
    "bb"  'ivy-switch-buffer
    "bk"  'kill-buffer
    "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
    ;; Shortcuts
-   "ed" '(lambda() (interactive)
-           (find-file "~/.emacs.d/init.el")
-           :which-key "edit dotemacs config")
+   "e"   '(:ignore t :which-key "Edit")
+   "ed"  '((lambda() (interactive)
+             (find-file "~/.emacs.d/init.el"))
+           :which-key "dotemacs config")
   ))
