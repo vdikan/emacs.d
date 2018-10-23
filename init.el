@@ -157,6 +157,12 @@
   :hook
   (org-mode . org-bullets-mode))
 
+(use-package ag
+  :defer t
+  :ensure-system-package (ag . silversearcher-ag)
+  :custom
+  (ag-highlight-search t "Highlight the current search term."))
+
 (use-package ivy
   :custom
   (ivy-use-virtual-buffers t)
@@ -219,8 +225,17 @@
   :ensure t
   :config
   (general-define-key
+   ;; replace default keybindings
+   "C-s" 'swiper             ; search for string in current buffer
+   "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
+  )
+  (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
+
+   ;; Root
+   "/"   'counsel-ag
+   "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
    ;; Applications
    "a"   '(:ignore t :which-key "Applications")
@@ -246,7 +261,6 @@
    "b"   '(:ignore t :which-key "Buffers")
    "bb"  'ivy-switch-buffer
    "bk"  'kill-buffer
-   "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
    ;; Shortcuts
    "e"   '(:ignore t :which-key "Edit")
