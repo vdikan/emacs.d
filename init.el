@@ -222,6 +222,8 @@
 
    ;; Projects
    "p"   '(:keymap projectile-command-map :package projectile)
+   ;; ...versions
+   "v"   '(:keymap vc-prefix-map :which-key "Version control")
 
    ;; Language-specific
    ;; TODO rework into keymaps
