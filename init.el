@@ -157,6 +157,8 @@
   :hook
   (org-mode . org-bullets-mode))
 
+(use-package golden-ratio)
+
 (use-package ag
   :defer t
   :ensure-system-package (ag . silversearcher-ag)
@@ -248,6 +250,11 @@
            :which-key "Projectile")
    ;; ...versions
    "v"   '(:keymap vc-prefix-map :which-key "Version Control")
+
+   ;; Toggles
+   "t"   '(:ignore t :which-key "Toggles")
+   "tg"  'golden-ratio-mode
+   "tl"  'toggle-truncate-lines
 
    ;; Language-specific
    ;; TODO rework into keymaps
