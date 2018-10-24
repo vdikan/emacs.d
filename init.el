@@ -163,6 +163,8 @@
   :custom
   (ag-highlight-search t "Highlight the current search term."))
 
+(use-package wgrep)
+
 (use-package ivy
   :custom
   (ivy-use-virtual-buffers t)
