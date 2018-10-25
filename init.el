@@ -21,6 +21,8 @@
 
 (put 'use-package 'lisp-indent-function 1)
 (setq use-package-always-ensure t)
+(setq use-package-verbose t)
+(setq use-package-minimum-reported-time 0.01)
 
 (use-package system-packages
   :custom
@@ -142,6 +144,15 @@
   ;; to be sure we have latest Org version
   :ensure org-plus-contrib
   :custom
+  (org-confirm-babel-evaluate nil)
+  (org-startup-indented t)
+  (org-hide-leading-stars nil)
+  (org-enforce-todo-dependencies t)
+  (org-agenda-todo-list-sublevels nil)
+  (org-log-repeat nil)
+  ;; (org-extend-today-until 3)
+  (org-agenda-span 1)
+  (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
   (org-src-tab-acts-natively t))
 
 (use-package org-bullets
