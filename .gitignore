@@ -1,4 +1,7 @@
 # -*-	mode: conf; -*-
+# my aliases and settings
+local_settings.el
+#
 abbrev_defs
 auto-save-list
 elpa

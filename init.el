@@ -81,12 +81,12 @@
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
   (debug-on-quit nil)
   (column-number-mode 1)
+  (system-time-locale "C")
   )
 
-;;; Appearance
+;;  Appearance
 (blink-cursor-mode 0)
 (menu-bar-mode -1)
-(toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (load-theme 'tango 'no-confirm)
 
@@ -104,6 +104,11 @@
   (kept-new-versions 6)
   (kept-old-versions 2)
   (version-control t))
+
+;; Read local settings here
+(let ((local-settings-file (locate-user-emacs-file "local_settings.el")))
+  (if (file-exists-p local-settings-file)
+      (load local-settings-file)))
 
 (use-package autorevert
   :ensure nil
@@ -236,7 +241,7 @@
 ;;   :quelpa (fortran-tags :repo "raullaasner/fortran-tags" :fetcher github))
 (load-file "~/code/python/fortran-tags/fortran-tags.el")
 
-(use-package general
+ (use-package general
   :ensure t
   :config
   (general-define-key
@@ -255,6 +260,7 @@
    ;; Applications
    "a"   '(:ignore t :which-key "Applications")
    "ad"  'dired
+   "ao"  'org-agenda
 
    ;; Projects
    "p"   '(:keymap projectile-command-map :package projectile
@@ -266,6 +272,7 @@
    "t"   '(:ignore t :which-key "Toggles")
    "tg"  'golden-ratio-mode
    "tl"  'toggle-truncate-lines
+   "ts"  'toggle-scroll-bar
 
    ;; Language-specific
    ;; TODO rework into keymaps
