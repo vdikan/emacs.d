@@ -175,6 +175,24 @@
 
 (use-package golden-ratio)
 
+;; (use-package rainbow-delimiters
+;;   :hook
+;;   (prog-mode . rainbow-delimiters-mode))
+
+;; (use-package rainbow-identifiers
+;;   :custom
+;;   (rainbow-identifiers-cie-l*a*b*-lightness 80)
+;;   (rainbow-identifiers-cie-l*a*b*-saturation 50)
+;;   (rainbow-identifiers-choose-face-function
+;;    #'rainbow-identifiers-cie-l*a*b*-choose-face)
+;;   :hook
+;;   (emacs-lisp-mode . rainbow-identifiers-mode)
+;;   (prog-mode . rainbow-identifiers-mode))
+
+;; (use-package rainbow-mode
+;;   :diminish rainbow-mode
+;;   :hook prog-mode)
+
 (use-package ag
   :defer t
   :ensure-system-package (ag . silversearcher-ag)
@@ -192,6 +210,8 @@
 
 (use-package counsel)
 
+(use-package smex)
+
 (use-package swiper)
 
 (use-package evil
@@ -203,6 +223,43 @@
   :custom
   ;; (projectile-indexing-method 'alien)
   (projectile-completion-system 'ivy))
+
+(use-package paren
+  :ensure nil
+  :config
+  (show-paren-mode t))
+
+(use-package lisp
+  :ensure nil
+  :hook
+  (after-save . check-parens))
+
+(use-package highlight-defined
+  :ensure t
+  :hook
+  (emacs-lisp-mode . highlight-defined-mode))
+
+(use-package highlight-quoted
+  :ensure t
+  :hook
+  (emacs-lisp-mode . highlight-quoted-mode))
+
+(use-package eros
+  :hook
+  (emacs-lisp-mode . eros-mode))
+
+(use-package suggest
+  :defer t)
+
+(use-package slime
+  ;; :disabled
+  :config
+  (setq inferior-lisp-program "sbcl"
+        lisp-indent-function 'common-lisp-indent-function
+        slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+        slime-startup-animation nil)
+  (slime-setup '(slime-fancy))
+  (setq slime-net-coding-system 'utf-8-unix))
 
 (defun generate-fortran-project-tags ()  ;; TODO: hide in fortran-tags use-package
   "Generate FORTAGS file used by `fortran-tags` in the project root."
