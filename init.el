@@ -218,6 +218,11 @@
   :config
   (evil-mode 1))
 
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
 (use-package projectile
   :custom
   ;; (projectile-indexing-method 'alien)
@@ -313,6 +318,10 @@
    "/"   'counsel-ag
    "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
+   ;; Commands
+   "c"   '(:ignore t :which-key "Commands")
+   "cc"  'org-capture
+
    ;; Applications
    "a"   '(:ignore t :which-key "Applications")
    "ad"  'dired
@@ -348,6 +357,11 @@
    ;; Shortcuts
    "e"   '(:ignore t :which-key "Edit")
    "ed"  '((lambda() (interactive)
-             (find-file "~/.emacs.d/init.el"))
+           (switch-to-buffer
+            (find-file-noselect "~/.emacs.d/init.el")))
            :which-key "dotemacs config")
+   "el"  '((lambda() (interactive)
+           (switch-to-buffer
+            (find-file-noselect "~/.emacs.d/local-settings.el")))
+           :which-key "local settings file")
   ))
