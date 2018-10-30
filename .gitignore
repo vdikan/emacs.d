@@ -1,6 +1,6 @@
 # -*-	mode: conf; -*-
 # my aliases and settings
-local_settings.el
+local-settings.el
 #
 abbrev_defs
 auto-save-list

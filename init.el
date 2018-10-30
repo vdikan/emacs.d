@@ -56,7 +56,6 @@
   :init
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
-  (set-face-attribute 'default nil :height 180)
   (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
   (set-face-attribute 'mode-line-buffer-id nil :background "RoyalBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
@@ -106,7 +105,7 @@
   (version-control t))
 
 ;; Read local settings here
-(let ((local-settings-file (locate-user-emacs-file "local_settings.el")))
+(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
   (if (file-exists-p local-settings-file)
       (load local-settings-file)))
 
