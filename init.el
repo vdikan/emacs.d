@@ -233,10 +233,11 @@
   :config
   (show-paren-mode t))
 
-(use-package lisp
-  :ensure nil
-  :hook
-  (after-save . check-parens))
+;; (use-package lisp
+;;   :ensure nil
+;;   :hook
+;;   (after-save . check-parens))
+;; (remove-hook 'after-save 'check-parens t)
 
 (use-package highlight-defined
   :ensure t
