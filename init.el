@@ -12,6 +12,9 @@
 
 (setq package-enable-at-startup nil)
 
+;; Danger?
+(setq package-check-signature nil)
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -174,23 +177,23 @@
 
 (use-package golden-ratio)
 
-;; (use-package rainbow-delimiters
-;;   :hook
-;;   (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
-;; (use-package rainbow-identifiers
-;;   :custom
-;;   (rainbow-identifiers-cie-l*a*b*-lightness 80)
-;;   (rainbow-identifiers-cie-l*a*b*-saturation 50)
-;;   (rainbow-identifiers-choose-face-function
-;;    #'rainbow-identifiers-cie-l*a*b*-choose-face)
-;;   :hook
-;;   (emacs-lisp-mode . rainbow-identifiers-mode)
-;;   (prog-mode . rainbow-identifiers-mode))
+(use-package rainbow-identifiers
+  :custom
+  (rainbow-identifiers-cie-l*a*b*-lightness 80)
+  (rainbow-identifiers-cie-l*a*b*-saturation 50)
+  (rainbow-identifiers-choose-face-function
+   #'rainbow-identifiers-cie-l*a*b*-choose-face)
+  :hook
+  (emacs-lisp-mode . rainbow-identifiers-mode)
+  (prog-mode . rainbow-identifiers-mode))
 
-;; (use-package rainbow-mode
-;;   :diminish rainbow-mode
-;;   :hook prog-mode)
+(use-package rainbow-mode
+  :diminish rainbow-mode
+  :hook prog-mode)
 
 (use-package ag
   :defer t
