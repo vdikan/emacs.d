@@ -183,8 +183,8 @@
 
 (use-package rainbow-identifiers
   :custom
-  (rainbow-identifiers-cie-l*a*b*-lightness 80)
-  (rainbow-identifiers-cie-l*a*b*-saturation 50)
+  (rainbow-identifiers-cie-l*a*b*-lightness 18)
+  (rainbow-identifiers-cie-l*a*b*-saturation 80)
   (rainbow-identifiers-choose-face-function
    #'rainbow-identifiers-cie-l*a*b*-choose-face)
   :hook
