@@ -322,6 +322,14 @@
    "/"   'counsel-ag
    "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
+   ;; Windows
+   "w"   '(:ignore t :which-key "Windows")
+   "ww"  'other-window
+   "wh"  'split-window-below
+   "wv"  'split-window-right
+   "wo"  'delete-other-windows
+   "wd"  'delete-window
+
    ;; Commands
    "c"   '(:ignore t :which-key "Commands")
    "cc"  'org-capture
