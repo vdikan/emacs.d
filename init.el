@@ -60,7 +60,7 @@
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
   (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
-  (set-face-attribute 'mode-line-buffer-id nil :background "RoyalBlue3" :foreground "white smoke")
+  (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
   :custom
@@ -91,6 +91,10 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (load-theme 'tango 'no-confirm)
+(setq default-frame-alist
+      (append default-frame-alist
+       '((background-color . "#efeff9")
+         (cursor-color . "DodgerBlue3"))))
 
 (use-package files
   :ensure nil
