@@ -354,6 +354,7 @@
    "tg"  'golden-ratio-mode
    "tl"  'toggle-truncate-lines
    "ts"  'toggle-scroll-bar
+   "tr"  'rainbow-identifiers-mode
 
    ;; Language-specific
    ;; TODO rework into keymaps
