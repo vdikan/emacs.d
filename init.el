@@ -179,6 +179,11 @@
   :hook
   (org-mode . org-bullets-mode))
 
+(use-package org-ref
+  :custom
+  (org-ref-completion-library 'org-ref-ivy-cite)
+  (bibtex-completion-pdf-open-function 'org-open-file))
+
 (use-package golden-ratio)
 
 (use-package rainbow-delimiters
@@ -213,6 +218,8 @@
   (ivy-count-format "(%d/%d) ")
   :config
   (ivy-mode 1))
+
+(use-package ivy-bibtex)
 
 (use-package counsel)
 
