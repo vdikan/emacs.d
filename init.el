@@ -320,14 +320,19 @@
  (use-package general
   :ensure t
   :config
+  (general-create-definer my-leader-def
+      ;; :prefix my-leader
+      :prefix "SPC")
+  (general-create-definer my-local-leader-def
+      ;; :prefix my-local-leader
+      :prefix "SPC m")
   (general-define-key
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
    "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
   )
-  (general-define-key
+  (my-leader-def
    :states '(normal visual emacs)
-   :prefix "SPC"
 
    ;; Root
    "/"   'counsel-ag
@@ -363,16 +368,6 @@
    "ts"  'toggle-scroll-bar
    "tr"  'rainbow-identifiers-mode
 
-   ;; Language-specific
-   ;; TODO rework into keymaps
-   ;; "l"   '(:ignore t :which-key "Language-specific commands")
-   ;; "lf"  '(:ignore t :which-key "Fortran bindings")
-   ",f" 'fortran-find-tag
-   ",p" 'fortran-pop-tag-mark
-   ",n" 'fortran-goto-next
-   ",g" 'fortran-find-proc-calls
-   ",d" 'fortran-procedures-in-buffer
-
    ;; Buffers
    "b"   '(:ignore t :which-key "Buffers")
    "bb"  'ivy-switch-buffer
@@ -388,4 +383,13 @@
            (switch-to-buffer
             (find-file-noselect "~/.emacs.d/local-settings.el")))
            :which-key "local settings file")
-  ))
+   )
+  (my-local-leader-def                  ; Fortran
+    :states 'normal
+    :keymaps '(f90-mode-map fortran-mode-map)
+    "f" 'fortran-find-tag
+    "p" 'fortran-pop-tag-mark
+    "n" 'fortran-goto-next
+    "g" 'fortran-find-proc-calls
+    "d" 'fortran-procedures-in-buffer)
+  )
