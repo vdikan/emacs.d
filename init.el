@@ -242,16 +242,19 @@
   ;; (projectile-indexing-method 'alien)
   (projectile-completion-system 'ivy))
 
+(use-package auto-complete
+  :ensure t
+  :config (ac-config-default))
+
 (use-package paren
   :ensure nil
   :config
   (show-paren-mode t))
 
-;; (use-package lisp
-;;   :ensure nil
-;;   :hook
-;;   (after-save . check-parens))
-;; (remove-hook 'after-save 'check-parens t)
+(use-package electric-pair
+  :ensure nil
+  :hook
+  (emacs-lisp-mode . electric-pair-mode))
 
 (use-package highlight-defined
   :ensure t
