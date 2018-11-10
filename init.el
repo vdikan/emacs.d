@@ -111,11 +111,6 @@
   (kept-old-versions 2)
   (version-control t))
 
-;; Read local settings here
-(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
-  (if (file-exists-p local-settings-file)
-      (load local-settings-file)))
-
 (use-package autorevert
   :ensure nil
   :diminish auto-revert-mode)
@@ -321,79 +316,89 @@
 ;;   :quelpa (fortran-tags :repo "raullaasner/fortran-tags" :fetcher github))
 (load-file "~/code/python/fortran-tags/fortran-tags.el")
 
- (use-package general
+(use-package general
   :ensure t
   :config
-  (general-create-definer my-leader-def
-      ;; :prefix my-leader
-      :prefix "SPC")
-  (general-create-definer my-local-leader-def
-      ;; :prefix my-local-leader
-      :prefix "SPC m")
   (general-define-key
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
    "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
+  ))
+
+(general-create-definer my-leader-def
+    ;; :prefix my-leader
+    :prefix "SPC")
+
+(general-create-definer my-local-leader-def
+    ;; :prefix my-local-leader
+    :prefix "SPC m")
+
+(my-leader-def
+    :states '(normal visual emacs)
+
+  ;; Root
+  "/"   'counsel-ag
+  "TAB" '(switch-to-next-buffer :which-key "next buffer")
+
+  ;; Windows
+  "w"   '(:ignore t :which-key "Windows")
+  "ww"  'other-window
+  "wh"  'split-window-below
+  "wv"  'split-window-right
+  "wo"  'delete-other-windows
+  "wd"  'delete-window
+
+  ;; Commands
+  "c"   '(:ignore t :which-key "Commands")
+  "cc"  'org-capture
+
+  ;; Applications
+  "a"   '(:ignore t :which-key "Applications")
+  "ad"  'dired
+  "ao"  'org-agenda
+
+  ;; Projects
+  "p"   '(:keymap projectile-command-map :package projectile
+          :which-key "Projectile")
+  ;; ...versions
+  "v"   '(:keymap vc-prefix-map :which-key "Version Control")
+
+  ;; Toggles
+  "t"   '(:ignore t :which-key "Toggles")
+  "tg"  'golden-ratio-mode
+  "tl"  'toggle-truncate-lines
+  "ts"  'toggle-scroll-bar
+  "tr"  'rainbow-identifiers-mode
+
+  ;; Buffers
+  "b"   '(:ignore t :which-key "Buffers")
+  "bb"  'ivy-switch-buffer
+  "bk"  'kill-buffer
+
+  ;; Shortcuts
+  "e"   '(:ignore t :which-key "Edit")
+  "ed"  '((lambda() (interactive)
+                 (switch-to-buffer
+                  (find-file-noselect "~/.emacs.d/init.el")))
+          :which-key "dotemacs config")
+  "el"  '((lambda() (interactive)
+                 (switch-to-buffer
+                  (find-file-noselect "~/.emacs.d/local-settings.el")))
+          :which-key "local settings file")
   )
-  (my-leader-def
-   :states '(normal visual emacs)
 
-   ;; Root
-   "/"   'counsel-ag
-   "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
-   ;; Windows
-   "w"   '(:ignore t :which-key "Windows")
-   "ww"  'other-window
-   "wh"  'split-window-below
-   "wv"  'split-window-right
-   "wo"  'delete-other-windows
-   "wd"  'delete-window
+(my-local-leader-def                  ; Fortran
+  :states 'normal
+  :keymaps 'f90-mode-map
+  "f" 'fortran-find-tag
+  "p" 'fortran-pop-tag-mark
+  "n" 'fortran-goto-next
+  "g" 'fortran-find-proc-calls
+  "d" 'fortran-procedures-in-buffer)
 
-   ;; Commands
-   "c"   '(:ignore t :which-key "Commands")
-   "cc"  'org-capture
 
-   ;; Applications
-   "a"   '(:ignore t :which-key "Applications")
-   "ad"  'dired
-   "ao"  'org-agenda
-
-   ;; Projects
-   "p"   '(:keymap projectile-command-map :package projectile
-           :which-key "Projectile")
-   ;; ...versions
-   "v"   '(:keymap vc-prefix-map :which-key "Version Control")
-
-   ;; Toggles
-   "t"   '(:ignore t :which-key "Toggles")
-   "tg"  'golden-ratio-mode
-   "tl"  'toggle-truncate-lines
-   "ts"  'toggle-scroll-bar
-   "tr"  'rainbow-identifiers-mode
-
-   ;; Buffers
-   "b"   '(:ignore t :which-key "Buffers")
-   "bb"  'ivy-switch-buffer
-   "bk"  'kill-buffer
-
-   ;; Shortcuts
-   "e"   '(:ignore t :which-key "Edit")
-   "ed"  '((lambda() (interactive)
-           (switch-to-buffer
-            (find-file-noselect "~/.emacs.d/init.el")))
-           :which-key "dotemacs config")
-   "el"  '((lambda() (interactive)
-           (switch-to-buffer
-            (find-file-noselect "~/.emacs.d/local-settings.el")))
-           :which-key "local settings file")
-   )
-  (my-local-leader-def                  ; Fortran
-    :states 'normal
-    :keymaps 'f90-mode-map
-    "f" 'fortran-find-tag
-    "p" 'fortran-pop-tag-mark
-    "n" 'fortran-goto-next
-    "g" 'fortran-find-proc-calls
-    "d" 'fortran-procedures-in-buffer)
-  )
+;; Finally, read local settings here
+(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
+  (if (file-exists-p local-settings-file)
+      (load local-settings-file)))
