@@ -278,16 +278,26 @@
   (slime-setup '(slime-fancy))
   (setq slime-net-coding-system 'utf-8-unix))
 
-(defun generate-fortran-project-tags ()  ;; TODO: hide in fortran-tags use-package
+
+(use-package fortran-tags
+  :ensure nil
+  :quelpa (fortran-tags :repo "vdikan/fortran-tags" :fetcher github)
+  :config
+  (setenv "PATH"
+          (concat quelpa-dir "/build/fortran-tags:"
+                  (getenv "PATH"))))
+
+
+(defun generate-fortran-project-tags ()
   "Generate FORTAGS file used by `fortran-tags` in the project root."
   (interactive)
   (compile
    (concat "fortran-tags.py -g "
-           ;; NOTE: Fortags has troubles with lowcase file extensions. Report this.
            (projectile-project-root) "Src/**/*.F "
            (projectile-project-root) "Src/**/*.F90 "
            ;; " -o " (file-name-directory buffer-file-name) "TAGS"))
            " -o " (projectile-project-root) "FORTAGS")))
+
 
 (use-package f90
   :custom
@@ -305,16 +315,9 @@
                 (setq comment-start "!!")
                 ;; f90-directive-comment-re "!!$"
                 ;; f90-indented-comment-re "!!"
-                ;; (generate-fortran-tags)
-                (setq fortran-tags-path  ;; doesnt work?
-                      (concat (projectile-project-root) "FORTAGS"))
-                )))
+                (setq fortran-tags-path
+                      (concat (projectile-project-root) "FORTAGS")))))
 
-;; TODO fork for quelpa
-;; (use-package fortran-tags
-;;   :ensure nil
-;;   :quelpa (fortran-tags :repo "raullaasner/fortran-tags" :fetcher github))
-(load-file "~/code/python/fortran-tags/fortran-tags.el")
 
 (use-package general
   :ensure t
