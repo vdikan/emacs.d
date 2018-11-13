@@ -146,6 +146,12 @@
   :config
   (which-key-mode))
 
+
+(use-package gnuplot)
+
+(use-package gnuplot-mode)
+
+
 (use-package org
   ;; to be sure we have latest Org version
   :ensure org-plus-contrib
@@ -159,7 +165,16 @@
   ;; (org-extend-today-until 3)
   (org-agenda-span 1)
   (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
-  (org-src-tab-acts-natively t))
+  (org-src-tab-acts-natively t)
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (gnuplot . t)
+     (python . t)
+     (fortran . t))))
+
 
 (use-package org-bullets
   :custom
