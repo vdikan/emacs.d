@@ -165,7 +165,7 @@
   ;; (org-extend-today-until 3)
   (org-agenda-span 1)
   (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
-  (org-src-tab-acts-natively t)
+  (org-src-tab-acts-natively nil)
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -208,7 +208,8 @@
    #'rainbow-identifiers-cie-l*a*b*-choose-face)
   :hook
   (emacs-lisp-mode . rainbow-identifiers-mode)
-  (prog-mode . rainbow-identifiers-mode))
+  ;; (prog-mode . rainbow-identifiers-mode)
+  )
 
 (use-package rainbow-mode
   :diminish rainbow-mode
