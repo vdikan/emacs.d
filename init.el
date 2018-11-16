@@ -189,10 +189,15 @@
   :hook
   (org-mode . org-bullets-mode))
 
-(use-package org-ref
+
+(use-package ivy-bibtex
+  :ensure t
   :custom
-  (org-ref-completion-library 'org-ref-ivy-cite)
-  (bibtex-completion-pdf-open-function 'org-open-file))
+  (ivy-re-builders-alist
+   '((ivy-bibtex . ivy--regex-ignore-order)
+     (t . ivy--regex-plus)))
+  (bibtex-completion-pdf-field "file"))
+
 
 (use-package golden-ratio)
 
@@ -374,6 +379,7 @@
   ;; Applications
   "a"   '(:ignore t :which-key "Applications")
   "ad"  'dired
+  "ab"  'ivy-bibtex
   "ao"  'org-agenda
 
   ;; Projects
