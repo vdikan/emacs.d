@@ -83,7 +83,7 @@
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
   (debug-on-quit nil)
   (column-number-mode 1)
-  (system-time-locale "C")
+  ;; (system-time-locale "C")
   )
 
 ;;  Appearance
@@ -91,10 +91,12 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (load-theme 'tango 'no-confirm)
+(setq system-time-locale "C")           ; English locale everywhere
 (setq default-frame-alist
       (append default-frame-alist
        '((background-color . "#efeff9")
          (cursor-color . "DodgerBlue3"))))
+
 
 (use-package files
   :ensure nil
