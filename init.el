@@ -346,7 +346,10 @@
    f90-beginning-ampersand nil
    )
   :hook
-  (fortran-mode . f90-mode)
+  (fortran-mode . (lambda ()
+                    (setq comment-start "!!")
+                    (setq fortran-tags-path
+                          (concat (projectile-project-root) "FORTAGS"))))
   (f90-mode . (lambda ()
                 (setq comment-start "!!")
                 ;; f90-directive-comment-re "!!$"
@@ -430,7 +433,7 @@
 
 (my-local-leader-def                  ; Fortran
   :states 'normal
-  :keymaps 'f90-mode-map
+  :keymaps '(fortran-mode-map f90-mode-map)
   "f" 'fortran-find-tag
   "p" 'fortran-pop-tag-mark
   "n" 'fortran-goto-next
