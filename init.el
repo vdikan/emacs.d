@@ -300,6 +300,18 @@
   :hook
   (emacs-lisp-mode . highlight-quoted-mode))
 
+
+(use-package cider
+  :defer t
+  ;; :custom
+  ;; (cider-repl-display-help-banner nil)
+  ;; :config
+  ;; sadly, we can't use :diminish keyword here, yet
+  ;; (diminish 'cider-mode
+  ;;           '(:eval (format " 🍏%s" (cider--modeline-info))))
+  )
+
+
 (use-package eros
   :hook
   (emacs-lisp-mode . eros-mode))
