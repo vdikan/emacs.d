@@ -154,6 +154,9 @@
 (use-package gnuplot-mode)
 
 
+(use-package nov)  ; epub reader
+
+
 (use-package org
   ;; to be sure we have latest Org version
   :ensure org-plus-contrib
