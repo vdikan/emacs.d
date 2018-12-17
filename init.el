@@ -301,6 +301,9 @@
   (emacs-lisp-mode . highlight-quoted-mode))
 
 
+(use-package lua-mode)
+
+
 (use-package cider
   :defer t
   ;; :custom
