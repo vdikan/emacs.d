@@ -1,6 +1,7 @@
 # -*-	mode: conf; -*-
 # my aliases and settings
 local-settings.el
+elfeed.org
 #
 abbrev_defs
 auto-save-list
@@ -27,3 +28,5 @@ url
 *.elc
 projectile-bookmarks.eld
 *.html
+ac-comphist.dat
+bookmarks
