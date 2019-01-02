@@ -195,6 +195,12 @@
   (org-mode . org-bullets-mode))
 
 
+(use-package elfeed
+  :ensure elfeed-org
+  :config
+  (elfeed-org))
+
+
 (use-package pdf-tools
   :pin manual ;; manually update
   :config
@@ -261,10 +267,21 @@
 
 (use-package swiper)
 
+
 (use-package evil
   :ensure t
+  :init
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1))
+
+
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+
 
 (use-package evil-surround
   :ensure t
