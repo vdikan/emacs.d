@@ -220,7 +220,20 @@
   (ivy-re-builders-alist
    '((ivy-bibtex . ivy--regex-ignore-order)
      (t . ivy--regex-plus)))
-  (bibtex-completion-pdf-field "file"))
+  (bibtex-completion-pdf-field "file")
+  (bibtex-completion-notes-template-one-file
+   "\n* ${author-or-editor} (${year}): ${title}
+:PROPERTIES:
+:Custom_ID: ${=key=}
+:Cite_IDs:
+:AUTHOR: ${author}
+:JOURNAL: ${journaltitle}
+:YEAR: ${year}
+:DOI: ${doi}
+:DIGRAPH_OUT: t
+:DIGRAPH_CLUSTER: nil
+:DIGRAPH_SUMMARY:
+:END:\n\n"))
 
 
 (use-package golden-ratio)
