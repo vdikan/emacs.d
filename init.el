@@ -352,6 +352,10 @@
 (use-package suggest
   :defer t)
 
+
+(use-package geiser)
+
+
 (use-package slime
   ;; :disabled
   :config
