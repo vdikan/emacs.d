@@ -347,17 +347,21 @@
 
 (use-package eros
   :hook
-  (emacs-lisp-mode . eros-mode))
+  (emacs-lisp-mode . eros-mode)
+  (racket-mode . eros-mode))
 
 (use-package suggest
   :defer t)
 
 
-(use-package geiser)
+(use-package geiser
+  :disabled)
+(use-package racket-mode)
+(use-package scheme-complete)
 
 
 (use-package slime
-  ;; :disabled
+  :disabled
   :config
   (setq inferior-lisp-program "sbcl"
         lisp-indent-function 'common-lisp-indent-function
@@ -417,7 +421,8 @@
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
    "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-  ))
+   "M-]" 'scheme-smart-complete
+   ))
 
 (general-create-definer my-leader-def
     ;; :prefix my-leader
