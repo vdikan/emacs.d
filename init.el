@@ -354,8 +354,8 @@
   :defer t)
 
 
-(use-package geiser
-  :disabled)
+;; (use-package geiser
+;;   :disabled)
 (use-package racket-mode)
 (use-package scheme-complete)
 
