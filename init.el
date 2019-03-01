@@ -1,3 +1,14 @@
+(defconst *lvar-default-font-height* 200
+  "The default font face height - different for each machine.")
+
+(defconst *lvar-grimoire-dir* "~/Grimoire"
+  "The root of my sync-able life-organizing repository called Grimoire.")
+
+
+; (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*)
+
+;;;
+
 (require 'package)
 (setq package-archives
       `(,@package-archives
@@ -57,12 +68,14 @@
 (use-package emacs
   :ensure nil
   :init
+  (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
   (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
   (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
+  (set-face-attribute 'default nil :height *lvar-default-font-height*)
   :custom
   (scroll-step 1)
   (inhibit-startup-screen t "Don't show splash screen")
@@ -82,9 +95,8 @@
   (default-fill-column 80)
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
   (debug-on-quit nil)
-  (column-number-mode 1)
-  ;; (system-time-locale "C")
-  )
+  (column-number-mode 1))
+
 
 ;;  Appearance
 (blink-cursor-mode 0)
@@ -160,6 +172,21 @@
 (use-package org
   ;; to be sure we have latest Org version
   :ensure org-plus-contrib
+  :init                                 ; Constant definitions mainly for Org-capture templates
+                                        ; funcalls in templates' bodies do not work
+  (defconst *lvar-org-agenda-file*
+    (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*)
+    "General todos and schedule planner.")
+  (defconst *lvar-org-journal-file*
+    (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*)
+    "Dear Diary...")
+  (defconst *lvar-org-notes-file*
+    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*)
+    "Research notes file")
+  (setq org-agenda-files
+        (list *lvar-org-agenda-file*
+              *lvar-org-journal-file*
+              *lvar-org-notes-file*))
   :custom
   (org-confirm-babel-evaluate nil)
   (org-startup-indented t)
@@ -171,6 +198,25 @@
   (org-agenda-span 1)
   (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
   (org-src-tab-acts-natively nil)
+  (org-capture-templates
+   '(("w" "Grimoire worklog"
+      plain (file (lambda ()
+                    (concat *lvar-grimoire-dir* "/worklog"
+                            (format-time-string "/%Y/%m/%d/%d-%m-%Y.org.gpg"
+                                                (current-time)))))
+      "* %^{entry title}\n %?"
+      :empty-lines 1
+      :unnarrowed t)
+     ("t" "Todo" entry (file+headline *lvar-org-agenda-file* "Tasks")
+      "* TODO  %?\n  %i\n  %a")
+     ("j" "Journal" entry (file+datetree *lvar-org-journal-file*)
+      "* %?\n\n  %a" :empty-lines 1)
+     ("q" "Quote to Journal" entry (file+datetree *lvar-org-journal-file*)
+      "* \n#+begin_quote\n %?\n%i\n#+end_quote\nEntered on %U\n  %a" :empty-lines 1)
+     ("l" "(hooked) Link worklog to journal" entry
+      (file+datetree *lvar-org-journal-file*)
+      "* Worklog entry: %u  :work:log: \n %i\n"
+      :empty-lines 1)))
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -485,7 +531,25 @@
                  (switch-to-buffer
                   (find-file-noselect "~/.emacs.d/local-settings.el")))
           :which-key "local settings file")
-  )
+
+  ;; Org-mode
+  ;; Contains links to Grimoire
+  "o"   '(:ignore t :which-key "Open local")
+  "ot"  '((lambda() (interactive)
+            (switch-to-buffer
+             (find-file-noselect
+              (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
+          :which-key "Todos and Agenda")
+  "oj"  '((lambda() (interactive)
+            (switch-to-buffer
+             (find-file-noselect
+              (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
+          :which-key "my Journal")
+  "or" '((lambda() (interactive)
+           (switch-to-buffer
+            (find-file-noselect
+             (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
+         :which-key "Research Notes"))
 
 
 (my-local-leader-def                  ; Fortran
