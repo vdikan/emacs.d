@@ -1,14 +1,10 @@
-(defconst *lvar-default-font-height* 200
-  "The default font face height - different for each machine.")
+;;; First, load machine-specific variables from linked `local-settings.el'
+(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
+  (if (file-exists-p local-settings-file)
+      (load local-settings-file)))
 
-(defconst *lvar-grimoire-dir* "~/Grimoire"
-  "The root of my sync-able life-organizing repository called Grimoire.")
 
-
-; (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*)
-
-;;;
-
+;;; Declarative setup with `use-package'.
 (require 'package)
 (setq package-archives
       `(,@package-archives
@@ -187,6 +183,41 @@
         (list *lvar-org-agenda-file*
               *lvar-org-journal-file*
               *lvar-org-notes-file*))
+
+  :config
+  (defun insert-worklog-preamble ()
+    "Standard preamble to insert for org->latex export."
+    (interactive)
+    (let ((title (org-element-property
+                  :title (org-element-at-point))))
+      (beginning-of-buffer)
+      (insert (cl-concatenate 'string
+"\#+LATEX_CLASS: article
+\#+LATEX_CLASS_OPTIONS: [11pt, a4paper]
+\#+LATEX_HEADER: \\usepackage[margin=0.5in]{geometry}
+\#+LATEX_HEADER: \\usepackage[T1,T2A]{fontenc}
+\#+LATEX_HEADER: \\setlength\\parindent{0pt}
+\#+OPTIONS: email:t author:nil toc:nil num:nil
+\#+EMAIL: " *lvar-email-address* "\n"
+"\#+TITLE: " title "\n"))))
+
+  (defun worklog-capture-hook ()
+    "Hook to pair `worklog' and `journal' capture templates."
+    (when (string= "w" (plist-get org-capture-plist :key))
+      (org-capture-string
+       (concat "file:" "../worklog"
+               (format-time-string "/%Y/%m/%d/%d-%m-%Y.org.gpg"
+                                   (current-time))) "l")))
+  (add-hook 'org-capture-mode-hook #'worklog-capture-hook)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (gnuplot . t)
+     (python . t)
+     (fortran . t)))
+
   :custom
   (org-confirm-babel-evaluate nil)
   (org-startup-indented t)
@@ -217,14 +248,7 @@
       (file+datetree *lvar-org-journal-file*)
       "* Worklog entry: %u  :work:log: \n %i\n"
       :empty-lines 1)))
-  :config
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (shell . t)
-     (gnuplot . t)
-     (python . t)
-     (fortran . t))))
+  )
 
 
 (use-package org-bullets
@@ -266,6 +290,9 @@
   (ivy-re-builders-alist
    '((ivy-bibtex . ivy--regex-ignore-order)
      (t . ivy--regex-plus)))
+  (bibtex-completion-notes-path
+   (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))
+  (bibtex-completion-bibliography *lvar-bibtex-list*)
   (bibtex-completion-pdf-field "file")
   (bibtex-completion-notes-template-one-file
    "\n* ${author-or-editor} (${year}): ${title}
@@ -460,6 +487,7 @@
                       (concat (projectile-project-root) "FORTAGS")))))
 
 
+;;; Declare/describe custom shortcuts with `general' and `which-key'
 (use-package general
   :ensure t
   :config
@@ -560,9 +588,3 @@
   "n" 'fortran-goto-next
   "g" 'fortran-find-proc-calls
   "d" 'fortran-procedures-in-buffer)
-
-
-;; Finally, read local settings here
-(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
-  (if (file-exists-p local-settings-file)
-      (load local-settings-file)))
