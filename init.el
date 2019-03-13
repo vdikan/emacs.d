@@ -61,6 +61,15 @@
   :config
   (paradox-enable))
 
+;; Auto-complete replaced with `company-mode'
+;; (use-package auto-complete
+;;   :ensure t
+;;   :config (ac-config-default))
+
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
 (use-package emacs
   :ensure nil
   :init
@@ -72,6 +81,7 @@
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
   (set-face-attribute 'default nil :height *lvar-default-font-height*)
+  ;; (add-hook 'after-init-hook 'global-company-mode)
   :custom
   (scroll-step 1)
   (inhibit-startup-screen t "Don't show splash screen")
@@ -379,10 +389,6 @@
   ;; (projectile-indexing-method 'alien)
   (projectile-completion-system 'ivy))
 
-(use-package auto-complete
-  :ensure t
-  :config (ac-config-default))
-
 (use-package paren
   :ensure nil
   :config
@@ -427,10 +433,7 @@
   :defer t)
 
 
-;; (use-package geiser
-;;   :disabled)
 (use-package racket-mode)
-(use-package scheme-complete)
 
 
 (use-package slime
