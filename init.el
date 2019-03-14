@@ -110,10 +110,16 @@
 (tool-bar-mode -1)
 (load-theme 'tango 'no-confirm)
 (setq system-time-locale "C")           ; English locale everywhere
+                                        ; por que no funciona??
 (setq default-frame-alist
       (append default-frame-alist
        '((background-color . "#efeff9")
          (cursor-color . "DodgerBlue3"))))
+
+
+(use-package dired-sidebar
+  :ensure t
+  :commands (dired-sidebar-toggle-sidebar))
 
 
 (use-package files
@@ -520,7 +526,8 @@
 
   ;; Root
   "/"   'counsel-ag
-  "TAB" '(switch-to-next-buffer :which-key "next buffer")
+  "TAB" 'dired-sidebar-toggle-sidebar
+  ;; "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
   ;; Windows
   "w"   '(:ignore t :which-key "Windows")
@@ -597,3 +604,4 @@
   "n" 'fortran-goto-next
   "g" 'fortran-find-proc-calls
   "d" 'fortran-procedures-in-buffer)
+(put 'dired-find-alternate-file 'disabled nil)
