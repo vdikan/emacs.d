@@ -241,6 +241,7 @@
      (racket . t)))
 
   :custom
+  (org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (org-confirm-babel-evaluate nil)
   (org-startup-indented t)
   (org-hide-leading-stars nil)
