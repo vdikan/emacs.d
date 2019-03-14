@@ -175,6 +175,11 @@
 (use-package nov)  ; epub reader
 
 
+(use-package ob-racket
+  :ensure nil
+  :quelpa (ob-racket :repo "hasu/emacs-ob-racket" :fetcher github))
+
+
 (use-package org
   ;; to be sure we have latest Org version
   :ensure org-plus-contrib
@@ -226,7 +231,8 @@
      (shell . t)
      (gnuplot . t)
      (python . t)
-     (fortran . t)))
+     (fortran . t)
+     (racket . t)))
 
   :custom
   (org-confirm-babel-evaluate nil)
