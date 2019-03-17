@@ -291,6 +291,11 @@
 (use-package elfeed
   :ensure elfeed-org
   :config
+  (add-hook 'elfeed-show-mode-hook
+            (lambda ()
+              (set-face-attribute 'variable-pitch (selected-frame)
+                                  :font (font-spec :family "LiberationMono"
+                                                   :size 20))))
   (elfeed-org))
 
 
