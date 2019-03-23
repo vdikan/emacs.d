@@ -230,6 +230,7 @@
                (format-time-string "/%Y/%m/%d/%d-%m-%Y.org.gpg"
                                    (current-time))) "l")))
   (add-hook 'org-capture-mode-hook #'worklog-capture-hook)
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -241,7 +242,6 @@
      (racket . t)))
 
   :custom
-  (org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
   (org-confirm-babel-evaluate nil)
   (org-startup-indented t)
   (org-hide-leading-stars nil)
