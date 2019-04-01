@@ -101,7 +101,8 @@
   (default-fill-column 80)
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
   (debug-on-quit nil)
-  (column-number-mode 1))
+  (column-number-mode 1)
+  (reb-re-syntax 'string))
 
 
 ;;  Appearance
@@ -552,7 +553,7 @@
     :prefix "SPC m")
 
 (my-leader-def
-    :states '(normal visual emacs)
+  :states '(normal visual emacs)
 
   ;; Root
   "/"   'counsel-ag
@@ -576,10 +577,12 @@
   "ad"  'dired
   "ab"  'ivy-bibtex
   "ao"  'org-agenda
+  "ar"  're-builder
 
   ;; Projects
-  "p"   '(:keymap projectile-command-map :package projectile
-          :which-key "Projectile")
+  "p"   '(:keymap projectile-command-map
+                  :package projectile
+                  :which-key "Projectile")
   ;; ...versions
   "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
@@ -598,12 +601,12 @@
   ;; Shortcuts
   "e"   '(:ignore t :which-key "Edit")
   "ed"  '((lambda() (interactive)
-                 (switch-to-buffer
-                  (find-file-noselect "~/.emacs.d/init.el")))
+            (switch-to-buffer
+             (find-file-noselect "~/.emacs.d/init.el")))
           :which-key "dotemacs config")
   "el"  '((lambda() (interactive)
-                 (switch-to-buffer
-                  (find-file-noselect "~/.emacs.d/local-settings.el")))
+            (switch-to-buffer
+             (find-file-noselect "~/.emacs.d/local-settings.el")))
           :which-key "local settings file")
 
   ;; Org-mode
