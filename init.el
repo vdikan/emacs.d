@@ -480,13 +480,18 @@
 
 
 (use-package slime
-  :disabled
+  ;; :disabled
+  :ensure slime-company
   :config
+  (load (expand-file-name "~/quicklisp/slime-helper.el")) ; comes from:
+  ;; https://kaashif.co.uk/2015/06/28/hacking-stumpwm-with-common-lisp/
+
   (setq inferior-lisp-program "sbcl"
         lisp-indent-function 'common-lisp-indent-function
         slime-complete-symbol-function 'slime-fuzzy-complete-symbol
         slime-startup-animation nil)
-  (slime-setup '(slime-fancy))
+  ;; (slime-setup '(slime-fancy))
+  (slime-setup '(slime-company))
   (setq slime-net-coding-system 'utf-8-unix))
 
 
