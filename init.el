@@ -174,6 +174,16 @@
   (which-key-mode))
 
 
+(use-package tramp
+  :defer t
+  :config
+  ;; (put 'temporary-file-directory 'standard-value '("/tmp"))
+  :custom
+  ;; (tramp-backup-directory-alist backup-directory-alist)
+  ;; (tramp-default-proxies-alist nil)
+  (tramp-default-method "ssh"))
+
+
 (use-package gnuplot)
 
 (use-package gnuplot-mode)
