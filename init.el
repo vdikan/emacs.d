@@ -195,6 +195,16 @@
   (which-key-mode))
 
 
+(use-package tramp
+  :defer t
+  :config
+  ;; (put 'temporary-file-directory 'standard-value '("/tmp"))
+  :custom
+  ;; (tramp-backup-directory-alist backup-directory-alist)
+  ;; (tramp-default-proxies-alist nil)
+  (tramp-default-method "ssh"))
+
+
 (use-package gnuplot)
 
 (use-package gnuplot-mode)
@@ -235,7 +245,7 @@
                   :title (org-element-at-point))))
       (beginning-of-buffer)
       (insert (cl-concatenate 'string
-"\#+LATEX_CLASS: article
+                              "\#+LATEX_CLASS: article
 \#+LATEX_CLASS_OPTIONS: [11pt, a4paper]
 \#+LATEX_HEADER: \\usepackage[margin=0.5in]{geometry}
 \#+LATEX_HEADER: \\usepackage[T1,T2A]{fontenc}
@@ -261,7 +271,8 @@
      (gnuplot . t)
      (python . t)
      (fortran . t)
-     (racket . t)))
+     (racket . t)
+     (ditaa . t)))
 
   :custom
   (org-confirm-babel-evaluate nil)
@@ -274,6 +285,7 @@
   (org-agenda-span 1)
   (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
   (org-src-tab-acts-natively nil)
+  (org-ditaa-jar-path "/usr/bin/ditaa")
   (org-capture-templates
    '(("w" "Grimoire worklog"
       plain (file (lambda ()
