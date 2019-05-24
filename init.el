@@ -118,30 +118,11 @@
                 (cursor-color . "DodgerBlue3"))))
 
 
-(use-package vscode-icon
-  :ensure t
-  :commands (vscode-icon-for-file)
-  :config
-  (setq vscode-icon-size 23))
-
-
-(use-package dired-sidebar
-  :ensure t
-  :commands (dired-sidebar-toggle-sidebar)
-  :init
-  (add-hook 'dired-sidebar-mode-hook
-            (lambda ()
-              (unless (file-remote-p default-directory)
-                (auto-revert-mode))))
-  :config
-  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-
-  ;; (setq dired-sidebar-icon-scale 0.12)
-  (setq dired-sidebar-subtree-line-prefix "__")
-  (setq dired-sidebar-theme 'vscode)
-  (setq dired-sidebar-use-term-integration nil)
-  (setq dired-sidebar-use-custom-font nil))
+;; (use-package vscode-icon
+;;   :ensure t
+;;   :commands (vscode-icon-for-file)
+;;   :config
+;;   (setq vscode-icon-size 23))
 
 
 (use-package files
