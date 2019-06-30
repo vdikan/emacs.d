@@ -513,47 +513,57 @@
   (setq slime-net-coding-system 'utf-8-unix))
 
 
-(use-package fortran-tags
-  :ensure nil
-  :quelpa (fortran-tags :repo "vdikan/fortran-tags" :fetcher github)
-  :config
-  (setenv "PATH"
-          (concat quelpa-dir "/build/fortran-tags:"
-                  (getenv "PATH"))))
-
-
-(defun generate-fortran-project-tags ()
-  "Generate FORTAGS file used by `fortran-tags` in the project root."
-  (interactive)
-  (compile
-   (concat "fortran-tags.py -g "
-           (projectile-project-root) "Src/**/*.F "
-           (projectile-project-root) "Src/**/*.F90 "
-           ;; " -o " (file-name-directory buffer-file-name) "TAGS"))
-           " -o " (projectile-project-root) "FORTAGS")))
-
-
-(use-package f90
-  :custom
-  (f90-if-indent 2
-   f90-type-indent 2
-   f90-program-indent 2
-   f90-continuation-indent 2
-   f90-comment-region "!"
-   f90-break-before-delimiters t
-   f90-beginning-ampersand nil
-   )
+(use-package lsp-mode
+  :ensure company-lsp
   :hook
-  (fortran-mode . (lambda ()
-                    (setq comment-start "!!")
-                    (setq fortran-tags-path
-                          (concat (projectile-project-root) "FORTAGS"))))
-  (f90-mode . (lambda ()
-                (setq comment-start "!!")
-                ;; f90-directive-comment-re "!!$"
-                ;; f90-indented-comment-re "!!"
-                (setq fortran-tags-path
-                      (concat (projectile-project-root) "FORTAGS")))))
+  (f90-mode . lsp-deferred)
+  (fortran-mode . lsp-deferred)
+  :commands (lsp lsp-deferred)
+  :config
+  (push 'company-lsp company-backends))
+
+
+;; (use-package fortran-tags
+;;   :ensure nil
+;;   :quelpa (fortran-tags :repo "vdikan/fortran-tags" :fetcher github)
+;;   :config
+;;   (setenv "PATH"
+;;           (concat quelpa-dir "/build/fortran-tags:"
+;;                   (getenv "PATH"))))
+
+
+;; (defun generate-fortran-project-tags ()
+;;   "Generate FORTAGS file used by `fortran-tags` in the project root."
+;;   (interactive)
+;;   (compile
+;;    (concat "fortran-tags.py -g "
+;;            (projectile-project-root) "Src/**/*.F "
+;;            (projectile-project-root) "Src/**/*.F90 "
+;;            ;; " -o " (file-name-directory buffer-file-name) "TAGS"))
+;;            " -o " (projectile-project-root) "FORTAGS")))
+
+
+;; (use-package f90
+;;   :custom
+;;   (f90-if-indent 2
+;;    f90-type-indent 2
+;;    f90-program-indent 2
+;;    f90-continuation-indent 2
+;;    f90-comment-region "!"
+;;    f90-break-before-delimiters t
+;;    f90-beginning-ampersand nil
+;;    )
+;;   :hook
+;;   (fortran-mode . (lambda ()
+;;                     (setq comment-start "!!")
+;;                     (setq fortran-tags-path
+;;                           (concat (projectile-project-root) "FORTAGS"))))
+;;   (f90-mode . (lambda ()
+;;                 (setq comment-start "!!")
+;;                 ;; f90-directive-comment-re "!!$"
+;;                 ;; f90-indented-comment-re "!!"
+;;                 (setq fortran-tags-path
+;;                       (concat (projectile-project-root) "FORTAGS")))))
 
 
 ;;; Declare/describe custom shortcuts with `general' and `which-key'
