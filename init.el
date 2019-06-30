@@ -484,13 +484,17 @@
 (use-package eros
   :hook
   (emacs-lisp-mode . eros-mode)
-  (racket-mode . eros-mode))
+  (racket-mode . eros-mode)
+  ;; (fennel-mode . eros-mode)
+  )
 
 (use-package suggest
   :defer t)
 
 
 (use-package racket-mode)
+
+(use-package fennel-mode)
 
 
 (use-package slime
