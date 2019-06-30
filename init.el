@@ -382,6 +382,7 @@
 (use-package wgrep)
 
 (use-package ivy
+  :ensure ivy-yasnippet
   :custom
   (ivy-use-virtual-buffers t)
   (ivy-count-format "(%d/%d) ")
@@ -523,49 +524,6 @@
   (push 'company-lsp company-backends))
 
 
-;; (use-package fortran-tags
-;;   :ensure nil
-;;   :quelpa (fortran-tags :repo "vdikan/fortran-tags" :fetcher github)
-;;   :config
-;;   (setenv "PATH"
-;;           (concat quelpa-dir "/build/fortran-tags:"
-;;                   (getenv "PATH"))))
-
-
-;; (defun generate-fortran-project-tags ()
-;;   "Generate FORTAGS file used by `fortran-tags` in the project root."
-;;   (interactive)
-;;   (compile
-;;    (concat "fortran-tags.py -g "
-;;            (projectile-project-root) "Src/**/*.F "
-;;            (projectile-project-root) "Src/**/*.F90 "
-;;            ;; " -o " (file-name-directory buffer-file-name) "TAGS"))
-;;            " -o " (projectile-project-root) "FORTAGS")))
-
-
-;; (use-package f90
-;;   :custom
-;;   (f90-if-indent 2
-;;    f90-type-indent 2
-;;    f90-program-indent 2
-;;    f90-continuation-indent 2
-;;    f90-comment-region "!"
-;;    f90-break-before-delimiters t
-;;    f90-beginning-ampersand nil
-;;    )
-;;   :hook
-;;   (fortran-mode . (lambda ()
-;;                     (setq comment-start "!!")
-;;                     (setq fortran-tags-path
-;;                           (concat (projectile-project-root) "FORTAGS"))))
-;;   (f90-mode . (lambda ()
-;;                 (setq comment-start "!!")
-;;                 ;; f90-directive-comment-re "!!$"
-;;                 ;; f90-indented-comment-re "!!"
-;;                 (setq fortran-tags-path
-;;                       (concat (projectile-project-root) "FORTAGS")))))
-
-
 ;;; Declare/describe custom shortcuts with `general' and `which-key'
 (use-package general
   :ensure t
@@ -586,7 +544,7 @@
     :prefix "SPC m")
 
 (my-leader-def
-  :states '(normal visual emacs)
+    :states '(normal visual emacs)
 
   ;; Root
   "/"   'counsel-ag
@@ -614,8 +572,8 @@
 
   ;; Projects
   "p"   '(:keymap projectile-command-map
-                  :package projectile
-                  :which-key "Projectile")
+          :package projectile
+          :which-key "Projectile")
   ;; ...versions
   "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
@@ -634,40 +592,32 @@
   ;; Shortcuts
   "e"   '(:ignore t :which-key "Edit")
   "ed"  '((lambda() (interactive)
-            (switch-to-buffer
-             (find-file-noselect "~/.emacs.d/init.el")))
+                 (switch-to-buffer
+                  (find-file-noselect "~/.emacs.d/init.el")))
           :which-key "dotemacs config")
   "el"  '((lambda() (interactive)
-            (switch-to-buffer
-             (find-file-noselect "~/.emacs.d/local-settings.el")))
+                 (switch-to-buffer
+                  (find-file-noselect "~/.emacs.d/local-settings.el")))
           :which-key "local settings file")
 
   ;; Org-mode
   ;; Contains links to Grimoire
   "o"   '(:ignore t :which-key "Open local")
   "ot"  '((lambda() (interactive)
-            (switch-to-buffer
-             (find-file-noselect
-              (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
+                 (switch-to-buffer
+                  (find-file-noselect
+                   (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
           :which-key "Todos and Agenda")
   "oj"  '((lambda() (interactive)
-            (switch-to-buffer
-             (find-file-noselect
-              (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
+                 (switch-to-buffer
+                  (find-file-noselect
+                   (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
           :which-key "my Journal")
   "or" '((lambda() (interactive)
-           (switch-to-buffer
-            (find-file-noselect
-             (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
+                (switch-to-buffer
+                 (find-file-noselect
+                  (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
          :which-key "Research Notes"))
 
 
-(my-local-leader-def                  ; Fortran
-  :states 'normal
-  :keymaps '(fortran-mode-map f90-mode-map)
-  "f" 'fortran-find-tag
-  "p" 'fortran-pop-tag-mark
-  "n" 'fortran-goto-next
-  "g" 'fortran-find-proc-calls
-  "d" 'fortran-procedures-in-buffer)
-(put 'dired-find-alternate-file 'disabled nil)
+;; (put 'dired-find-alternate-file 'disabled nil)
