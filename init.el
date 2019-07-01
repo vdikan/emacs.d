@@ -176,6 +176,10 @@
   (which-key-mode))
 
 
+(use-package yasnippet
+  :ensure yasnippet-snippets)
+
+
 (use-package tramp
   :defer t
   :config
@@ -515,18 +519,56 @@
 
 
 (use-package lsp-mode
-  :ensure company-lsp
   :hook
   (f90-mode . lsp-deferred)
   (fortran-mode . lsp-deferred)
+  (lsp-mode . lsp-ui-mode)
   :commands (lsp lsp-deferred)
   :custom
-  (lsp-enable-snippet nil)
-  (company-lsp-enable-snippet nil)
-  (lsp-auto-guess-root t)
+  ;; (lsp-enable-snippet t)
+  (lsp-auto-guess-root nil)
+  (lsp-eldoc-render-all t)
   :config
+  (use-package lsp-ui
+    :ensure t
+    :custom
+    ;; lsp-ui-doc
+    (lsp-ui-doc-enable t)
+    (lsp-ui-doc-header t)
+    (lsp-ui-doc-include-signature t)
+    (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
+    (lsp-ui-doc-max-width 120)
+    (lsp-ui-doc-max-height 30)
+    (lsp-ui-doc-use-childframe t)
+    (lsp-ui-doc-use-webkit t)
+
+    ;; lsp-ui-sideline
+    (lsp-ui-sideline-enable nil)
+    ;; (lsp-ui-sideline-ignore-duplicate t)
+    ;; (lsp-ui-sideline-show-symbol t)
+    ;; (lsp-ui-sideline-show-hover t)
+    ;; (lsp-ui-sideline-show-diagnostics nil)
+    ;; (lsp-ui-sideline-show-code-actions t)
+    ;; (lsp-ui-sideline-code-actions-prefix "")
+
+    ;; lsp-ui-peek
+    (lsp-ui-peek-enable t)
+    (lsp-ui-peek-peek-height 20)
+    (lsp-ui-peek-list-width 50)
+    (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
+
+    ;; :after flycheck
+    )
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (push 'company-lsp company-backends))
+
+
+(use-package company-lsp
+  :custom
+  (company-lsp-cache-candidates t) ;; auto, t(always using a cache), or nil
+  (company-lsp-async t)
+  (company-lsp-enable-snippet t)
+  (company-lsp-enable-recompletion t))
 
 
 ;;; Declare/describe custom shortcuts with `general' and `which-key'
