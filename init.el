@@ -520,7 +520,12 @@
   (f90-mode . lsp-deferred)
   (fortran-mode . lsp-deferred)
   :commands (lsp lsp-deferred)
+  :custom
+  (lsp-enable-snippet nil)
+  (company-lsp-enable-snippet nil)
+  (lsp-auto-guess-root t)
   :config
+  (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (push 'company-lsp company-backends))
 
 
