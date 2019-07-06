@@ -76,6 +76,7 @@
   (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
+  (set-face-attribute 'region nil :background "LightSteelBlue")
   (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
   (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
@@ -528,7 +529,12 @@
   ;; (lsp-enable-snippet t)
   (lsp-auto-guess-root nil)
   (lsp-eldoc-render-all t)
+  (lsp-clients-fortls-args '("--lowercase_intrinsics"
+                             "--use_signature_help"
+                             "--variable_hover"
+                             "--hover_signature"))
   :config
+  (set-face-attribute 'lsp-ui-doc-background  nil :background "PowderBlue")
   (use-package lsp-ui
     :ensure t
     :custom
@@ -539,17 +545,11 @@
     (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
     (lsp-ui-doc-max-width 120)
     (lsp-ui-doc-max-height 30)
-    (lsp-ui-doc-use-childframe t)
-    (lsp-ui-doc-use-webkit t)
+    ;; (lsp-ui-doc-use-childframe t)
+    ;; (lsp-ui-doc-use-webkit t)
 
     ;; lsp-ui-sideline
     (lsp-ui-sideline-enable nil)
-    ;; (lsp-ui-sideline-ignore-duplicate t)
-    ;; (lsp-ui-sideline-show-symbol t)
-    ;; (lsp-ui-sideline-show-hover t)
-    ;; (lsp-ui-sideline-show-diagnostics nil)
-    ;; (lsp-ui-sideline-show-code-actions t)
-    ;; (lsp-ui-sideline-code-actions-prefix "")
 
     ;; lsp-ui-peek
     (lsp-ui-peek-enable t)
@@ -666,5 +666,17 @@
                   (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
          :which-key "Research Notes"))
 
+
+(my-local-leader-def                  ; Fortran + LSP
+    :states 'normal
+  :keymaps '(f90-mode-map fortran-mode-map)
+  "m" 'imenu
+  "q" 'lsp-shutdown-workspace
+  "w" 'lsp-restart-workspace
+  "h" 'lsp-describe-thing-at-point
+  "r" 'lsp-rename
+  "d" 'lsp-find-definition
+  "i" 'lsp-find-references
+  "p" 'lsp-ui-peek-find-references)
 
 ;; (put 'dired-find-alternate-file 'disabled nil)
