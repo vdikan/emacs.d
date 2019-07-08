@@ -523,6 +523,11 @@
   (setq slime-net-coding-system 'utf-8-unix))
 
 
+(use-package flycheck
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+
 (use-package lsp-mode
   :hook
   (f90-mode . lsp-deferred)
@@ -561,8 +566,10 @@
     (lsp-ui-peek-list-width 50)
     (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
 
-    ;; :after flycheck
-    )
+    ;; syntax checking
+    (lsp-prefer-flymake nil)
+    :after flycheck)
+
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (push 'company-lsp company-backends))
 
@@ -679,7 +686,11 @@
     "lr" 'lsp-rename
     "ld" 'lsp-find-definition
     "li" 'lsp-find-references
-    "lp" 'lsp-ui-peek-find-references))
+    "lp" 'lsp-ui-peek-find-references
+    "ll"   '(:keymap flycheck-command-map
+             :package flycheck
+             :which-key "Flycheck")
+    ))
 
 
   ;; LSP for selected programming modes
