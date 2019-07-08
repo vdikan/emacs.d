@@ -583,104 +583,117 @@
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
    "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-   "M-]" 'scheme-smart-complete
-   ))
+   "M-]" 'scheme-smart-complete)
 
-(general-create-definer my-leader-def
-    ;; :prefix my-leader
-    :prefix "SPC")
+  (general-create-definer my-leader-def
+      ;; :prefix my-leader
+      :prefix "SPC")
 
-(general-create-definer my-local-leader-def
-    ;; :prefix my-local-leader
-    :prefix "SPC m")
+  (general-create-definer my-local-leader-def
+      ;; :prefix my-local-leader
+      :prefix "SPC m")
 
-(my-leader-def
-    :states '(normal visual emacs)
+  (my-leader-def
+      :states '(normal visual emacs)
 
-  ;; Root
-  "/"   'counsel-ag
-  "TAB" 'dired-sidebar-toggle-sidebar
-  ;; "TAB" '(switch-to-next-buffer :which-key "next buffer")
+    ;; Root
+    "/"   'counsel-ag
+    "TAB" 'dired-sidebar-toggle-sidebar
+    ;; "TAB" '(switch-to-next-buffer :which-key "next buffer")
 
-  ;; Windows
-  "w"   '(:ignore t :which-key "Windows")
-  "ww"  'other-window
-  "wh"  'split-window-below
-  "wv"  'split-window-right
-  "wo"  'delete-other-windows
-  "wd"  'delete-window
+    ;; Windows
+    "w"   '(:ignore t :which-key "Windows")
+    "ww"  'other-window
+    "wh"  'split-window-below
+    "wv"  'split-window-right
+    "wo"  'delete-other-windows
+    "wd"  'delete-window
 
-  ;; Commands
-  "c"   '(:ignore t :which-key "Commands")
-  "cc"  'org-capture
+    ;; Commands
+    "c"   '(:ignore t :which-key "Commands")
+    "cc"  'org-capture
 
-  ;; Applications
-  "a"   '(:ignore t :which-key "Applications")
-  "ad"  'dired
-  "ab"  'ivy-bibtex
-  "ao"  'org-agenda
-  "ar"  're-builder
+    ;; Applications
+    "a"   '(:ignore t :which-key "Applications")
+    "ad"  'dired
+    "ab"  'ivy-bibtex
+    "ao"  'org-agenda
+    "ar"  're-builder
 
-  ;; Projects
-  "p"   '(:keymap projectile-command-map
-          :package projectile
-          :which-key "Projectile")
-  ;; ...versions
-  "v"   '(:keymap vc-prefix-map :which-key "Version Control")
+    ;; Projects
+    "p"   '(:keymap projectile-command-map
+            :package projectile
+            :which-key "Projectile")
+    ;; ...versions
+    "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
-  ;; Toggles
-  "t"   '(:ignore t :which-key "Toggles")
-  "tg"  'golden-ratio-mode
-  "tl"  'toggle-truncate-lines
-  "ts"  'toggle-scroll-bar
-  "tr"  'rainbow-identifiers-mode
+    ;; Toggles
+    "t"   '(:ignore t :which-key "Toggles")
+    "tg"  'golden-ratio-mode
+    "tl"  'toggle-truncate-lines
+    "ts"  'toggle-scroll-bar
+    "tr"  'rainbow-identifiers-mode
 
-  ;; Buffers
-  "b"   '(:ignore t :which-key "Buffers")
-  "bb"  'ivy-switch-buffer
-  "bk"  'kill-buffer
+    ;; Buffers
+    "b"   '(:ignore t :which-key "Buffers")
+    "bb"  'ivy-switch-buffer
+    "bk"  'kill-buffer
 
-  ;; Shortcuts
-  "e"   '(:ignore t :which-key "Edit")
-  "ed"  '((lambda() (interactive)
-                 (switch-to-buffer
-                  (find-file-noselect "~/.emacs.d/init.el")))
-          :which-key "dotemacs config")
-  "el"  '((lambda() (interactive)
-                 (switch-to-buffer
-                  (find-file-noselect "~/.emacs.d/local-settings.el")))
-          :which-key "local settings file")
+    ;; Shortcuts
+    "e"   '(:ignore t :which-key "Edit")
+    "ed"  '((lambda() (interactive)
+                   (switch-to-buffer
+                    (find-file-noselect "~/.emacs.d/init.el")))
+            :which-key "dotemacs config")
+    "el"  '((lambda() (interactive)
+                   (switch-to-buffer
+                    (find-file-noselect "~/.emacs.d/local-settings.el")))
+            :which-key "local settings file")
 
-  ;; Org-mode
-  ;; Contains links to Grimoire
-  "o"   '(:ignore t :which-key "Open local")
-  "ot"  '((lambda() (interactive)
-                 (switch-to-buffer
-                  (find-file-noselect
-                   (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
-          :which-key "Todos and Agenda")
-  "oj"  '((lambda() (interactive)
-                 (switch-to-buffer
-                  (find-file-noselect
-                   (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
-          :which-key "my Journal")
-  "or" '((lambda() (interactive)
-                (switch-to-buffer
-                 (find-file-noselect
-                  (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
-         :which-key "Research Notes"))
+    ;; Org-mode
+    ;; Contains links to Grimoire
+    "o"   '(:ignore t :which-key "Open local")
+    "ot"  '((lambda() (interactive)
+                   (switch-to-buffer
+                    (find-file-noselect
+                     (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
+            :which-key "Todos and Agenda")
+    "oj"  '((lambda() (interactive)
+                   (switch-to-buffer
+                    (find-file-noselect
+                     (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
+            :which-key "my Journal")
+    "or" '((lambda() (interactive)
+                  (switch-to-buffer
+                   (find-file-noselect
+                    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
+           :which-key "Research Notes")
 
 
-(my-local-leader-def                  ; Fortran + LSP
-    :states 'normal
-  :keymaps '(f90-mode-map fortran-mode-map)
-  "m" 'imenu
-  "q" 'lsp-shutdown-workspace
-  "w" 'lsp-restart-workspace
-  "h" 'lsp-describe-thing-at-point
-  "r" 'lsp-rename
-  "d" 'lsp-find-definition
-  "i" 'lsp-find-references
-  "p" 'lsp-ui-peek-find-references)
+    ;; LSP-enhanced programming control
+    "l"   '(:ignore t :which-key "Language Commands")
+    "lm" 'imenu
+    "lq" 'lsp-shutdown-workspace
+    "lw" 'lsp-restart-workspace
+    "lh" 'lsp-describe-thing-at-point
+    "lr" 'lsp-rename
+    "ld" 'lsp-find-definition
+    "li" 'lsp-find-references
+    "lp" 'lsp-ui-peek-find-references))
+
+
+  ;; LSP for selected programming modes
+  ;; FIXME: doesn't hook-up by 'my-local-leader-def
+  ;; (my-local-leader-def
+  ;;     :states '(normal visual emacs)
+  ;;   :keymaps '(f90-mode-map fortran-mode-map)
+  ;; "m" 'imenu
+  ;; "q" 'lsp-shutdown-workspace
+  ;; "w" 'lsp-restart-workspace
+  ;; "h" 'lsp-describe-thing-at-point
+  ;; "r" 'lsp-rename
+  ;; "d" 'lsp-find-definition
+  ;; "i" 'lsp-find-references
+  ;; "p" 'lsp-ui-peek-find-references))
 
 ;; (put 'dired-find-alternate-file 'disabled nil)
