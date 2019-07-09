@@ -543,9 +543,10 @@
                              "--variable_hover"
                              "--hover_signature"))
   :config
-  (set-face-attribute 'lsp-ui-doc-background  nil :background "PowderBlue")
   (use-package lsp-ui
     :ensure t
+    :config
+    (set-face-attribute 'lsp-ui-doc-background  nil :background "PowderBlue")
     :custom
     ;; lsp-ui-doc
     (lsp-ui-doc-enable t)
@@ -569,7 +570,6 @@
     ;; syntax checking
     (lsp-prefer-flymake nil)
     :after flycheck)
-
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (push 'company-lsp company-backends))
 
