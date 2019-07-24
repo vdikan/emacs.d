@@ -523,9 +523,9 @@
   (setq slime-net-coding-system 'utf-8-unix))
 
 
-(use-package flycheck
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+;; (use-package flycheck
+;;   :config
+;;   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
 (use-package lsp-mode
@@ -568,8 +568,9 @@
     (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
 
     ;; syntax checking
-    (lsp-prefer-flymake nil)
-    :after flycheck)
+    ;; (lsp-prefer-flymake nil)
+    ;; :after flycheck
+    )
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (push 'company-lsp company-backends))
 
