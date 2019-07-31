@@ -177,6 +177,13 @@
   (which-key-mode))
 
 
+(use-package bm
+  :ensure t
+  :bind (("<C-f2>" . bm-toggle)
+         ("<f2>"   . bm-next)
+         ("<S-f2>" . bm-previous)))
+
+
 (use-package yasnippet
   :ensure yasnippet-snippets)
 
@@ -504,7 +511,12 @@
 
 (use-package racket-mode)
 
-(use-package fennel-mode)
+(use-package fennel-mode
+  ;; :config
+  ;; (setq inferior-lisp-program "/usr/local/bin/fennel")
+  )
+
+(use-package haskell-mode)
 
 
 (use-package slime
@@ -528,51 +540,53 @@
 ;;   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
-(use-package lsp-mode
-  :hook
-  (f90-mode . lsp-deferred)
-  (fortran-mode . lsp-deferred)
-  (lsp-mode . lsp-ui-mode)
-  :commands (lsp lsp-deferred)
-  :custom
-  ;; (lsp-enable-snippet t)
-  (lsp-auto-guess-root nil)
-  (lsp-eldoc-render-all t)
-  (lsp-clients-fortls-args '("--lowercase_intrinsics"
-                             "--use_signature_help"
-                             "--variable_hover"
-                             "--hover_signature"))
-  :config
-  (use-package lsp-ui
-    :ensure t
-    :config
-    (set-face-attribute 'lsp-ui-doc-background  nil :background "PowderBlue")
-    :custom
-    ;; lsp-ui-doc
-    (lsp-ui-doc-enable t)
-    (lsp-ui-doc-header t)
-    (lsp-ui-doc-include-signature t)
-    (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
-    (lsp-ui-doc-max-width 120)
-    (lsp-ui-doc-max-height 30)
-    ;; (lsp-ui-doc-use-childframe t)
-    ;; (lsp-ui-doc-use-webkit t)
+;; NOTE: there is a recent bug in lsp-mode that does not allow it to start
+;; for SIESTA on this machine... Check with workstation.
+;; (use-package lsp-mode
+;;   :hook
+;;   (f90-mode . lsp-deferred)
+;;   (fortran-mode . lsp-deferred)
+;;   (lsp-mode . lsp-ui-mode)
+;;   :commands (lsp lsp-deferred)
+;;   :custom
+;;   ;; (lsp-enable-snippet t)
+;;   (lsp-auto-guess-root nil)
+;;   (lsp-eldoc-render-all t)
+;;   (lsp-clients-fortls-args '("--lowercase_intrinsics"
+;;                              "--use_signature_help"
+;;                              "--variable_hover"
+;;                              "--hover_signature"))
+;;   :config
+;;   (use-package lsp-ui
+;;     :ensure t
+;;     :config
+;;     (set-face-attribute 'lsp-ui-doc-background  nil :background "PowderBlue")
+;;     :custom
+;;     ;; lsp-ui-doc
+;;     (lsp-ui-doc-enable t)
+;;     (lsp-ui-doc-header t)
+;;     (lsp-ui-doc-include-signature t)
+;;     (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
+;;     (lsp-ui-doc-max-width 120)
+;;     (lsp-ui-doc-max-height 30)
+;;     ;; (lsp-ui-doc-use-childframe t)
+;;     ;; (lsp-ui-doc-use-webkit t)
 
-    ;; lsp-ui-sideline
-    (lsp-ui-sideline-enable nil)
+;;     ;; lsp-ui-sideline
+;;     (lsp-ui-sideline-enable nil)
 
-    ;; lsp-ui-peek
-    (lsp-ui-peek-enable t)
-    (lsp-ui-peek-peek-height 20)
-    (lsp-ui-peek-list-width 50)
-    (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
+;;     ;; lsp-ui-peek
+;;     (lsp-ui-peek-enable t)
+;;     (lsp-ui-peek-peek-height 20)
+;;     (lsp-ui-peek-list-width 50)
+;;     (lsp-ui-peek-fontify 'on-demand) ;; never, on-demand, or always
 
-    ;; syntax checking
-    ;; (lsp-prefer-flymake nil)
-    ;; :after flycheck
-    )
-  (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
-  (push 'company-lsp company-backends))
+;;     ;; syntax checking
+;;     ;; (lsp-prefer-flymake nil)
+;;     ;; :after flycheck
+;;     )
+;;   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
+;;   (push 'company-lsp company-backends))
 
 
 (use-package company-lsp
@@ -594,15 +608,15 @@
    "M-]" 'scheme-smart-complete)
 
   (general-create-definer my-leader-def
-      ;; :prefix my-leader
-      :prefix "SPC")
+    ;; :prefix my-leader
+    :prefix "SPC")
 
   (general-create-definer my-local-leader-def
-      ;; :prefix my-local-leader
-      :prefix "SPC m")
+    ;; :prefix my-local-leader
+    :prefix "SPC m")
 
   (my-leader-def
-      :states '(normal visual emacs)
+    :states '(normal visual emacs)
 
     ;; Root
     "/"   'counsel-ag
@@ -630,8 +644,8 @@
 
     ;; Projects
     "p"   '(:keymap projectile-command-map
-            :package projectile
-            :which-key "Projectile")
+                    :package projectile
+                    :which-key "Projectile")
     ;; ...versions
     "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
@@ -650,47 +664,47 @@
     ;; Shortcuts
     "e"   '(:ignore t :which-key "Edit")
     "ed"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect "~/.emacs.d/init.el")))
+              (switch-to-buffer
+               (find-file-noselect "~/.emacs.d/init.el")))
             :which-key "dotemacs config")
     "el"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect "~/.emacs.d/local-settings.el")))
+              (switch-to-buffer
+               (find-file-noselect "~/.emacs.d/local-settings.el")))
             :which-key "local settings file")
 
     ;; Org-mode
     ;; Contains links to Grimoire
     "o"   '(:ignore t :which-key "Open local")
     "ot"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect
-                     (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
+              (switch-to-buffer
+               (find-file-noselect
+                (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
             :which-key "Todos and Agenda")
     "oj"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect
-                     (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
+              (switch-to-buffer
+               (find-file-noselect
+                (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
             :which-key "my Journal")
     "or" '((lambda() (interactive)
-                  (switch-to-buffer
-                   (find-file-noselect
-                    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
+             (switch-to-buffer
+              (find-file-noselect
+               (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
            :which-key "Research Notes")
 
 
     ;; LSP-enhanced programming control
-    "l"   '(:ignore t :which-key "Language Commands")
-    "lm" 'imenu
-    "lq" 'lsp-shutdown-workspace
-    "lw" 'lsp-restart-workspace
-    "lh" 'lsp-describe-thing-at-point
-    "lr" 'lsp-rename
-    "ld" 'lsp-find-definition
-    "li" 'lsp-find-references
-    "lp" 'lsp-ui-peek-find-references
-    "ll"   '(:keymap flycheck-command-map
-             :package flycheck
-             :which-key "Flycheck")
+    ;; "l"   '(:ignore t :which-key "Language Commands")
+    ;; "lm" 'imenu
+    ;; "lq" 'lsp-shutdown-workspace
+    ;; "lw" 'lsp-restart-workspace
+    ;; "lh" 'lsp-describe-thing-at-point
+    ;; "lr" 'lsp-rename
+    ;; "ld" 'lsp-find-definition
+    ;; "li" 'lsp-find-references
+    ;; "lp" 'lsp-ui-peek-find-references
+    ;; "ll"   '(:keymap flycheck-command-map
+    ;;          :package flycheck
+    ;;          :which-key "Flycheck")
     ))
 
 
