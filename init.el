@@ -519,6 +519,9 @@
 (use-package haskell-mode)
 
 
+(use-package arduino-mode :ensure t :pin "melpa")
+
+
 (use-package slime
   ;; :disabled
   :ensure slime-company
