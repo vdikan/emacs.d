@@ -568,7 +568,7 @@
     (lsp-ui-doc-enable t)
     (lsp-ui-doc-header t)
     (lsp-ui-doc-include-signature t)
-    (lsp-ui-doc-position 'at-point) ;; top, bottom, or at-point
+    (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
     (lsp-ui-doc-max-width 120)
     (lsp-ui-doc-max-height 30)
     ;; (lsp-ui-doc-use-childframe t)
@@ -583,9 +583,9 @@
     (lsp-ui-peek-list-width 50)
     (lsp-ui-peek-fontify 'on-demand)) ;; never, on-demand, or always
 
-    ;; syntax checking
-    ;; (lsp-prefer-flymake nil)
-    ;; :after flycheck
+  ;; syntax checking
+  ;; (lsp-prefer-flymake nil)
+  ;; :after flycheck
 
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (push 'company-lsp company-backends))
@@ -599,10 +599,12 @@
   (company-lsp-enable-recompletion t))
 
 
-;; (use-package telega
-;;   :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
-;;   :commands (telega)
-;;   :defer t)
+(use-package telega
+  :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
+  :commands (telega)
+  :defer t
+  :custom
+  (telega-mode-line-mode 1))
 
 
 ;;; Declare/describe custom shortcuts with `general' and `which-key'
