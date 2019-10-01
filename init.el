@@ -434,10 +434,16 @@
   :config
   (global-evil-surround-mode 1))
 
+
 (use-package projectile
   :custom
   ;; (projectile-indexing-method 'alien)
-  (projectile-completion-system 'ivy))
+  (projectile-completion-system 'ivy)
+  :config
+  (use-package counsel-projectile
+    :ensure t)
+  (projectile-load-known-projects))
+
 
 (use-package paren
   :ensure nil
@@ -553,11 +559,20 @@
   :custom
   ;; (lsp-enable-snippet t)
   (lsp-auto-guess-root nil)
-  (lsp-eldoc-render-all t)
+
+  ;; NOTE: eldoc clogging fortls trouble, switched off:
+  (lsp-eldoc-enable-hover nil)
+
+  (lsp-eldoc-enable-signature-help nil)
+  (lsp-eldoc-prefer-signature-help t)
+  (lsp-signature-render-all nil)
+  (lsp-eldoc-render-all nil)
+
   (lsp-clients-fortls-args '("--lowercase_intrinsics"
                              "--use_signature_help"
                              "--variable_hover"
                              "--hover_signature"))
+
   :config
   (use-package lsp-ui
     :ensure t
@@ -571,16 +586,16 @@
     (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
     (lsp-ui-doc-max-width 120)
     (lsp-ui-doc-max-height 30)
-    ;; (lsp-ui-doc-use-childframe t)
-    ;; (lsp-ui-doc-use-webkit t)
+    (lsp-ui-doc-use-childframe nil)
+    (lsp-ui-doc-use-webkit nil)
 
     ;; lsp-ui-sideline
     (lsp-ui-sideline-enable nil)
 
     ;; lsp-ui-peek
     (lsp-ui-peek-enable t)
-    (lsp-ui-peek-peek-height 20)
-    (lsp-ui-peek-list-width 50)
+    (lsp-ui-peek-peek-height 25)
+    (lsp-ui-peek-list-width 25)
     (lsp-ui-peek-fontify 'on-demand)) ;; never, on-demand, or always
 
   ;; syntax checking
@@ -652,11 +667,15 @@
     "ab"  'ivy-bibtex
     "ao"  'org-agenda
     "ar"  're-builder
+    "as"  '(:ignore t :which-key "Shell selection")
+    "ass" 'shell
+    "ase" 'eshell
+    "asa" 'ansi-term
 
     ;; Projects
     "p"   '(:keymap projectile-command-map
             :package projectile
-            :which-key "Projectile")
+            :which-key "Projectile (Counsel)")
     ;; ...versions
     "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
@@ -681,7 +700,11 @@
     "el"  '((lambda() (interactive)
                    (switch-to-buffer
                     (find-file-noselect "~/.emacs.d/local-settings.el")))
-            :which-key "local settings file")
+            :which-key "local emacs config")
+    "es"  '((lambda() (interactive)
+                   (switch-to-buffer
+                    (find-file-noselect "~/.stumpwmrc")))
+            :which-key "stumpwm config")
 
     ;; Org-mode
     ;; Contains links to Grimoire
@@ -716,7 +739,8 @@
     "lr" 'lsp-rename
     "ld" 'lsp-find-definition
     "li" 'lsp-find-references
-    "lp" 'lsp-ui-peek-find-references))
+    "lp" 'lsp-ui-peek-find-references
+    "lu" 'lsp-ui-mode))
 
 
 ;; LSP for selected programming modes
