@@ -442,6 +442,7 @@
   :config
   (use-package counsel-projectile
     :ensure t)
+  (counsel-projectile-mode)
   (projectile-load-known-projects))
 
 
