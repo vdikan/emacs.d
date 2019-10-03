@@ -596,7 +596,7 @@
     ;; lsp-ui-peek
     (lsp-ui-peek-enable t)
     (lsp-ui-peek-peek-height 25)
-    (lsp-ui-peek-list-width 25)
+    (lsp-ui-peek-list-width 35)
     (lsp-ui-peek-fontify 'on-demand)) ;; never, on-demand, or always
 
   ;; syntax checking
