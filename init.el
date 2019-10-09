@@ -73,6 +73,7 @@
 (use-package emacs
   :ensure nil
   :init
+  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e") ;; Emails: Mu4e
   (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -89,15 +90,15 @@
   (use-dialog-box nil "Disable dialog boxes")
   (enable-recursive-minibuffers t "Allow minibuffer commands in the minibuffer")
   (indent-tabs-mode nil "Spaces!")
-  (delete-old-versions -1 )
-  (version-control t )
-  (vc-make-backup-files t )
-  (backup-directory-alist `(("." . "~/.emacs.d/backups")) )
-  (vc-follow-symlinks t )
-  (auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) )
-  (ring-bell-function 'ignore )
-  (coding-system-for-read 'utf-8 )
-  (coding-system-for-write 'utf-8 )
+  (delete-old-versions -1)
+  (version-control t)
+  (vc-make-backup-files t)
+  (backup-directory-alist `(("." . "~/.emacs.d/backups")))
+  (vc-follow-symlinks t)
+  (auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+  (ring-bell-function 'ignore)
+  (coding-system-for-read 'utf-8)
+  (coding-system-for-write 'utf-8)
   (sentence-end-double-space nil)
   (default-fill-column 80)
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
@@ -111,8 +112,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (load-theme 'tango 'no-confirm)
-(setq system-time-locale "C")           ; English locale everywhere
-                                        ; por que no funciona??
+;; (setq system-time-locale "C")
 (setq default-frame-alist
       (append default-frame-alist
               '((background-color . "#efeff9")
@@ -196,6 +196,33 @@
   ;; (tramp-backup-directory-alist backup-directory-alist)
   ;; (tramp-default-proxies-alist nil)
   (tramp-default-method "ssh"))
+
+
+(use-package mu4e
+  :ensure nil
+  :init
+  (require 'smtpmail)
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-stream-type 'ssl
+        smtpmail-starttls-credentials
+        '(("smtp.vivaldi.net" 465 nil nil))
+        smtpmail-default-smtp-server "smtp.vivaldi.net"
+        smtpmail-smtp-server  "smtp.vivaldi.net"
+        smtpmail-smtp-service 465
+        smtpmail-debug-info t)
+  :custom
+  (mu4e-maildir (expand-file-name "~/Maildir/"))
+  (mu4e-drafts-folder "/Drafts")
+  (mu4e-sent-folder   "/Sent")
+  (mu4e-trash-folder  "/Trash")
+  (mu4e-sent-messages-behavior 'sent)
+  (mu4e-get-mail-command "offlineimap")
+  (user-mail-address "vdikan@vivaldi.net")
+  (user-full-name "Vladimir Dikan")
+  :config
+  (use-package evil-mu4e
+    :ensure t))
 
 
 (use-package gnuplot)
