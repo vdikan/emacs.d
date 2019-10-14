@@ -494,6 +494,23 @@
   (emacs-lisp-mode . highlight-quoted-mode))
 
 
+;; Hack to install julia-mode: AucTEX needs this
+(defconst debian-emacs-flavor 'emacs25
+  "A symbol representing the particular debian flavor of emacs running.
+ Something like 'emacs20, 'xemacs20, etc.")
+;; This should be corrected, because:
+;; https://stackoverflow.com/questions/7311268/symbols-value-as-variable-is-void-debian-emacs-flavor-when-running-ispell-on-t
+
+(use-package julia-mode
+  :ensure julia-repl
+  :config
+  (setenv "JULIA_NUM_THREADS" "2")
+  (add-hook 'julia-mode-hook 'julia-repl-mode)
+  ;; :hook
+  ;; (julia-mode-hook . julia-repl-mode)
+  )
+
+
 (use-package elpy)                      ;  Python should burn in Hell
 
 (use-package lua-mode)
