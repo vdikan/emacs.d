@@ -216,6 +216,7 @@
   (mu4e-drafts-folder "/Drafts")
   (mu4e-sent-folder   "/Sent")
   (mu4e-trash-folder  "/Trash")
+  (mu4e-refile-folder "/Archive")
   (mu4e-sent-messages-behavior 'sent)
   (mu4e-get-mail-command "offlineimap")
   (user-mail-address "vdikan@vivaldi.net")
@@ -359,6 +360,7 @@
 
 (use-package pdf-tools
   :pin manual ;; manually update
+  ;; :quelpa (pdf-tools :repo "politza/pdf-tools" :fetcher github)
   :config
   ;; initialise
   (pdf-tools-install)
@@ -367,7 +369,8 @@
   ;; automatically annotate highlights
   (setq pdf-annot-activate-created-annotations t)
   ;; use normal isearch
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+  (setq pdf-view-resize-factor 1.2))
 
 
 (use-package ivy-bibtex
