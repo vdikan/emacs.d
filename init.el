@@ -198,6 +198,13 @@
   (tramp-default-method "ssh"))
 
 
+(use-package magit
+  :bind (("C-x g"   . magit-status)
+         ("C-x M-g" . magit-dispatch))
+  :config
+  (global-magit-file-mode))
+
+
 (use-package mu4e
   :ensure nil
   :init
