@@ -205,6 +205,10 @@
   (global-magit-file-mode))
 
 
+(use-package evil-magit
+  :after (magit evil))
+
+
 (use-package mu4e
   :ensure nil
   :init
