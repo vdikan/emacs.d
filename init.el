@@ -107,6 +107,20 @@
   (reb-re-syntax 'string))
 
 
+(use-package calc
+  :config
+  (eval-after-load "calc-units"
+    '(progn
+      (setq math-additional-units
+       '((Bohr  "5.29177249*10^(-11) m"
+          "Bohr radius [ hbar^2/(m*e^2) ]" atU)
+         (Eryd  "2.1798741*10^(-18) J"
+          "Rydberg energy [ e^2/(2*a0) ]" atU)
+         (Eh    "4.3597482*10^(-18) J"
+          "Hartree energy [ e^2/a0 ]" atU))
+       math-units-table nil))))
+
+
 ;;  Appearance
 (blink-cursor-mode 0)
 (menu-bar-mode -1)
