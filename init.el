@@ -227,6 +227,7 @@
 (use-package mu4e
   :ensure nil
   :init
+  (require 'org-mu4e)
   (require 'smtpmail)
   (setq message-send-mail-function 'smtpmail-send-it
         starttls-use-gnutls t
@@ -249,7 +250,12 @@
   (user-full-name "Vladimir Dikan")
   :config
   (use-package evil-mu4e
-    :ensure t))
+    :ensure t)
+  (add-hook 'mu4e-compose-mode-hook
+            (defun my-do-compose-stuff ()
+              "My settings for message composition."
+              (org-mu4e-compose-org-mode)
+              (flyspell-mode))))
 
 
 (use-package gnuplot)
@@ -299,7 +305,7 @@
 \#+LATEX_HEADER: \\setlength\\parindent{0pt}
 \#+OPTIONS: email:t author:nil toc:nil num:nil
 \#+EMAIL: " *lvar-email-address* "\n"
-"\#+TITLE: " title "\n"))))
+                              "\#+TITLE: " title "\n"))))
 
   (defun worklog-capture-hook ()
     "Hook to pair `worklog' and `journal' capture templates."
@@ -348,11 +354,14 @@
       "* %?\n\n  %a" :empty-lines 1)
      ("q" "Quote to Journal" entry (file+datetree *lvar-org-journal-file*)
       "* \n#+begin_quote\n %?\n%i\n#+end_quote\nEntered on %U\n  %a" :empty-lines 1)
+     ("m" "Org-Mu4e Link" entry (file+datetree *lvar-org-journal-file*)
+      "* TODO %a %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")
      ("l" "(hooked) Link worklog to journal" entry
       (file+datetree *lvar-org-journal-file*)
       "* Worklog entry: %u  :work:log: \n %i\n"
       :empty-lines 1)))
   )
+
 
 
 (use-package org-bullets
