@@ -233,7 +233,10 @@
         starttls-use-gnutls t
         smtpmail-stream-type 'ssl
         smtpmail-starttls-credentials
+        ;; '(("mail.vivaldi.net" 465 nil nil))
         '(("smtp.vivaldi.net" 465 nil nil))
+        ;; smtpmail-default-smtp-server "mail.vivaldi.net"
+        ;; smtpmail-smtp-server  "mail.vivaldi.net"
         smtpmail-default-smtp-server "smtp.vivaldi.net"
         smtpmail-smtp-server  "smtp.vivaldi.net"
         smtpmail-smtp-service 465
@@ -254,7 +257,7 @@
   (add-hook 'mu4e-compose-mode-hook
             (defun my-do-compose-stuff ()
               "My settings for message composition."
-              (org-mu4e-compose-org-mode)
+              ;; (org-mu4e-compose-org-mode)
               (flyspell-mode))))
 
 
