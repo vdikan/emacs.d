@@ -386,19 +386,19 @@
   (org-mode . org-bullets-mode))
 
 
-(use-package elfeed
-  :ensure elfeed-org
-  :config
-  (add-hook 'elfeed-show-mode-hook
-            (lambda ()
-              (set-face-attribute 'variable-pitch (selected-frame)
-                                  :font (font-spec :family "LiberationMono"
-                                                   :size 20))))
-  ;; Entries older than 2 weeks are marked as read
-  (add-hook 'elfeed-new-entry-hook
-            (elfeed-make-tagger :before "2 weeks ago"
-                                :remove 'unread))
-  (elfeed-org))
+;; (use-package elfeed
+;;   :ensure elfeed-org
+;;   :config
+;;   (add-hook 'elfeed-show-mode-hook
+;;             (lambda ()
+;;               (set-face-attribute 'variable-pitch (selected-frame)
+;;                                   :font (font-spec :family "LiberationMono"
+;;                                                    :size 20))))
+;;   ;; Entries older than 2 weeks are marked as read
+;;   (add-hook 'elfeed-new-entry-hook
+;;             (elfeed-make-tagger :before "2 weeks ago"
+;;                                 :remove 'unread))
+;;   (elfeed-org))
 
 
 (use-package pdf-tools
