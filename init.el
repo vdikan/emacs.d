@@ -274,6 +274,10 @@
   :quelpa (ob-racket :repo "hasu/emacs-ob-racket" :fetcher github))
 
 
+(use-package ob-async
+  :ensure t)
+
+
 (use-package org
   ;; to be sure we have latest Org version
   :ensure org-plus-contrib
