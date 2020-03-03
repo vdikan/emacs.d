@@ -453,8 +453,8 @@
   (rainbow-identifiers-cie-l*a*b*-saturation 80)
   (rainbow-identifiers-choose-face-function
    #'rainbow-identifiers-cie-l*a*b*-choose-face)
-  :hook
-  (emacs-lisp-mode . rainbow-identifiers-mode)
+  ;; :hook
+  ;; (emacs-lisp-mode . rainbow-identifiers-mode)
   ;; (prog-mode . rainbow-identifiers-mode)
   )
 
