@@ -83,7 +83,7 @@
   (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
-  (set-face-attribute 'default nil :height *lvar-default-font-height*)
+  (set-face-attribute 'default nil :height *lvar-default-font-height* :family "Inconsolata")
   ;; (add-hook 'after-init-hook 'global-company-mode)
   :custom
   (scroll-step 1)
