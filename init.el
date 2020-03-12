@@ -524,15 +524,25 @@
   :config
   (show-paren-mode t))
 
+
 (use-package electric-pair
   :ensure nil
   :hook
   (emacs-lisp-mode . electric-pair-mode))
 
+
+(use-package evil-cleverparens
+  :hook
+  (slime-mode . evil-cleverparens-mode)
+  (emacs-lisp-mode . evil-cleverparens-mode)
+  (clojure-mode . evil-cleverparens-mode))
+
+
 (use-package highlight-defined
   :ensure t
   :hook
   (emacs-lisp-mode . highlight-defined-mode))
+
 
 (use-package highlight-quoted
   :ensure t
