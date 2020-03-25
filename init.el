@@ -225,41 +225,41 @@
   :after (magit evil))
 
 
-(use-package mu4e
-  :ensure nil
-  :init
-  (require 'org-mu4e)
-  (require 'smtpmail)
-  (setq message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-stream-type 'ssl
-        smtpmail-starttls-credentials
-        ;; '(("mail.vivaldi.net" 465 nil nil))
-        '(("smtp.vivaldi.net" 465 nil nil))
-        ;; smtpmail-default-smtp-server "mail.vivaldi.net"
-        ;; smtpmail-smtp-server  "mail.vivaldi.net"
-        smtpmail-default-smtp-server "smtp.vivaldi.net"
-        smtpmail-smtp-server  "smtp.vivaldi.net"
-        smtpmail-smtp-service 465
-        smtpmail-debug-info t)
-  :custom
-  (mu4e-maildir (expand-file-name "~/Maildir/"))
-  (mu4e-drafts-folder "/Drafts")
-  (mu4e-sent-folder   "/Sent")
-  (mu4e-trash-folder  "/Trash")
-  (mu4e-refile-folder "/Archive")
-  (mu4e-sent-messages-behavior 'sent)
-  (mu4e-get-mail-command "offlineimap")
-  (user-mail-address "vdikan@vivaldi.net")
-  (user-full-name "Vladimir Dikan")
-  :config
-  (use-package evil-mu4e
-    :ensure t)
-  (add-hook 'mu4e-compose-mode-hook
-            (defun my-do-compose-stuff ()
-              "My settings for message composition."
-              ;; (org-mu4e-compose-org-mode)
-              (flyspell-mode))))
+;; (use-package mu4e
+;;   :ensure nil
+;;   :init
+;;   (require 'org-mu4e)
+;;   (require 'smtpmail)
+;;   (setq message-send-mail-function 'smtpmail-send-it
+;;         starttls-use-gnutls t
+;;         smtpmail-stream-type 'ssl
+;;         smtpmail-starttls-credentials
+;;         ;; '(("mail.vivaldi.net" 465 nil nil))
+;;         '(("smtp.vivaldi.net" 465 nil nil))
+;;         ;; smtpmail-default-smtp-server "mail.vivaldi.net"
+;;         ;; smtpmail-smtp-server  "mail.vivaldi.net"
+;;         smtpmail-default-smtp-server "smtp.vivaldi.net"
+;;         smtpmail-smtp-server  "smtp.vivaldi.net"
+;;         smtpmail-smtp-service 465
+;;         smtpmail-debug-info t)
+;;   :custom
+;;   (mu4e-maildir (expand-file-name "~/Maildir/"))
+;;   (mu4e-drafts-folder "/Drafts")
+;;   (mu4e-sent-folder   "/Sent")
+;;   (mu4e-trash-folder  "/Trash")
+;;   (mu4e-refile-folder "/Archive")
+;;   (mu4e-sent-messages-behavior 'sent)
+;;   (mu4e-get-mail-command "offlineimap")
+;;   (user-mail-address "vdikan@vivaldi.net")
+;;   (user-full-name "Vladimir Dikan")
+;;   :config
+;;   (use-package evil-mu4e
+;;     :ensure t)
+;;   (add-hook 'mu4e-compose-mode-hook
+;;             (defun my-do-compose-stuff ()
+;;               "My settings for message composition."
+;;               ;; (org-mu4e-compose-org-mode)
+;;               (flyspell-mode))))
 
 
 (use-package gnuplot)
@@ -401,19 +401,19 @@
 ;;   (elfeed-org))
 
 
-(use-package pdf-tools
-  :pin manual ;; manually update
-  ;; :quelpa (pdf-tools :repo "politza/pdf-tools" :fetcher github)
-  :config
-  ;; initialise
-  (pdf-tools-install)
-  ;; open pdfs scaled to fit page
-  (setq-default pdf-view-display-size 'fit-page)
-  ;; automatically annotate highlights
-  (setq pdf-annot-activate-created-annotations t)
-  ;; use normal isearch
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  (setq pdf-view-resize-factor 1.2))
+;; (use-package pdf-tools
+;;   :pin manual ;; manually update
+;;   ;; :quelpa (pdf-tools :repo "politza/pdf-tools" :fetcher github)
+;;   :config
+;;   ;; initialise
+;;   (pdf-tools-install)
+;;   ;; open pdfs scaled to fit page
+;;   (setq-default pdf-view-display-size 'fit-page)
+;;   ;; automatically annotate highlights
+;;   (setq pdf-annot-activate-created-annotations t)
+;;   ;; use normal isearch
+;;   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+;;   (setq pdf-view-resize-factor 1.2))
 
 
 (use-package ivy-bibtex
@@ -550,21 +550,21 @@
   (emacs-lisp-mode . highlight-quoted-mode))
 
 
-;; Hack to install julia-mode: AucTEX needs this
-(defconst debian-emacs-flavor 'emacs25
-  "A symbol representing the particular debian flavor of emacs running.
- Something like 'emacs20, 'xemacs20, etc.")
-;; This should be corrected, because:
-;; https://stackoverflow.com/questions/7311268/symbols-value-as-variable-is-void-debian-emacs-flavor-when-running-ispell-on-t
+;; ;; Hack to install julia-mode: AucTEX needs this
+;; (defconst debian-emacs-flavor 'emacs25
+;;   "A symbol representing the particular debian flavor of emacs running.
+;;  Something like 'emacs20, 'xemacs20, etc.")
+;; ;; This should be corrected, because:
+;; ;; https://stackoverflow.com/questions/7311268/symbols-value-as-variable-is-void-debian-emacs-flavor-when-running-ispell-on-t
 
-(use-package julia-mode
-  :ensure julia-repl
-  :config
-  (setenv "JULIA_NUM_THREADS" "2")
-  (add-hook 'julia-mode-hook 'julia-repl-mode)
-  ;; :hook
-  ;; (julia-mode-hook . julia-repl-mode)
-  )
+;; (use-package julia-mode
+;;   :ensure julia-repl
+;;   :config
+;;   (setenv "JULIA_NUM_THREADS" "2")
+;;   (add-hook 'julia-mode-hook 'julia-repl-mode)
+;;   ;; :hook
+;;   ;; (julia-mode-hook . julia-repl-mode)
+;;   )
 
 
 (use-package elpy)                      ;  Python should burn in Hell
@@ -582,7 +582,7 @@
           '(defaults       ; should be included.
             pretty-parens  ; different paren styles for different modes.
             evil           ; If you use Evil.
-            ;lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+                                        ;lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
             paredit        ; Introduce some paredit commands.
             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
             smart-yank))   ; Yank behavior depend on mode.
@@ -633,7 +633,7 @@
   ;; :disabled
   :ensure slime-company
   :config
-  (load (expand-file-name "~/quicklisp/slime-helper.el")) ; comes from:
+  (load (expand-file-name "~/.quicklisp/slime-helper.el")) ; comes from:
   ;; https://kaashif.co.uk/2015/06/28/hacking-stumpwm-with-common-lisp/
 
   (setq inferior-lisp-program "sbcl"
@@ -704,7 +704,16 @@
   ;; :after flycheck
 
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
-  (push 'company-lsp company-backends))
+  (add-to-list 'lsp-language-id-configuration '(f90-mode . "fortran"))
+  (push 'company-lsp company-backends)
+
+  ;; Make order here (FIXME: hardcoded priority; FIXME: remote paths):
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection "/home/vdikan/.local/bin/fortls")
+                    :major-modes '(fortran-mode f90-mode)
+                    :remote? t
+                    :priority 1
+                    :server-id 'fortls-remote)))
 
 
 (use-package company-lsp
