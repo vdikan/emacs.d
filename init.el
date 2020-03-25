@@ -1,9 +1,3 @@
-;;; First, load machine-specific variables from linked `local-settings.el'
-(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
-  (if (file-exists-p local-settings-file)
-      (load local-settings-file)))
-
-
 ;;; Declarative setup with `use-package'.
 (require 'package)
 (setq package-archives
@@ -74,7 +68,7 @@
   :ensure nil
   :init
   (add-to-list 'auto-mode-alist '("\\.post\\'" . markdown-mode)) ; blog posts assoc with markdown
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e") ;; Emails: Mu4e
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e") ;; Emails: Mu4e
   (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -83,7 +77,7 @@
   (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
-  (set-face-attribute 'default nil :height *lvar-default-font-height* :family "Inconsolata")
+  (set-face-attribute 'default nil :height 180 :family "Anonymous Pro")
   ;; (add-hook 'after-init-hook 'global-company-mode)
   :custom
   (scroll-step 1)
@@ -203,10 +197,26 @@
   :ensure yasnippet-snippets)
 
 
+(use-package reverse-im
+  :ensure t
+  :custom
+  (reverse-im-input-methods '("russian-computer"))
+  :config
+  (reverse-im-mode t))
+
+
 (use-package tramp
+  :secret
+  (counsel-tramp "~/.passwd/workspaces.el.gpg")
   :defer t
   :config
   ;; (put 'temporary-file-directory 'standard-value '("/tmp"))
+
+  ;;; 4magit remote
+  (add-to-list 'tramp-remote-path ws-tramp-remote-path-to-git)
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+                                        ;(setq magit-git-executable "git")
+
   :custom
   ;; (tramp-backup-directory-alist backup-directory-alist)
   ;; (tramp-default-proxies-alist nil)
@@ -255,6 +265,9 @@
   :config
   (use-package evil-mu4e
     :ensure t)
+  (add-to-list 'mu4e-view-actions
+               '("ViewInBrowser" . mu4e-action-view-in-browser)
+               t)
   (add-hook 'mu4e-compose-mode-hook
             (defun my-do-compose-stuff ()
               "My settings for message composition."
@@ -267,7 +280,9 @@
 (use-package gnuplot-mode)
 
 
-(use-package nov)  ; epub reader
+(use-package nov
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 
 (use-package ob-racket
@@ -284,15 +299,14 @@
   :ensure org-plus-contrib
   :init                                 ; Constant definitions mainly for Org-capture templates
                                         ; funcalls in templates' bodies do not work
-  (defconst *lvar-org-agenda-file*
-    (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*)
+  (defconst *lvar-grimoire-dir* "~/Grimoire")
+  (defconst *lvar-org-agenda-file* "~/Grimoire/org/agenda.org.gpg"
     "General todos and schedule planner.")
-  (defconst *lvar-org-journal-file*
-    (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*)
+  (defconst *lvar-org-journal-file* "~/Grimoire/org/journal.org.gpg"
     "Dear Diary...")
-  (defconst *lvar-org-notes-file*
-    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*)
+  (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg"
     "Research notes file")
+
   (setq org-agenda-files
         (list *lvar-org-agenda-file*
               *lvar-org-journal-file*
@@ -328,6 +342,7 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
+     (lisp . t)
      (shell . t)
      (gnuplot . t)
      (python . t)
@@ -336,6 +351,7 @@
      (ditaa . t)))
 
   :custom
+  (org-babel-lisp-eval-fn #'sly-eval)
   (org-confirm-babel-evaluate nil)
   (org-startup-indented t)
   (org-hide-leading-stars nil)
@@ -367,9 +383,7 @@
      ("l" "(hooked) Link worklog to journal" entry
       (file+datetree *lvar-org-journal-file*)
       "* Worklog entry: %u  :work:log: \n %i\n"
-      :empty-lines 1)))
-  )
-
+      :empty-lines 1))))
 
 
 (use-package org-bullets
@@ -401,44 +415,73 @@
 ;;   (elfeed-org))
 
 
-(use-package pdf-tools
-  :pin manual ;; manually update
-  ;; :quelpa (pdf-tools :repo "politza/pdf-tools" :fetcher github)
-  :config
-  ;; initialise
-  (pdf-tools-install)
-  ;; open pdfs scaled to fit page
-  (setq-default pdf-view-display-size 'fit-page)
-  ;; automatically annotate highlights
-  (setq pdf-annot-activate-created-annotations t)
-  ;; use normal isearch
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-  (setq pdf-view-resize-factor 1.2))
+;; (use-package pdf-tools
+;;   :pin manual ;; manually update
+;;   ;; :quelpa (pdf-tools :repo "politza/pdf-tools" :fetcher github)
+;;   :config
+;;   ;; initialise
+;;   (pdf-tools-install)
+;;   ;; open pdfs scaled to fit page
+;;   (setq-default pdf-view-display-size 'fit-page)
+;;   ;; automatically annotate highlights
+;;   (setq pdf-annot-activate-created-annotations t)
+;;   ;; use normal isearch
+;;   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+;;   (setq pdf-view-resize-factor 1.2))
 
 
-(use-package ivy-bibtex
-  :ensure t
+;; (use-package ivy-bibtex
+;;   :ensure t
+;;   :custom
+;;   (ivy-re-builders-alist
+;;    '((ivy-bibtex . ivy--regex-ignore-order)
+;;      (t . ivy--regex-plus)))
+;;   (bibtex-completion-notes-path
+;;    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))
+;;   (bibtex-completion-bibliography *lvar-bibtex-list*)
+;;   (bibtex-completion-pdf-field "file")
+;;   (bibtex-completion-notes-template-one-file
+;;    "\n* ${author-or-editor} (${year}): ${title}
+;; :PROPERTIES:
+;; :Custom_ID: ${=key=}
+;; :Cite_IDs:
+;; :AUTHOR: ${author}
+;; :JOURNAL: ${journaltitle}
+;; :YEAR: ${year}
+;; :DOI: ${doi}
+;; :DIGRAPH_OUT: t
+;; :DIGRAPH_CLUSTER: nil
+;; :DIGRAPH_SUMMARY:
+;; :END:\n\n"))
+
+
+(use-package org-ref
+  :after (org)
   :custom
-  (ivy-re-builders-alist
-   '((ivy-bibtex . ivy--regex-ignore-order)
-     (t . ivy--regex-plus)))
-  (bibtex-completion-notes-path
-   (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))
-  (bibtex-completion-bibliography *lvar-bibtex-list*)
-  (bibtex-completion-pdf-field "file")
-  (bibtex-completion-notes-template-one-file
-   "\n* ${author-or-editor} (${year}): ${title}
-:PROPERTIES:
-:Custom_ID: ${=key=}
-:Cite_IDs:
-:AUTHOR: ${author}
-:JOURNAL: ${journaltitle}
-:YEAR: ${year}
-:DOI: ${doi}
-:DIGRAPH_OUT: t
-:DIGRAPH_CLUSTER: nil
-:DIGRAPH_SUMMARY:
-:END:\n\n"))
+  (org-ref-completion-library 'org-ref-ivy-cite)
+  (reftex-default-bibliography '("~/Refs/refs.bib"))
+  (org-ref-bibliography-notes "~/Refs/notes.org.gpg")
+  (org-ref-default-bibliography '("~/Refs/refs.bib"))
+  (org-ref-pdf-directory "~/Refs/pdfs/")
+  (biblio-download-directory "~/Refs/!incoming/")
+  ;; autokey formatting:
+  (bibtex-autokey-year-length 4)
+  (bibtex-autokey-name-year-separator "-")
+  (bibtex-autokey-year-title-separator "-")
+  (bibtex-autokey-titleword-separator "-")
+  (bibtex-autokey-titlewords 2)
+  (bibtex-autokey-titlewords-stretch 1)
+  (bibtex-autokey-titleword-length 5)
+  :bind (("s-b" . org-ref-open-citation-at-point)
+         ("s-k" . org-ref-ivy-set-keywords)
+         ("s-n" . org-ref-open-notes-at-point)
+         ("s-p" . org-ref-open-pdf-at-point)
+         ("s-i" . org-ref-ivy-insert-cite-link)
+         ("s-m" . org-ref-ivy-mark-candidate)
+         ("s-d" . doi-utils-add-bibtex-entry-from-doi))
+  ;; Open pdf in system viewer:
+  ;; (bibtex-completion-pdf-open-function 'helm-open-file-with-default-tool))
+  :config (setcdr (assoc "\\.pdf\\'" org-file-apps) "atril %s"))
 
 
 (use-package golden-ratio)
@@ -478,7 +521,6 @@
   :config
   (ivy-mode 1))
 
-(use-package ivy-bibtex)
 
 (use-package counsel)
 
@@ -495,11 +537,11 @@
   (evil-mode 1))
 
 
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+;; (use-package evil-collection
+;;   :after evil
+;;   :ensure t
+;;   :config
+;;   (evil-collection-init))
 
 
 (use-package evil-surround
@@ -516,7 +558,8 @@
   (use-package counsel-projectile
     :ensure t)
   (counsel-projectile-mode)
-  (projectile-load-known-projects))
+  (projectile-load-known-projects)
+  :diminish projectile-mode)
 
 
 (use-package paren
@@ -525,15 +568,16 @@
   (show-paren-mode t))
 
 
-(use-package electric-pair
-  :ensure nil
-  :hook
-  (emacs-lisp-mode . electric-pair-mode))
+;; (use-package electric-pair
+;;   :ensure nil
+;;   :hook
+;;   (emacs-lisp-mode . electric-pair-mode))
 
 
 (use-package evil-cleverparens
   :hook
-  (slime-mode . evil-cleverparens-mode)
+  (sly-mode . evil-cleverparens-mode)
+  ;(slime-mode . evil-cleverparens-mode)
   (emacs-lisp-mode . evil-cleverparens-mode)
   (clojure-mode . evil-cleverparens-mode))
 
@@ -550,21 +594,21 @@
   (emacs-lisp-mode . highlight-quoted-mode))
 
 
-;; Hack to install julia-mode: AucTEX needs this
-(defconst debian-emacs-flavor 'emacs25
-  "A symbol representing the particular debian flavor of emacs running.
- Something like 'emacs20, 'xemacs20, etc.")
-;; This should be corrected, because:
-;; https://stackoverflow.com/questions/7311268/symbols-value-as-variable-is-void-debian-emacs-flavor-when-running-ispell-on-t
+;; ;; Hack to install julia-mode: AucTEX needs this
+;; (defconst debian-emacs-flavor 'emacs25
+;;   "A symbol representing the particular debian flavor of emacs running.
+;;  Something like 'emacs20, 'xemacs20, etc.")
+;; ;; This should be corrected, because:
+;; ;; https://stackoverflow.com/questions/7311268/symbols-value-as-variable-is-void-debian-emacs-flavor-when-running-ispell-on-t
 
-(use-package julia-mode
-  :ensure julia-repl
-  :config
-  (setenv "JULIA_NUM_THREADS" "2")
-  (add-hook 'julia-mode-hook 'julia-repl-mode)
-  ;; :hook
-  ;; (julia-mode-hook . julia-repl-mode)
-  )
+;; (use-package julia-mode
+;;   :ensure julia-repl
+;;   :config
+;;   (setenv "JULIA_NUM_THREADS" "2")
+;;   (add-hook 'julia-mode-hook 'julia-repl-mode)
+;;   ;; :hook
+;;   ;; (julia-mode-hook . julia-repl-mode)
+;;   )
 
 
 (use-package elpy)                      ;  Python should burn in Hell
@@ -582,7 +626,7 @@
           '(defaults       ; should be included.
             pretty-parens  ; different paren styles for different modes.
             evil           ; If you use Evil.
-            ;lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+                                        ;lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
             paredit        ; Introduce some paredit commands.
             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
             smart-yank))   ; Yank behavior depend on mode.
@@ -594,26 +638,26 @@
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 
-(use-package cider
-  :defer t
+;;(use-package cider
+;;  :defer t
   ;; :custom
   ;; (cider-repl-display-help-banner nil)
   ;; :config
   ;; sadly, we can't use :diminish keyword here, yet
   ;; (diminish 'cider-mode
   ;;           '(:eval (format " 🍏%s" (cider--modeline-info))))
-  )
+;;  )
 
 
 (use-package eros
   :hook
-  (emacs-lisp-mode . eros-mode)
-  (racket-mode . eros-mode)
-  ;; (fennel-mode . eros-mode)
-  )
+  (emacs-lisp-mode . eros-mode))
 
 (use-package suggest
   :defer t)
+
+
+(use-package geiser)
 
 
 (use-package racket-mode)
@@ -625,24 +669,43 @@
 
 (use-package haskell-mode)
 
-
 (use-package arduino-mode :ensure t :pin "melpa")
 
+(use-package company-glsl)
 
-(use-package slime
-  ;; :disabled
-  :ensure slime-company
+(use-package sly
   :config
-  (load (expand-file-name "~/quicklisp/slime-helper.el")) ; comes from:
-  ;; https://kaashif.co.uk/2015/06/28/hacking-stumpwm-with-common-lisp/
+  (setq inferior-lisp-program "sbcl"))
 
-  (setq inferior-lisp-program "sbcl"
-        lisp-indent-function 'common-lisp-indent-function
-        slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-        slime-startup-animation nil)
-  ;; (slime-setup '(slime-fancy))
-  (slime-setup '(slime-company))
-  (setq slime-net-coding-system 'utf-8-unix))
+;; (use-package slime
+;;   ;; :disabled
+;;   :ensure slime-company
+;;   :config
+;;   (load (expand-file-name "~/.quicklisp/slime-helper.el")) ; comes from:
+;;   ;; https://kaashif.co.uk/2015/06/28/hacking-stumpwm-with-common-lisp/
+
+;;   (setq inferior-lisp-program "sbcl"
+;;         lisp-indent-function 'common-lisp-indent-function
+;;         slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+;;         slime-startup-animation nil)
+;;   ;; (slime-setup '(slime-fancy))
+;;   (slime-setup '(slime-company))
+;;   (setq slime-net-coding-system 'utf-8-unix))
+
+
+(use-package counsel-dash
+             ;;https://github.com/dash-docs-el/counsel-dash
+             :custom
+             ;; (counsel-dash-docsets-path "/home/vdikan/.docsets")
+             (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master")
+             :hook
+             (f90-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
+             (fortran-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
+             (sly-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
+             ;(slime-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
+
+
+(use-package counsel-tramp)
 
 
 ;; (use-package flycheck
@@ -652,6 +715,8 @@
 
 ;; NOTE: a bug in fortran-language-server was fixed in v.1.10.2
 (use-package lsp-mode
+  :secret
+  (lsp-register-client "~/.passwd/workspaces.el.gpg")
   :hook
   (f90-mode . lsp-deferred)
   (fortran-mode . lsp-deferred)
@@ -704,7 +769,16 @@
   ;; :after flycheck
 
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
-  (push 'company-lsp company-backends))
+  (add-to-list 'lsp-language-id-configuration '(f90-mode . "fortran"))
+  (push 'company-lsp company-backends)
+
+  ;; Make order here (FIXME: hardcoded priority; FIXME: remote paths):
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-tramp-connection ws-remote-fortls)
+                    :major-modes '(fortran-mode f90-mode)
+                    :remote? t
+                    :priority 1
+                    :server-id 'fortls-remote)))
 
 
 (use-package company-lsp
@@ -715,8 +789,28 @@
   (company-lsp-enable-recompletion t))
 
 
+(use-package erc
+  :secret
+  (go-social-with-bitlbee "~/.passwd/bitlbee.el.gpg")
+  :config
+  (defun go-social-with-bitlbee ()
+    "Connect to IM networks using bitlbee."
+    (interactive)
+    (erc :server "localhost" :port 6667 :nick bitlbee-username))
+
+  (defun bitlbee-identify ()
+    (when (and (string= "localhost" erc-session-server)
+               (string= "&bitlbee" (buffer-name)))
+      (erc-message "PRIVMSG" (format "%s identify %s %s"
+                                     (erc-default-target)
+                                     bitlbee-username
+                                     bitlbee-password))))
+
+  (add-hook 'erc-join-hook #'bitlbee-identify))
+
+
 (use-package telega
-  :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
+  ;; :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
   :commands (telega)
   :defer t
   :custom
@@ -731,8 +825,8 @@
   (general-define-key
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
-   "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-   "M-]" 'scheme-smart-complete)
+   "M-x" 'counsel-M-x)       ; replace default M-x with ivy backend
+  ;; "M-]" 'scheme-smart-complete)
 
   (general-create-definer my-leader-def
       ;; :prefix my-leader
@@ -761,13 +855,20 @@
     ;; Commands
     "c"   '(:ignore t :which-key "Commands")
     "cc"  'org-capture
+    "cf"  'flyspell-correct-word-before-point
+    "cd"  '(:ignore t :which-key "Counsel-Dash")
+    "cda"  'dash-docs-activate-docset
+    "cdd"  'counsel-dash-at-point
 
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
     "ad"  'dired
-    "ab"  'ivy-bibtex
+    "am"  'mu4e
+    "ab"  'org-ref                      ; spawns HELM-ish interface
     "ao"  'org-agenda
     "ar"  're-builder
+    "at"  'telega
+    "ae"  'go-social-with-bitlbee
     "as"  '(:ignore t :which-key "Shell selection")
     "ass" 'shell
     "ase" 'eshell
@@ -791,6 +892,8 @@
     "b"   '(:ignore t :which-key "Buffers")
     "bb"  'ivy-switch-buffer
     "bk"  'kill-buffer
+    "ba"  'auto-fill-mode
+    "bf"  'flyspell-buffer
 
     ;; Shortcuts
     "e"   '(:ignore t :which-key "Edit")
@@ -798,10 +901,6 @@
                    (switch-to-buffer
                     (find-file-noselect "~/.emacs.d/init.el")))
             :which-key "dotemacs config")
-    "el"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect "~/.emacs.d/local-settings.el")))
-            :which-key "local emacs config")
     "es"  '((lambda() (interactive)
                    (switch-to-buffer
                     (find-file-noselect "~/.stumpwmrc")))
@@ -822,8 +921,11 @@
             :which-key "my Journal")
     "or" '((lambda() (interactive)
                   (switch-to-buffer
-                   (find-file-noselect
-                    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
+                   (find-file-noselect "~/Refs/refs.bib")))
+           :which-key "Main Bibtex file")
+    "on" '((lambda() (interactive)
+                  (switch-to-buffer
+                   (find-file-noselect "~/Refs/notes.org.gpg")))
            :which-key "Research Notes")
 
 
@@ -842,23 +944,3 @@
     "li" 'lsp-find-references
     "lp" 'lsp-ui-peek-find-references
     "lu" 'lsp-ui-mode))
-
-
-;; LSP for selected programming modes
-;; FIXME: doesn't hook-up by 'my-local-leader-def
-;; (my-local-leader-def
-;;     :states '(normal visual emacs)
-;;   :keymaps '(f90-mode-map fortran-mode-map)
-;; "m" 'imenu
-;; "q" 'lsp-shutdown-workspace
-;; "w" 'lsp-restart-workspace
-;; "h" 'lsp-describe-thing-at-point
-;; "r" 'lsp-rename
-;; "d" 'lsp-find-definition
-;; "i" 'lsp-find-references
-;; "p" 'lsp-ui-peek-find-references))
-
-;; (put 'dired-find-alternate-file 'disabled nil)
-
-;; (setq browse-url-browser-function 'browse-url-generic
-;;       browse-url-generic-program "sensible-browser")
