@@ -267,7 +267,9 @@
 (use-package gnuplot-mode)
 
 
-(use-package nov)  ; epub reader
+(use-package nov
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 
 (use-package ob-racket
