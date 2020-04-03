@@ -369,9 +369,7 @@
      ("l" "(hooked) Link worklog to journal" entry
       (file+datetree *lvar-org-journal-file*)
       "* Worklog entry: %u  :work:log: \n %i\n"
-      :empty-lines 1)))
-  )
-
+      :empty-lines 1))))
 
 
 (use-package org-bullets
@@ -527,10 +525,10 @@
   (show-paren-mode t))
 
 
-(use-package electric-pair
-  :ensure nil
-  :hook
-  (emacs-lisp-mode . electric-pair-mode))
+;; (use-package electric-pair
+;;   :ensure nil
+;;   :hook
+;;   (emacs-lisp-mode . electric-pair-mode))
 
 
 (use-package evil-cleverparens
