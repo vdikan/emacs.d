@@ -645,6 +645,13 @@
   (setq slime-net-coding-system 'utf-8-unix))
 
 
+(use-package counsel-dash
+  ;;https://github.com/dash-docs-el/counsel-dash
+  :custom
+  ;; (counsel-dash-docsets-path "/home/vdikan/.docsets")
+  (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master"))
+
+
 ;; (use-package flycheck
 ;;   :config
 ;;   (add-hook 'after-init-hook #'global-flycheck-mode))
