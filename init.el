@@ -656,7 +656,10 @@
   :custom
   ;; (counsel-dash-docsets-path "/home/vdikan/.docsets")
   (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master")
-  :hook (slime-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
+  :hook
+  (f90-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
+  (fortran-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
+  (slime-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
 
 
 ;; (use-package flycheck
@@ -784,6 +787,9 @@
     ;; Commands
     "c"   '(:ignore t :which-key "Commands")
     "cc"  'org-capture
+    "cd"  '(:ignore t :which-key "Counsel-Dash")
+    "cda"  'dash-docs-activate-docset
+    "cdd"  'counsel-dash-at-point
 
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
