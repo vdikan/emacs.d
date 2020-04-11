@@ -83,7 +83,7 @@
   (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
   (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
-  (set-face-attribute 'default nil :height *lvar-default-font-height* :family "Inconsolata")
+  (set-face-attribute 'default nil :height 180 :family "Anonymous Pro")
   ;; (add-hook 'after-init-hook 'global-company-mode)
   :custom
   (scroll-step 1)
@@ -207,6 +207,12 @@
   :defer t
   :config
   ;; (put 'temporary-file-directory 'standard-value '("/tmp"))
+
+  ;;; 4magit remote
+  (add-to-list 'tramp-remote-path "/home/vdikan/Spack/spack/opt/spack/linux-centos7-broadwell/gcc-9.2.0/git-2.21.0-wcucghflzbbby6fk77kntd7rwrz4cxiy/bin/")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  ;(setq magit-git-executable "git")
+
   :custom
   ;; (tramp-backup-directory-alist backup-directory-alist)
   ;; (tramp-default-proxies-alist nil)
@@ -416,29 +422,29 @@
 ;;   (setq pdf-view-resize-factor 1.2))
 
 
-(use-package ivy-bibtex
-  :ensure t
-  :custom
-  (ivy-re-builders-alist
-   '((ivy-bibtex . ivy--regex-ignore-order)
-     (t . ivy--regex-plus)))
-  (bibtex-completion-notes-path
-   (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))
-  (bibtex-completion-bibliography *lvar-bibtex-list*)
-  (bibtex-completion-pdf-field "file")
-  (bibtex-completion-notes-template-one-file
-   "\n* ${author-or-editor} (${year}): ${title}
-:PROPERTIES:
-:Custom_ID: ${=key=}
-:Cite_IDs:
-:AUTHOR: ${author}
-:JOURNAL: ${journaltitle}
-:YEAR: ${year}
-:DOI: ${doi}
-:DIGRAPH_OUT: t
-:DIGRAPH_CLUSTER: nil
-:DIGRAPH_SUMMARY:
-:END:\n\n"))
+;; (use-package ivy-bibtex
+;;   :ensure t
+;;   :custom
+;;   (ivy-re-builders-alist
+;;    '((ivy-bibtex . ivy--regex-ignore-order)
+;;      (t . ivy--regex-plus)))
+;;   (bibtex-completion-notes-path
+;;    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))
+;;   (bibtex-completion-bibliography *lvar-bibtex-list*)
+;;   (bibtex-completion-pdf-field "file")
+;;   (bibtex-completion-notes-template-one-file
+;;    "\n* ${author-or-editor} (${year}): ${title}
+;; :PROPERTIES:
+;; :Custom_ID: ${=key=}
+;; :Cite_IDs:
+;; :AUTHOR: ${author}
+;; :JOURNAL: ${journaltitle}
+;; :YEAR: ${year}
+;; :DOI: ${doi}
+;; :DIGRAPH_OUT: t
+;; :DIGRAPH_CLUSTER: nil
+;; :DIGRAPH_SUMMARY:
+;; :END:\n\n"))
 
 
 (use-package golden-ratio)
@@ -649,7 +655,8 @@
   ;;https://github.com/dash-docs-el/counsel-dash
   :custom
   ;; (counsel-dash-docsets-path "/home/vdikan/.docsets")
-  (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master"))
+  (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master")
+  :hook (slime-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
 
 
 ;; (use-package flycheck
@@ -732,7 +739,7 @@
 
 
 (use-package telega
-  :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
+  ;; :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
   :commands (telega)
   :defer t
   :custom
@@ -784,6 +791,7 @@
     "ab"  'ivy-bibtex
     "ao"  'org-agenda
     "ar"  're-builder
+    "at"  'telega
     "as"  '(:ignore t :which-key "Shell selection")
     "ass" 'shell
     "ase" 'eshell
