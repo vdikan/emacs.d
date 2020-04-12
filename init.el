@@ -203,6 +203,14 @@
   :ensure yasnippet-snippets)
 
 
+(use-package reverse-im
+  :ensure t
+  :custom
+  (reverse-im-input-methods '("russian-computer"))
+  :config
+  (reverse-im-mode t))
+
+
 (use-package tramp
   :defer t
   :config
@@ -211,7 +219,7 @@
   ;;; 4magit remote
   (add-to-list 'tramp-remote-path "/home/vdikan/Spack/spack/opt/spack/linux-centos7-broadwell/gcc-9.2.0/git-2.21.0-wcucghflzbbby6fk77kntd7rwrz4cxiy/bin/")
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-  ;(setq magit-git-executable "git")
+                                        ;(setq magit-git-executable "git")
 
   :custom
   ;; (tramp-backup-directory-alist backup-directory-alist)
