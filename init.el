@@ -887,6 +887,10 @@
             :which-key "my Journal")
     "or" '((lambda() (interactive)
                   (switch-to-buffer
+                   (find-file-noselect "~/Refs/refs.bib")))
+           :which-key "Main Bibtex file")
+    "on" '((lambda() (interactive)
+                  (switch-to-buffer
                    (find-file-noselect "~/Refs/notes.org.gpg")))
            :which-key "Research Notes")
 
