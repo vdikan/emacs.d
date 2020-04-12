@@ -298,9 +298,7 @@
   (defconst *lvar-org-journal-file*
     (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*)
     "Dear Diary...")
-  (defconst *lvar-org-notes-file*
-    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*)
-    "Research notes file")
+  (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg" "Research notes file")
   (setq org-agenda-files
         (list *lvar-org-agenda-file*
               *lvar-org-journal-file*
@@ -445,6 +443,34 @@
 ;; :DIGRAPH_CLUSTER: nil
 ;; :DIGRAPH_SUMMARY:
 ;; :END:\n\n"))
+
+
+(use-package org-ref
+  :after (org)
+  :custom
+  (org-ref-completion-library 'org-ref-ivy-cite)
+  (reftex-default-bibliography '("~/Refs/refs.bib"))
+  (org-ref-bibliography-notes "~/Refs/notes.org.gpg")
+  (org-ref-default-bibliography '("~/Refs/refs.bib"))
+  (org-ref-pdf-directory "~/Refs/pdfs/")
+  (biblio-download-directory "~/Refs/!incoming/")
+  ;; autokey formatting:
+  (bibtex-autokey-year-length 4)
+  (bibtex-autokey-name-year-separator "-")
+  (bibtex-autokey-year-title-separator "-")
+  (bibtex-autokey-titleword-separator "-")
+  (bibtex-autokey-titlewords 2)
+  (bibtex-autokey-titlewords-stretch 1)
+  (bibtex-autokey-titleword-length 5)
+  :bind (("s-b" . org-ref-open-citation-at-point)
+         ("s-k" . org-ref-ivy-set-keywords)
+         ("s-n" . org-ref-open-notes-at-point)
+         ("s-p" . org-ref-open-pdf-at-point)
+         ("s-i" . org-ref-ivy-insert-cite-link)
+         ("s-m" . org-ref-ivy-mark-candidate))
+  ;; Open pdf in system viewer:
+  ;; (bibtex-completion-pdf-open-function 'helm-open-file-with-default-tool))
+  :config (setcdr (assoc "\\.pdf\\'" org-file-apps) "atril %s"))
 
 
 (use-package golden-ratio)
@@ -757,8 +783,8 @@
   (general-define-key
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
-   "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-   "M-]" 'scheme-smart-complete)
+   "M-x" 'counsel-M-x)       ; replace default M-x with ivy backend
+   ;; "M-]" 'scheme-smart-complete)
 
   (general-create-definer my-leader-def
       ;; :prefix my-leader
@@ -794,7 +820,7 @@
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
     "ad"  'dired
-    "ab"  'ivy-bibtex
+    "ab"  'org-ref
     "ao"  'org-agenda
     "ar"  're-builder
     "at"  'telega
@@ -852,8 +878,7 @@
             :which-key "my Journal")
     "or" '((lambda() (interactive)
                   (switch-to-buffer
-                   (find-file-noselect
-                    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))))
+                   (find-file-noselect "~/Refs/notes.org.gpg")))
            :which-key "Research Notes")
 
 
