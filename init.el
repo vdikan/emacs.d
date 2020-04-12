@@ -74,7 +74,7 @@
   :ensure nil
   :init
   (add-to-list 'auto-mode-alist '("\\.post\\'" . markdown-mode)) ; blog posts assoc with markdown
-  (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e") ;; Emails: Mu4e
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e") ;; Emails: Mu4e
   (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
@@ -231,41 +231,41 @@
   :after (magit evil))
 
 
-;; (use-package mu4e
-;;   :ensure nil
-;;   :init
-;;   (require 'org-mu4e)
-;;   (require 'smtpmail)
-;;   (setq message-send-mail-function 'smtpmail-send-it
-;;         starttls-use-gnutls t
-;;         smtpmail-stream-type 'ssl
-;;         smtpmail-starttls-credentials
-;;         ;; '(("mail.vivaldi.net" 465 nil nil))
-;;         '(("smtp.vivaldi.net" 465 nil nil))
-;;         ;; smtpmail-default-smtp-server "mail.vivaldi.net"
-;;         ;; smtpmail-smtp-server  "mail.vivaldi.net"
-;;         smtpmail-default-smtp-server "smtp.vivaldi.net"
-;;         smtpmail-smtp-server  "smtp.vivaldi.net"
-;;         smtpmail-smtp-service 465
-;;         smtpmail-debug-info t)
-;;   :custom
-;;   (mu4e-maildir (expand-file-name "~/Maildir/"))
-;;   (mu4e-drafts-folder "/Drafts")
-;;   (mu4e-sent-folder   "/Sent")
-;;   (mu4e-trash-folder  "/Trash")
-;;   (mu4e-refile-folder "/Archive")
-;;   (mu4e-sent-messages-behavior 'sent)
-;;   (mu4e-get-mail-command "offlineimap")
-;;   (user-mail-address "vdikan@vivaldi.net")
-;;   (user-full-name "Vladimir Dikan")
-;;   :config
-;;   (use-package evil-mu4e
-;;     :ensure t)
-;;   (add-hook 'mu4e-compose-mode-hook
-;;             (defun my-do-compose-stuff ()
-;;               "My settings for message composition."
-;;               ;; (org-mu4e-compose-org-mode)
-;;               (flyspell-mode))))
+(use-package mu4e
+  :ensure nil
+  :init
+  (require 'org-mu4e)
+  (require 'smtpmail)
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-stream-type 'ssl
+        smtpmail-starttls-credentials
+        ;; '(("mail.vivaldi.net" 465 nil nil))
+        '(("smtp.vivaldi.net" 465 nil nil))
+        ;; smtpmail-default-smtp-server "mail.vivaldi.net"
+        ;; smtpmail-smtp-server  "mail.vivaldi.net"
+        smtpmail-default-smtp-server "smtp.vivaldi.net"
+        smtpmail-smtp-server  "smtp.vivaldi.net"
+        smtpmail-smtp-service 465
+        smtpmail-debug-info t)
+  :custom
+  (mu4e-maildir (expand-file-name "~/Maildir/"))
+  (mu4e-drafts-folder "/Drafts")
+  (mu4e-sent-folder   "/Sent")
+  (mu4e-trash-folder  "/Trash")
+  (mu4e-refile-folder "/Archive")
+  (mu4e-sent-messages-behavior 'sent)
+  (mu4e-get-mail-command "offlineimap")
+  (user-mail-address "vdikan@vivaldi.net")
+  (user-full-name "Vladimir Dikan")
+  :config
+  (use-package evil-mu4e
+    :ensure t)
+  (add-hook 'mu4e-compose-mode-hook
+            (defun my-do-compose-stuff ()
+              "My settings for message composition."
+              ;; (org-mu4e-compose-org-mode)
+              (flyspell-mode))))
 
 
 (use-package gnuplot)
@@ -784,7 +784,7 @@
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
    "M-x" 'counsel-M-x)       ; replace default M-x with ivy backend
-   ;; "M-]" 'scheme-smart-complete)
+  ;; "M-]" 'scheme-smart-complete)
 
   (general-create-definer my-leader-def
       ;; :prefix my-leader
@@ -820,6 +820,7 @@
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
     "ad"  'dired
+    "am"  'mu4e
     "ab"  'org-ref
     "ao"  'org-agenda
     "ar"  're-builder
