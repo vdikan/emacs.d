@@ -269,6 +269,9 @@
   :config
   (use-package evil-mu4e
     :ensure t)
+  (add-to-list 'mu4e-view-actions
+               '("ViewInBrowser" . mu4e-action-view-in-browser)
+               t)
   (add-hook 'mu4e-compose-mode-hook
             (defun my-do-compose-stuff ()
               "My settings for message composition."
@@ -342,6 +345,7 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
+     (lisp . t)
      (shell . t)
      (gnuplot . t)
      (python . t)
@@ -821,6 +825,7 @@
     ;; Commands
     "c"   '(:ignore t :which-key "Commands")
     "cc"  'org-capture
+    "cf"  'flyspell-correct-word-before-point
     "cd"  '(:ignore t :which-key "Counsel-Dash")
     "cda"  'dash-docs-activate-docset
     "cdd"  'counsel-dash-at-point
