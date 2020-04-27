@@ -1,7 +1,7 @@
 ;;; First, load machine-specific variables from linked `local-settings.el'
-(let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
-  (if (file-exists-p local-settings-file)
-      (load local-settings-file)))
+;; (let ((local-settings-file (locate-user-emacs-file "local-settings.el")))
+;;   (if (file-exists-p local-settings-file)
+;;       (load local-settings-file)))
 
 
 ;;; Declarative setup with `use-package'.
@@ -779,6 +779,26 @@
   (company-lsp-enable-recompletion t))
 
 
+(use-package erc
+  :secret
+  (go-social-with-bitlbee "~/.passwd/bitlbee.el.gpg")
+  :config
+  (defun go-social-with-bitlbee ()
+    "Connect to IM networks using bitlbee."
+    (interactive)
+    (erc :server "localhost" :port 6667 :nick bitlbee-username))
+
+  (defun bitlbee-identify ()
+    (when (and (string= "localhost" erc-session-server)
+               (string= "&bitlbee" (buffer-name)))
+      (erc-message "PRIVMSG" (format "%s identify %s %s"
+                                     (erc-default-target)
+                                     bitlbee-username
+                                     bitlbee-password))))
+
+  (add-hook 'erc-join-hook #'bitlbee-identify))
+
+
 (use-package telega
   ;; :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
   :commands (telega)
@@ -838,6 +858,7 @@
     "ao"  'org-agenda
     "ar"  're-builder
     "at"  'telega
+    "ae"  'go-social-with-bitlbee
     "as"  '(:ignore t :which-key "Shell selection")
     "ass" 'shell
     "ase" 'eshell
