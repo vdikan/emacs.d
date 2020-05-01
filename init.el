@@ -303,13 +303,14 @@
   :ensure org-plus-contrib
   :init                                 ; Constant definitions mainly for Org-capture templates
                                         ; funcalls in templates' bodies do not work
-  (defconst *lvar-org-agenda-file*
-    (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*)
+  (defconst *lvar-grimoire-dir* "~/Grimoire")
+  (defconst *lvar-org-agenda-file* "~/Grimoire/org/agenda.org.gpg"
     "General todos and schedule planner.")
-  (defconst *lvar-org-journal-file*
-    (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*)
+  (defconst *lvar-org-journal-file* "~/Grimoire/org/journal.org.gpg"
     "Dear Diary...")
-  (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg" "Research notes file")
+  (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg"
+    "Research notes file")
+
   (setq org-agenda-files
         (list *lvar-org-agenda-file*
               *lvar-org-journal-file*
@@ -479,7 +480,8 @@
          ("s-n" . org-ref-open-notes-at-point)
          ("s-p" . org-ref-open-pdf-at-point)
          ("s-i" . org-ref-ivy-insert-cite-link)
-         ("s-m" . org-ref-ivy-mark-candidate))
+         ("s-m" . org-ref-ivy-mark-candidate)
+         ("s-d" . doi-utils-add-bibtex-entry-from-doi))
   ;; Open pdf in system viewer:
   ;; (bibtex-completion-pdf-open-function 'helm-open-file-with-default-tool))
   :config (setcdr (assoc "\\.pdf\\'" org-file-apps) "atril %s"))
@@ -522,7 +524,6 @@
   :config
   (ivy-mode 1))
 
-(use-package ivy-bibtex)
 
 (use-package counsel)
 
@@ -854,7 +855,7 @@
     "a"   '(:ignore t :which-key "Applications")
     "ad"  'dired
     "am"  'mu4e
-    "ab"  'org-ref
+    "ab"  'org-ref                      ; spawns HELM-ish interface
     "ao"  'org-agenda
     "ar"  're-builder
     "at"  'telega
@@ -882,6 +883,8 @@
     "b"   '(:ignore t :which-key "Buffers")
     "bb"  'ivy-switch-buffer
     "bk"  'kill-buffer
+    "ba"  'auto-fill-mode
+    "bf"  'flyspell-buffer
 
     ;; Shortcuts
     "e"   '(:ignore t :which-key "Edit")
@@ -889,10 +892,6 @@
                    (switch-to-buffer
                     (find-file-noselect "~/.emacs.d/init.el")))
             :which-key "dotemacs config")
-    "el"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect "~/.emacs.d/local-settings.el")))
-            :which-key "local emacs config")
     "es"  '((lambda() (interactive)
                    (switch-to-buffer
                     (find-file-noselect "~/.stumpwmrc")))
