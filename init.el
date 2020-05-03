@@ -661,6 +661,9 @@
   :defer t)
 
 
+(use-package geiser)
+
+
 (use-package racket-mode)
 
 (use-package fennel-mode
