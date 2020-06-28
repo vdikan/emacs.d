@@ -120,11 +120,12 @@
 (blink-cursor-mode 0)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(load-theme 'tango 'no-confirm)
+;; (load-theme 'tango 'no-confirm)
+(load-theme 'manoj-dark 'no-confirm)
 ;; (setq system-time-locale "C")
 (setq default-frame-alist
       (append default-frame-alist
-              '((background-color . "#efeff9")
+              '(;(background-color . "#efeff9")
                 (cursor-color . "DodgerBlue3"))))
 
 
@@ -611,7 +612,8 @@
 ;;   )
 
 
-(use-package elpy)                      ;  Python should burn in Hell
+(use-package elpy
+  :custom (python-shell-interpreter "python3")) ; Python should burn in Hell
 
 (use-package lua-mode)
 
