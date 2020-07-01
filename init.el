@@ -72,11 +72,12 @@
   (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
-  (set-face-attribute 'region nil :background "LightSteelBlue")
-  (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
-  (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
-  (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
-  (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
+  ;; manual modeline colors:
+  ;; (set-face-attribute 'region nil :background "LightSteelBlue")
+  ;; (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
+  ;; (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
+  ;; (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
+  ;; (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
   (set-face-attribute 'default nil :height 180 :family "Anonymous Pro")
   ;; (add-hook 'after-init-hook 'global-company-mode)
   :custom
@@ -106,27 +107,28 @@
   :config
   (eval-after-load "calc-units"
     '(progn
-      (setq math-additional-units
-       '((Bohr  "5.29177249*10^(-11) m"
-          "Bohr radius [ hbar^2/(m*e^2) ]" atU)
-         (Eryd  "2.1798741*10^(-18) J"
-          "Rydberg energy [ e^2/(2*a0) ]" atU)
-         (Eh    "4.3597482*10^(-18) J"
-          "Hartree energy [ e^2/a0 ]" atU))
-       math-units-table nil))))
+       (setq math-additional-units
+             '((Bohr  "5.29177249*10^(-11) m"
+                      "Bohr radius [ hbar^2/(m*e^2) ]" atU)
+               (Eryd  "2.1798741*10^(-18) J"
+                      "Rydberg energy [ e^2/(2*a0) ]" atU)
+               (Eh    "4.3597482*10^(-18) J"
+                      "Hartree energy [ e^2/a0 ]" atU))
+             math-units-table nil))))
 
 
 ;;  Appearance
-(blink-cursor-mode 0)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-;; (load-theme 'tango 'no-confirm)
-(load-theme 'manoj-dark 'no-confirm)
-;; (setq system-time-locale "C")
-(setq default-frame-alist
-      (append default-frame-alist
-              '(;(background-color . "#efeff9")
-                (cursor-color . "DodgerBlue3"))))
+(use-package modus-vivendi-theme
+  :ensure t
+  :config
+  (blink-cursor-mode 0)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (load-theme 'modus-vivendi t)
+  (setq default-frame-alist
+        (append default-frame-alist
+                '(;(background-color . "#efeff9")
+                  (cursor-color . "MediumSlateBlue")))))
 
 
 ;; (use-package vscode-icon
