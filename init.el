@@ -747,7 +747,7 @@
   (use-package lsp-ui
     :ensure t
     :config
-    (set-face-attribute 'lsp-ui-doc-background  nil :background "PowderBlue")
+    (set-face-attribute 'lsp-ui-doc-background  nil :background "MediumPurple4")
     :custom
     ;; lsp-ui-doc
     (lsp-ui-doc-enable t)
