@@ -197,6 +197,7 @@
 
 
 (use-package yasnippet
+  :after (lsp-mode)
   :ensure yasnippet-snippets)
 
 
@@ -717,17 +718,20 @@
 ;;   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
-;; NOTE: a bug in fortran-language-server was fixed in v.1.10.2
 (use-package lsp-mode
   :secret
   (lsp-register-client "~/.passwd/workspaces.el.gpg")
+  :ensure t
+  :init
+  (require 'lsp-clients)
   :hook
   (f90-mode . lsp-deferred)
   (fortran-mode . lsp-deferred)
+  (c++-mode . lsp-deferred)
   (lsp-mode . lsp-ui-mode)
   :commands (lsp lsp-deferred)
   :custom
-  ;; (lsp-enable-snippet t)
+  (lsp-enable-snippet t)
   (lsp-auto-guess-root nil)
 
   ;; NOTE: eldoc clogging fortls trouble, switched off:
@@ -747,7 +751,8 @@
   (use-package lsp-ui
     :ensure t
     :config
-    (set-face-attribute 'lsp-ui-doc-background  nil :background "MediumPurple4")
+    (set-face-attribute 'lsp-ui-doc-background  nil :height 160
+                        :family "Anonymous Pro" :background "MediumPurple4")
     :custom
     ;; lsp-ui-doc
     (lsp-ui-doc-enable t)
@@ -756,7 +761,7 @@
     (lsp-ui-doc-position 'top) ;; top, bottom, or at-point
     (lsp-ui-doc-max-width 120)
     (lsp-ui-doc-max-height 30)
-    (lsp-ui-doc-use-childframe nil)
+    (lsp-ui-doc-use-childframe t)
     (lsp-ui-doc-use-webkit nil)
 
     ;; lsp-ui-sideline
@@ -774,6 +779,7 @@
 
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (add-to-list 'lsp-language-id-configuration '(f90-mode . "fortran"))
+  (add-to-list 'lsp-language-id-configuration '(c++-mode . "c++"))
   (push 'company-lsp company-backends)
 
   ;; Make order here (FIXME: hardcoded priority; FIXME: remote paths):
