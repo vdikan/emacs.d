@@ -720,7 +720,8 @@
 
 (use-package lsp-mode
   :secret
-  (lsp-register-client "~/.passwd/workspaces.el.gpg")
+  ;; (lsp-register-client "~/.passwd/workspaces.el.gpg")  ; doesn't work dunno why
+  (default-remote-fortls-connection "~/.passwd/workspaces.el.gpg") ; explicit defun
   :ensure t
   :init
   (require 'lsp-clients)
@@ -782,9 +783,15 @@
   (add-to-list 'lsp-language-id-configuration '(c++-mode . "c++"))
   (push 'company-lsp company-backends)
 
-  ;; Make order here (FIXME: hardcoded priority; FIXME: remote paths):
+  (defun default-remote-fortls-connection ()
+    "Use when connecting to fortls on default remote."
+    (cons ws-remote-fortls lsp-clients-fortls-args))
+
   (lsp-register-client
-   (make-lsp-client :new-connection (lsp-tramp-connection ws-remote-fortls)
+   (make-lsp-client :new-connection
+                    (lsp-tramp-connection #'default-remote-fortls-connection)
+                    ;; (lsp-tramp-connection (lambda () (cons ws-remote-fortls
+                    ;;                                        lsp-clients-fortls-args)))
                     :major-modes '(fortran-mode f90-mode)
                     :remote? t
                     :priority 1
