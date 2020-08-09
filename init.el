@@ -138,6 +138,10 @@
 ;;   (setq vscode-icon-size 23))
 
 
+(use-package all-the-icons)
+;; M-x all-the-icons-install-fonts
+
+
 (use-package files
   :ensure nil
   :hook
@@ -304,6 +308,7 @@
   :init                                 ; Constant definitions mainly for Org-capture templates
                                         ; funcalls in templates' bodies do not work
   (defconst *lvar-grimoire-dir* "~/Grimoire")
+  (defconst *lvar-org-brain-dir* "~/Grimoire/org/brain")
   (defconst *lvar-org-agenda-file* "~/Grimoire/org/agenda.org.gpg"
     "General todos and schedule planner.")
   (defconst *lvar-org-journal-file* "~/Grimoire/org/journal.org.gpg"
@@ -314,7 +319,8 @@
   (setq org-agenda-files
         (list *lvar-org-agenda-file*
               *lvar-org-journal-file*
-              *lvar-org-notes-file*))
+              *lvar-org-notes-file*
+              *lvar-org-brain-dir*))
 
   :config
   (defun insert-worklog-preamble ()
@@ -402,6 +408,58 @@
   ;; (org-ellipsis "…")
   :hook
   (org-mode . org-bullets-mode))
+
+
+;; Allows you to edit entries directly from org-brain-visualize
+;; (use-package polymode
+;;   :config
+;;   (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode))
+
+
+(use-package org-brain
+  :ensure t
+  :init
+  (setq org-brain-path *lvar-org-brain-dir*)
+  ;; For Evil users
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+  :config
+  ;; Decorations in Brain-buffers
+  (defun org-brain-insert-resource-icon (link)
+    "Insert an icon, based on content of org-mode LINK."
+    (insert (format "%s "
+                    (cond ((string-prefix-p "brain:" link)
+                           (all-the-icons-fileicon "brain"))
+                          ((string-prefix-p "info:" link)
+                           (all-the-icons-octicon "info"))
+                          ((string-prefix-p "help:" link)
+                           (all-the-icons-material "help"))
+                          ((string-prefix-p "http" link)
+                           (all-the-icons-icon-for-url link))
+                          (t
+                           (all-the-icons-icon-for-file link))))))
+  (add-hook 'org-brain-after-resource-button-functions
+            #'org-brain-insert-resource-icon)
+  (setq org-agenda-category-icon-alist
+        `(("compsci" ,(list (all-the-icons-material "computer")) nil nil :ascent center)
+          ("hpc"     ,(list (all-the-icons-faicon "database")) nil nil :ascent center)
+          ("books"   ,(list (all-the-icons-faicon "book")) nil nil :ascent center)
+          ("media"   ,(list (all-the-icons-material "ondemand_video")) nil nil :ascent center)
+          ("papers"  ,(list (all-the-icons-faicon "paperclip")) nil nil :ascent center)))
+  ;; (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
+  (setq org-id-track-globally t)
+  (setq org-id-locations-file "~/Grimoire/org/.org-id-locations")
+  (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
+  (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+  (push '("b" "Brain" plain (function org-brain-goto-end)
+          "* %i%?" :empty-lines 1)
+        org-capture-templates)
+  (push 'org-brain-entry-todo-state
+        org-brain-vis-current-title-prepend-functions)
+  (setq org-brain-visualize-default-choices 'all)
+  (setq org-brain-title-max-length 22)
+  (setq org-brain-include-file-entries nil
+        org-brain-file-entries-use-title nil))
 
 
 ;; (use-package elfeed
@@ -846,15 +904,15 @@
   ;; "M-]" 'scheme-smart-complete)
 
   (general-create-definer my-leader-def
-      ;; :prefix my-leader
-      :prefix "SPC")
+    ;; :prefix my-leader
+    :prefix "SPC")
 
   (general-create-definer my-local-leader-def
-      ;; :prefix my-local-leader
-      :prefix "SPC m")
+    ;; :prefix my-local-leader
+    :prefix "SPC m")
 
   (my-leader-def
-      :states '(normal visual emacs)
+    :states '(normal visual emacs)
 
     ;; Root
     "/"   'counsel-ag
@@ -881,7 +939,11 @@
     "a"   '(:ignore t :which-key "Applications")
     "ad"  'dired
     "am"  'mu4e
-    "ab"  'org-ref                      ; spawns HELM-ish interface
+    "aa"  'org-ref                      ; spawns HELM-ish interface
+    "ab"  '(:ignore t :which-key "Brain")
+    "abn" 'org-brain-add-entry
+    "abb" 'org-brain-visualize
+    "abs" 'counsel-brain
     "ao"  'org-agenda
     "ar"  're-builder
     "at"  'telega
@@ -893,8 +955,8 @@
 
     ;; Projects
     "p"   '(:keymap projectile-command-map
-            :package projectile
-            :which-key "Projectile (Counsel)")
+                    :package projectile
+                    :which-key "Projectile (Counsel)")
     ;; ...versions
     "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
@@ -915,34 +977,34 @@
     ;; Shortcuts
     "e"   '(:ignore t :which-key "Edit")
     "ed"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect "~/.emacs.d/init.el")))
+              (switch-to-buffer
+               (find-file-noselect "~/.emacs.d/init.el")))
             :which-key "dotemacs config")
     "es"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect "~/.stumpwmrc")))
+              (switch-to-buffer
+               (find-file-noselect "~/.stumpwmrc")))
             :which-key "stumpwm config")
 
     ;; Org-mode
     ;; Contains links to Grimoire
     "o"   '(:ignore t :which-key "Open local")
     "ot"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect
-                     (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
+              (switch-to-buffer
+               (find-file-noselect
+                (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
             :which-key "Todos and Agenda")
     "oj"  '((lambda() (interactive)
-                   (switch-to-buffer
-                    (find-file-noselect
-                     (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
+              (switch-to-buffer
+               (find-file-noselect
+                (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
             :which-key "my Journal")
     "or" '((lambda() (interactive)
-                  (switch-to-buffer
-                   (find-file-noselect "~/Refs/refs.bib")))
+             (switch-to-buffer
+              (find-file-noselect "~/Refs/refs.bib")))
            :which-key "Main Bibtex file")
     "on" '((lambda() (interactive)
-                  (switch-to-buffer
-                   (find-file-noselect "~/Refs/notes.org.gpg")))
+             (switch-to-buffer
+              (find-file-noselect "~/Refs/notes.org.gpg")))
            :which-key "Research Notes")
 
 
