@@ -462,7 +462,7 @@
   (setq org-brain-visualize-default-choices 'all)
   (setq org-brain-title-max-length 22)
   (setq org-brain-include-file-entries nil
-        org-brain-file-entries-use-title nil)
+        org-brain-file-entries-use-title nil))
 
 
 ;; (use-package elfeed
