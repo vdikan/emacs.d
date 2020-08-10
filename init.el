@@ -313,13 +313,13 @@
     "General todos and schedule planner.")
   (defconst *lvar-org-journal-file* "~/Grimoire/org/journal.org.gpg"
     "Dear Diary...")
-  (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg"
-    "Research notes file")
+  ;; Research Notes are part of the Brain now
+  ;; (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg"
+  ;;   "Research notes file")
 
   (setq org-agenda-files
         (list *lvar-org-agenda-file*
               *lvar-org-journal-file*
-              *lvar-org-notes-file*
               *lvar-org-brain-dir*))
 
   :config
@@ -425,6 +425,9 @@
     (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
   :config
   ;; Decorations in Brain-buffers
+  (custom-set-faces
+   '(org-brain-button ((t (:foreground "CornflowerBlue" :underline nil))))
+   '(org-brain-parent ((t (:foreground "plum2" :underline nil)))))
   (defun org-brain-insert-resource-icon (link)
     "Insert an icon, based on content of org-mode LINK."
     (insert (format "%s "
@@ -459,7 +462,7 @@
   (setq org-brain-visualize-default-choices 'all)
   (setq org-brain-title-max-length 22)
   (setq org-brain-include-file-entries nil
-        org-brain-file-entries-use-title nil))
+        org-brain-file-entries-use-title nil)
 
 
 ;; (use-package elfeed
@@ -522,7 +525,8 @@
   :custom
   (org-ref-completion-library 'org-ref-ivy-cite)
   (reftex-default-bibliography '("~/Refs/refs.bib"))
-  (org-ref-bibliography-notes "~/Refs/notes.org.gpg")
+  ;; (org-ref-bibliography-notes "~/Refs/notes.org.gpg")
+  (org-ref-bibliography-notes "~/Grimoire/org/brain/Papers.org")
   (org-ref-default-bibliography '("~/Refs/refs.bib"))
   (org-ref-pdf-directory "~/Refs/pdfs/")
   (biblio-download-directory "~/Refs/!incoming/")
@@ -1004,7 +1008,7 @@
            :which-key "Main Bibtex file")
     "on" '((lambda() (interactive)
              (switch-to-buffer
-              (find-file-noselect "~/Refs/notes.org.gpg")))
+              (find-file-noselect "~/Grimoire/org/brain/Papers.org")))
            :which-key "Research Notes")
 
 
