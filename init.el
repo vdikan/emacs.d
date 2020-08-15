@@ -886,12 +886,21 @@
   (add-hook 'erc-join-hook #'bitlbee-identify))
 
 
+;;; (so far) manually added `contrib`. From telega.el thread:
+;; > you need to load it, before use
+;; > add contrib/ to your load-path and then
+;; > (require 'telega-status-history)
+;; > after this you can use M-x telega-status-history-mode RET directly
+;; > or add this func to the telega-load-hook
 (use-package telega
-  ;; :quelpa (telega :repo "zevlg/telega.el" :fetcher github)
+  ;; :quelpa ((telega :repo "zevlg/telega.el" :fetcher github :branch "master")
+  ;;          (upgrade t))
   :commands (telega)
   :defer t
   :custom
-  (telega-mode-line-mode 1))
+  (telega-mode-line-mode 1)
+  :config
+  (require 'ol-telega))                 ; <- can also play with shortened urls
 
 
 ;;; Declare/describe custom shortcuts with `general' and `which-key'
