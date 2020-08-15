@@ -138,7 +138,10 @@
 ;;   (setq vscode-icon-size 23))
 
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :config
+  ;; Category icons displayed in the `org-brain` wiki:
+  (load (expand-file-name "~/Grimoire/org/category-icons.el")))
 ;; M-x all-the-icons-install-fonts
 
 
@@ -427,7 +430,8 @@
   ;; Decorations in Brain-buffers
   (custom-set-faces
    '(org-brain-button ((t (:foreground "CornflowerBlue" :underline nil))))
-   '(org-brain-parent ((t (:foreground "plum2" :underline nil)))))
+   '(org-brain-parent ((t (:foreground "plum2" :underline nil))))
+   '(org-brain-title  ((t (:foreground "PaleGreen1" :underline nil)))))
   (defun org-brain-insert-resource-icon (link)
     "Insert an icon, based on content of org-mode LINK."
     (insert (format "%s "
@@ -443,12 +447,6 @@
                            (all-the-icons-icon-for-file link))))))
   (add-hook 'org-brain-after-resource-button-functions
             #'org-brain-insert-resource-icon)
-  (setq org-agenda-category-icon-alist
-        `(("compsci" ,(list (all-the-icons-material "computer")) nil nil :ascent center)
-          ("hpc"     ,(list (all-the-icons-faicon "database")) nil nil :ascent center)
-          ("books"   ,(list (all-the-icons-faicon "book")) nil nil :ascent center)
-          ("media"   ,(list (all-the-icons-material "ondemand_video")) nil nil :ascent center)
-          ("papers"  ,(list (all-the-icons-faicon "paperclip")) nil nil :ascent center)))
   ;; (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
   (setq org-id-track-globally t)
   (setq org-id-locations-file "~/Grimoire/org/.org-id-locations")
@@ -933,11 +931,15 @@
 
     ;; Commands
     "c"   '(:ignore t :which-key "Commands")
+    "cb"  'counsel-brain
     "cc"  'org-capture
     "cf"  'flyspell-correct-word-before-point
     "cd"  '(:ignore t :which-key "Counsel-Dash")
     "cda"  'dash-docs-activate-docset
     "cdd"  'counsel-dash-at-point
+    "cl"  'org-store-link
+    "cb"  'counsel-brain
+    "ct"  'counsel-tramp
 
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
@@ -947,7 +949,6 @@
     "ab"  '(:ignore t :which-key "Brain")
     "abn" 'org-brain-add-entry
     "abb" 'org-brain-visualize
-    "abs" 'counsel-brain
     "ao"  'org-agenda
     "ar"  're-builder
     "at"  'telega
