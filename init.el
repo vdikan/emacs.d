@@ -450,7 +450,6 @@
   ;; (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
   (setq org-id-track-globally t)
   (setq org-id-locations-file "~/Grimoire/org/.org-id-locations")
-  (evil-set-initial-state 'org-brain-visualize-mode 'emacs)
   (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
   (push '("b" "Brain" plain (function org-brain-goto-end)
           "* %i%?" :empty-lines 1)
@@ -463,19 +462,24 @@
         org-brain-file-entries-use-title nil))
 
 
-;; (use-package elfeed
-;;   :ensure elfeed-org
-;;   :config
-;;   (add-hook 'elfeed-show-mode-hook
-;;             (lambda ()
-;;               (set-face-attribute 'variable-pitch (selected-frame)
-;;                                   :font (font-spec :family "LiberationMono"
-;;                                                    :size 20))))
-;;   ;; Entries older than 2 weeks are marked as read
-;;   (add-hook 'elfeed-new-entry-hook
-;;             (elfeed-make-tagger :before "2 weeks ago"
-;;                                 :remove 'unread))
-;;   (elfeed-org))
+(use-package elfeed
+  :ensure elfeed-org
+  :custom
+  ;; Entries older than 2 weeks are marked as read
+  (elfeed-search-filter "@2-weeks-ago +unread -reddit")
+  :config
+  (add-hook 'elfeed-show-mode-hook
+            (lambda ()
+              (set-face-attribute
+               'variable-pitch (selected-frame)
+               :font (font-spec :family "Anonymous Pro" :size 30))))
+  (setq elfeed-db-directory "~/Grimoire/feeds/elfeed-db")
+  (add-hook 'elfeed-new-entry-hook
+            (elfeed-make-tagger :before "2 weeks ago"
+                                :remove 'unread))
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Grimoire/org/brain/Feeds.org"
+                                   "~/Grimoire/org/brain/Podcasts.org")))
 
 
 ;; (use-package pdf-tools
