@@ -413,6 +413,10 @@
   (org-mode . org-bullets-mode))
 
 
+(use-package org-books
+  :custom (org-books-file (format "%s/Books.org" *lvar-org-brain-dir*)))
+
+
 ;; Allows you to edit entries directly from org-brain-visualize
 ;; (use-package polymode
 ;;   :config
