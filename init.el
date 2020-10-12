@@ -725,11 +725,12 @@
 (use-package suggest
   :defer t)
 
+;; (use-package geiser)
+;; (use-package racket-mode)
 
-(use-package geiser)
-
-
-(use-package racket-mode)
+(use-package scheme
+  :custom
+  (scheme-program-name "nc bay00 12345")) ; toying w/scheme on Nostromo
 
 (use-package fennel-mode
   ;; :config
@@ -763,15 +764,15 @@
 
 
 (use-package counsel-dash
-             ;;https://github.com/dash-docs-el/counsel-dash
-             :custom
-             ;; (counsel-dash-docsets-path "/home/vdikan/.docsets")
-             (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master")
-             :hook
-             (f90-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
-             (fortran-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
-             (sly-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
-             ;(slime-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
+  ;;https://github.com/dash-docs-el/counsel-dash
+  :custom
+  (dash-docs-docsets-path "~/Grimoire/docsets")
+  (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master")
+  :hook
+  (f90-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
+  (fortran-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
+  (scheme-mode . (lambda () (setq-local counsel-dash-docsets '("R5RS"))))
+  (sly-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
 
 
 (use-package counsel-tramp)
@@ -962,6 +963,7 @@
     "ab"  '(:ignore t :which-key "Brain")
     "abn" 'org-brain-add-entry
     "abb" 'org-brain-visualize
+    "af"  'elfeed
     "ao"  'org-agenda
     "ar"  're-builder
     "at"  'telega
