@@ -375,7 +375,7 @@
   (org-agenda-span 1)
   (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
   (org-src-tab-acts-natively nil)
-  (org-ditaa-jar-path "/usr/bin/ditaa")
+  (org-ditaa-jar-path "~/bin/ditaa/ditaa-0.11.0-standalone.jar")
   (org-capture-templates
    '(("w" "Grimoire worklog"
       plain (file (lambda ()
@@ -411,6 +411,10 @@
   ;; (org-ellipsis "…")
   :hook
   (org-mode . org-bullets-mode))
+
+
+(use-package org-books
+  :custom (org-books-file (format "%s/Books.org" *lvar-org-brain-dir*)))
 
 
 ;; Allows you to edit entries directly from org-brain-visualize
