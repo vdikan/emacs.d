@@ -205,7 +205,11 @@
 
 (use-package yasnippet
   :after (lsp-mode)
-  :ensure yasnippet-snippets)
+  :ensure yasnippet-snippets
+  :custom
+  (yas-snippet-dirs
+   (append '("~/Grimoire/snippets")
+           yas-snippet-dirs)))
 
 
 (use-package reverse-im
@@ -747,6 +751,8 @@
 
 (use-package company-glsl)
 
+(use-package graphviz-dot-mode)
+
 (use-package sly
   :config
   (setq inferior-lisp-program "sbcl"))
@@ -958,6 +964,10 @@
     "cl"  'org-store-link
     "cb"  'counsel-brain
     "ct"  'counsel-tramp
+    "cy"  '(:ignore t :which-key "Yas")
+    "cyy" 'yas-insert-snippet
+    "cyn" 'yas-new-snippet
+    "cyv" 'yas-visit-snippet-file
 
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
