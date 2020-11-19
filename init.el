@@ -204,12 +204,10 @@
 
 
 (use-package yasnippet
-  :after (lsp-mode)
   :ensure yasnippet-snippets
-  :custom
-  (yas-snippet-dirs
-   (append '("~/Grimoire/snippets")
-           yas-snippet-dirs)))
+  :config
+  (setq yas-snippet-dirs
+        (append '("~/Grimoire/snippets") yas-snippet-dirs)))
 
 
 (use-package reverse-im
