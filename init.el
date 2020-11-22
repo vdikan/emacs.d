@@ -68,6 +68,7 @@
   :ensure nil
   :init
   (add-to-list 'auto-mode-alist '("\\.post\\'" . markdown-mode)) ; blog posts assoc with markdown
+  (add-to-list 'auto-mode-alist '("\\.page\\'" . markdown-mode))
   (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e") ;; Emails: Mu4e
   (setq system-time-locale "C")
   (put 'narrow-to-region 'disabled nil)
