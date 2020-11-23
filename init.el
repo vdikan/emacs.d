@@ -993,6 +993,11 @@
     ;; ...versions
     "v"   '(:keymap vc-prefix-map :which-key "Version Control")
 
+    ;; Smerge
+    "s" '(:keymap smerge-basic-map
+                  :package smerge-mode
+                  :which-key "Smerge")
+
     ;; Toggles
     "t"   '(:ignore t :which-key "Toggles")
     "tg"  'golden-ratio-mode
