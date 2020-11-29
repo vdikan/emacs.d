@@ -611,6 +611,8 @@
   :config
   (evil-mode 1))
 
+(use-package evil-leader)
+
 
 ;; (use-package evil-collection
 ;;   :after evil
@@ -745,6 +747,10 @@
   )
 
 (use-package haskell-mode)
+
+(use-package idris-mode
+  :config
+  (idris-define-evil-keys))
 
 (use-package arduino-mode :ensure t :pin "melpa")
 
