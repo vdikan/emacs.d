@@ -752,6 +752,14 @@
   :config
   (idris-define-evil-keys))
 
+(use-package agda2-mode
+  :config
+  (setq auto-mode-alist
+        (append
+         '(("\\.agda\\'" . agda2-mode)
+           ("\\.lagda.md\\'" . agda2-mode))
+         auto-mode-alist)))
+
 (use-package arduino-mode :ensure t :pin "melpa")
 
 (use-package company-glsl)
