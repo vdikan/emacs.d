@@ -75,8 +75,8 @@
   (put 'downcase-region 'disabled nil)
   ;; manual modeline colors:
   ;; (set-face-attribute 'region nil :background "LightSteelBlue")
-  ;; (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
-  ;; (set-face-attribute 'mode-line-buffer-id nil :background "DodgerBlue3" :foreground "white smoke")
+  (set-face-attribute 'mode-line           nil :background "dark slate blue" :foreground "gainsboro")
+  (set-face-attribute 'mode-line-buffer-id nil :background "midnight blue" :foreground "white smoke")
   ;; (set-face-attribute 'mode-line-highlight nil :box nil :background "steel blue" :foreground "white")
   ;; (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
   (set-face-attribute 'default nil :height 180 :family "Anonymous Pro")
@@ -125,7 +125,8 @@
   (blink-cursor-mode 0)
   (menu-bar-mode -1)
   (tool-bar-mode -1)
-  (load-theme 'modus-vivendi t)
+  ;; (load-theme 'modus-vivendi t)
+  (load-theme 'deeper-blue t)
   (setq default-frame-alist
         (append default-frame-alist
                 '(;(background-color . "#efeff9")
@@ -533,10 +534,12 @@
   :after (org)
   :custom
   (org-ref-completion-library 'org-ref-ivy-cite)
-  (reftex-default-bibliography '("~/Refs/refs.bib"))
+  (reftex-default-bibliography '("~/Refs/refs.bib" ; default references file
+                                 "~/Refs/cs.bib"))
   ;; (org-ref-bibliography-notes "~/Refs/notes.org.gpg")
   (org-ref-bibliography-notes "~/Grimoire/org/brain/Papers.org")
-  (org-ref-default-bibliography '("~/Refs/refs.bib"))
+  (org-ref-default-bibliography '("~/Refs/refs.bib" ; default references file
+                                  "~/Refs/cs.bib"))
   (org-ref-pdf-directory "~/Refs/pdfs/")
   (biblio-download-directory "~/Refs/!incoming/")
   ;; autokey formatting:
