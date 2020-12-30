@@ -125,11 +125,11 @@
   (blink-cursor-mode 0)
   (menu-bar-mode -1)
   (tool-bar-mode -1)
-  ;; (load-theme 'modus-vivendi t)
-  (load-theme 'deeper-blue t)
+  (load-theme 'modus-vivendi t)
+  ;; (load-theme 'deeper-blue t)
   (setq default-frame-alist
         (append default-frame-alist
-                '(;(background-color . "#efeff9")
+                '((background-color . "#000019")
                   (cursor-color . "MediumSlateBlue")))))
 
 
