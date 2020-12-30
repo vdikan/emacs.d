@@ -81,6 +81,11 @@
   ;; (set-face-attribute 'mode-line-inactive  nil :inherit 'default)
   (set-face-attribute 'default nil :height 180 :family "Anonymous Pro")
   ;; (add-hook 'after-init-hook 'global-company-mode)
+
+  ;; Agda-mode set manually:
+  (load-file (let ((coding-system-for-read 'utf-8))
+               (shell-command-to-string "agda-mode locate")))
+
   :custom
   (scroll-step 1)
   (inhibit-startup-screen t "Don't show splash screen")
