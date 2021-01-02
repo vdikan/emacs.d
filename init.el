@@ -766,6 +766,8 @@
 
 (use-package graphviz-dot-mode)
 
+(use-package yaml-mode)
+
 (use-package sly
   :config
   (setq inferior-lisp-program "sbcl"))
