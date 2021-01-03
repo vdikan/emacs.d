@@ -768,6 +768,11 @@
 
 (use-package yaml-mode)
 
+(use-package dockerfile-mode
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+
+
 (use-package sly
   :config
   (setq inferior-lisp-program "sbcl"))
