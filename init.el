@@ -824,6 +824,7 @@
   (f90-mode . lsp-deferred)
   (fortran-mode . lsp-deferred)
   (c++-mode . lsp-deferred)
+  (c-mode . lsp-deferred)
   (lsp-mode . lsp-ui-mode)
   :commands (lsp lsp-deferred)
   :custom
@@ -867,15 +868,18 @@
     (lsp-ui-peek-enable t)
     (lsp-ui-peek-peek-height 25)
     (lsp-ui-peek-list-width 35)
-    (lsp-ui-peek-fontify 'on-demand)) ;; never, on-demand, or always
-
+    (lsp-ui-peek-fontify 'on-demand))
+  ;; never, on-demand, or always
   ;; syntax checking
   ;; (lsp-prefer-flymake nil)
   ;; :after flycheck
 
+  (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
   (add-to-list 'lsp-language-id-configuration '(fortran-mode . "fortran"))
   (add-to-list 'lsp-language-id-configuration '(f90-mode . "fortran"))
   (add-to-list 'lsp-language-id-configuration '(c++-mode . "c++"))
+  (add-to-list 'lsp-language-id-configuration '(c-mode . "c"))
   (push 'company-lsp company-backends)
 
   (defun default-remote-fortls-connection ()
