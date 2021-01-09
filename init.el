@@ -749,7 +749,6 @@
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
-
 (use-package sly
   :config
   (setq inferior-lisp-program "sbcl"))
@@ -774,12 +773,18 @@
   ;;https://github.com/dash-docs-el/counsel-dash
   :custom
   (dash-docs-docsets-path "~/Grimoire/docsets")
-  (counsel-dash-docsets-url "https://raw.githubusercontent.com/Kapeli/feeds/master")
+  (counsel-dash-docsets-url "https://raw.github.com/Kapeli/feeds/master")
+  (dash-docs-use-workaround-for-emacs-bug nil) ; for 26.3 fixes conn bug
+  (counsel-dash-browser-func 'browse-url)      ; or 'eww
   :hook
+  (c-mode . (lambda () (setq-local counsel-dash-docsets '("C"))))
+  (c++-mode . (lambda () (setq-local counsel-dash-docsets '("C++"))))
   (f90-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
   (fortran-mode . (lambda () (setq-local counsel-dash-docsets '("Fortran" "MPI" "OpenMP"))))
   (scheme-mode . (lambda () (setq-local counsel-dash-docsets '("R5RS"))))
-  (sly-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp")))))
+  (sly-mode . (lambda () (setq-local counsel-dash-docsets '("Common Lisp"))))
+  (emacs-lisp-mode . (lambda () (setq-local counsel-dash-docsets '("Emacs Lisp"))))
+  (dockerfile-mode . (lambda () (setq-local counsel-dash-docsets '("Docker")))))
 
 
 (use-package counsel-tramp)
