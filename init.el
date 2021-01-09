@@ -217,12 +217,13 @@
         (append '("~/Grimoire/snippets") yas-snippet-dirs)))
 
 
+;; More obstruction than usefulness in my setup:
 (use-package reverse-im
   :ensure t
   :custom
   (reverse-im-input-methods '("russian-computer"))
   :config
-  (reverse-im-mode t))
+  (reverse-im-mode nil))
 
 
 (use-package tramp
@@ -321,18 +322,12 @@
                                         ; funcalls in templates' bodies do not work
   (defconst *lvar-grimoire-dir* "~/Grimoire")
   (defconst *lvar-org-brain-dir* "~/Grimoire/org/brain")
-  (defconst *lvar-org-agenda-file* "~/Grimoire/org/agenda.org.gpg"
-    "General todos and schedule planner.")
+  (defconst *lvar-org-agenda-file* "~/Grimoire/org/brain/Agenda.org"
+    "General todos and schedule planner. Part of Brain setup.")
   (defconst *lvar-org-journal-file* "~/Grimoire/org/journal.org.gpg"
-    "Dear Diary...")
-  ;; Research Notes are part of the Brain now
-  ;; (defconst *lvar-org-notes-file* "~/Refs/notes.org.gpg"
-  ;;   "Research notes file")
+    "LEGACY: kept for rememberance Dear Diary...")
 
-  (setq org-agenda-files
-        (list *lvar-org-agenda-file*
-              *lvar-org-journal-file*
-              *lvar-org-brain-dir*))
+  (setq org-agenda-files (list *lvar-org-brain-dir*))
 
   :config
   (defun insert-worklog-preamble ()
@@ -351,14 +346,6 @@
 \#+EMAIL: " *lvar-email-address* "\n"
                               "\#+TITLE: " title "\n"))))
 
-  (defun worklog-capture-hook ()
-    "Hook to pair `worklog' and `journal' capture templates."
-    (when (string= "w" (plist-get org-capture-plist :key))
-      (org-capture-string
-       (concat "file:" "../worklog"
-               (format-time-string "/%Y/%m/%d/%d-%m-%Y.org.gpg"
-                                   (current-time))) "l")))
-  (add-hook 'org-capture-mode-hook #'worklog-capture-hook)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 
   (org-babel-do-load-languages
@@ -386,26 +373,16 @@
   (org-src-tab-acts-natively nil)
   (org-ditaa-jar-path "~/bin/ditaa/ditaa-0.11.0-standalone.jar")
   (org-capture-templates
-   '(("w" "Grimoire worklog"
+   '(("w" "Org Brain worklog"
       plain (file (lambda ()
-                    (concat *lvar-grimoire-dir* "/worklog"
-                            (format-time-string "/%Y/%m/%d/%d-%m-%Y.org.gpg"
+                    (concat *lvar-org-brain-dir* "/worklog"
+                            (format-time-string "/%Y-%m-%d/%Y-%m-%d.org"
                                                 (current-time)))))
       "* %^{entry title}\n %?"
       :empty-lines 1
       :unnarrowed t)
-     ("t" "Todo" entry (file+headline *lvar-org-agenda-file* "Tasks")
-      "* TODO  %?\n  %i\n  %a")
-     ("j" "Journal" entry (file+datetree *lvar-org-journal-file*)
-      "* %?\n\n  %a" :empty-lines 1)
-     ("q" "Quote to Journal" entry (file+datetree *lvar-org-journal-file*)
-      "* \n#+begin_quote\n %?\n%i\n#+end_quote\nEntered on %U\n  %a" :empty-lines 1)
-     ("m" "Org-Mu4e Link" entry (file+datetree *lvar-org-journal-file*)
-      "* TODO %a %?\nDEADLINE: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")
-     ("l" "(hooked) Link worklog to journal" entry
-      (file+datetree *lvar-org-journal-file*)
-      "* Worklog entry: %u  :work:log: \n %i\n"
-      :empty-lines 1))))
+     ("t" "Todo" entry (file+headline *lvar-org-agenda-file* "Agenda")
+      "* TODO  %?\n  %i\n  %a"))))
 
 
 (use-package org-bullets
@@ -999,8 +976,10 @@
     "am"  'mu4e
     "aa"  'org-ref                      ; spawns HELM-ish interface
     "ab"  '(:ignore t :which-key "Brain")
+    "aba" 'org-brain-agenda
     "abn" 'org-brain-add-entry
     "abb" 'org-brain-visualize
+    "abu" 'org-brain-update-id-locations
     "af"  'elfeed
     "ao"  'org-agenda
     "ar"  're-builder
@@ -1053,14 +1032,13 @@
     "o"   '(:ignore t :which-key "Open local")
     "ot"  '((lambda() (interactive)
               (switch-to-buffer
-               (find-file-noselect
-                (format "%s/org/agenda.org.gpg" *lvar-grimoire-dir*))))
-            :which-key "Todos and Agenda")
+               (find-file-noselect *lvar-org-agenda-file*)))
+            :which-key "Todos and Agenda in Brain")
     "oj"  '((lambda() (interactive)
               (switch-to-buffer
                (find-file-noselect
                 (format "%s/org/journal.org.gpg" *lvar-grimoire-dir*))))
-            :which-key "my Journal")
+            :which-key "my olde Journal (for reference, no new edits)")
     "or" '((lambda() (interactive)
              (switch-to-buffer
               (find-file-noselect "~/Refs/refs.bib")))
