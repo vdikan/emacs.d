@@ -134,8 +134,7 @@
   ;; (load-theme 'deeper-blue t)
   (setq default-frame-alist
         (append default-frame-alist
-                '((background-color . "#000019")
-                  (cursor-color . "MediumSlateBlue")))))
+                '((cursor-color . "MediumSlateBlue")))))
 
 
 ;; (use-package vscode-icon
@@ -472,46 +471,6 @@
                                    "~/Grimoire/org/brain/Podcasts.org")))
 
 
-;; (use-package pdf-tools
-;;   :pin manual ;; manually update
-;;   ;; :quelpa (pdf-tools :repo "politza/pdf-tools" :fetcher github)
-;;   :config
-;;   ;; initialise
-;;   (pdf-tools-install)
-;;   ;; open pdfs scaled to fit page
-;;   (setq-default pdf-view-display-size 'fit-page)
-;;   ;; automatically annotate highlights
-;;   (setq pdf-annot-activate-created-annotations t)
-;;   ;; use normal isearch
-;;   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-;;   (setq pdf-view-resize-factor 1.2))
-
-
-;; (use-package ivy-bibtex
-;;   :ensure t
-;;   :custom
-;;   (ivy-re-builders-alist
-;;    '((ivy-bibtex . ivy--regex-ignore-order)
-;;      (t . ivy--regex-plus)))
-;;   (bibtex-completion-notes-path
-;;    (format "%s/org/notes.org.gpg" *lvar-grimoire-dir*))
-;;   (bibtex-completion-bibliography *lvar-bibtex-list*)
-;;   (bibtex-completion-pdf-field "file")
-;;   (bibtex-completion-notes-template-one-file
-;;    "\n* ${author-or-editor} (${year}): ${title}
-;; :PROPERTIES:
-;; :Custom_ID: ${=key=}
-;; :Cite_IDs:
-;; :AUTHOR: ${author}
-;; :JOURNAL: ${journaltitle}
-;; :YEAR: ${year}
-;; :DOI: ${doi}
-;; :DIGRAPH_OUT: t
-;; :DIGRAPH_CLUSTER: nil
-;; :DIGRAPH_SUMMARY:
-;; :END:\n\n"))
-
-
 (use-package org-ref
   :after (org)
   :custom
@@ -636,12 +595,12 @@
 ;;   (emacs-lisp-mode . electric-pair-mode))
 
 
-(use-package evil-cleverparens
-  :hook
-  (sly-mode . evil-cleverparens-mode)
-  ;(slime-mode . evil-cleverparens-mode)
-  (emacs-lisp-mode . evil-cleverparens-mode)
-  (clojure-mode . evil-cleverparens-mode))
+(use-package evil-cleverparens :ensure nil)
+;; :hook)
+;; (sly-mode . evil-cleverparens-mode)
+;;                                       ;(slime-mode . evil-cleverparens-mode)
+;; (emacs-lisp-mode . evil-cleverparens-mode)
+;; (clojure-mode . evil-cleverparens-mode))
 
 
 (use-package highlight-defined
