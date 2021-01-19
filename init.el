@@ -986,7 +986,7 @@
     "abb" 'org-brain-visualize
     "abu" 'org-brain-update-id-locations
     "af"  'elfeed
-    "ao"  'org-agenda
+    "ao"  'org-brain-agenda             ; 'org-agenda
     "ar"  're-builder
     "at"  'telega
     "ae"  'go-social-with-bitlbee
