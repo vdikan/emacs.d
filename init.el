@@ -118,8 +118,16 @@
                       "Bohr radius [ hbar^2/(m*e^2) ]" atU)
                (Eryd  "2.1798741*10^(-18) J"
                       "Rydberg energy [ e^2/(2*a0) ]" atU)
-               (Eh    "4.3597482*10^(-18) J"
-                      "Hartree energy [ e^2/a0 ]" atU))
+               (Ehart "4.3597482*10^(-18) J"
+                      "Hartree energy [ e^2/a0 ]" atU)
+               (tryd  "4.83776865318*10^(-17) s"
+                      "Rydberg time unit [ hbar/E_Ryd ]" atU)
+               (thart "2.41888432659*10^(-17) s"
+                      "Hartree time unit [ hbar/E_Hart ]" atU)
+               (vryd "1.09384563182*10^(6) m s^(-1)"
+                     "Rydberg velocity unit [ a0*E_Ryd/hbar ]" atU)
+               (vhart  "2.18769126364*10^(6) m s^(-1)"
+                       "Hartree velocity unit [ a0*E_Hart/hbar ]" atU))
              math-units-table nil))))
 
 
