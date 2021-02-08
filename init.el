@@ -109,8 +109,10 @@
   (reb-re-syntax 'string))
 
 
-(use-package calc
+(use-package calc                       ; should I move it to calc.el?
   :config
+  (setq var-ff "0.0483776900146")       ; thtr flux conversion factor
+
   (eval-after-load "calc-units"
     '(progn
        (setq math-additional-units
