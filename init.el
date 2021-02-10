@@ -339,6 +339,7 @@
   (setq org-agenda-files (list *lvar-org-brain-dir*))
 
   :config
+  (require 'ob-clojure)
   (defun insert-worklog-preamble ()
     "Standard preamble to insert for org->latex export."
     (interactive)
@@ -361,6 +362,7 @@
    'org-babel-load-languages
    '((emacs-lisp . t)
      (lisp . t)
+     (clojure . t)
      (shell . t)
      (gnuplot . t)
      (python . t)
