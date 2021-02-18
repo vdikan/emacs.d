@@ -377,10 +377,11 @@
   (org-hide-leading-stars nil)
   (org-enforce-todo-dependencies t)
   (org-agenda-todo-list-sublevels nil)
+  (org-cycle-separator-lines -1)
   (org-log-repeat nil)
   ;; (org-extend-today-until 3)
   (org-agenda-span 1)
-  (org-blank-before-new-entry '((heading . nil) (plain-list-item . nil)))
+  (org-blank-before-new-entry '((heading . t) (plain-list-item . nil)))
   (org-src-tab-acts-natively nil)
   (org-ditaa-jar-path "~/bin/ditaa/ditaa-0.11.0-standalone.jar")
   (org-capture-templates
@@ -404,10 +405,19 @@
   ;; Small: ► • ★ ▸
   (org-bullets-bullet-list '("☢"))
   ;; others: ▼, ↴, ⬎, ⤷,…, and ⋱.
-  (org-ellipsis "↴")
+  (org-ellipsis nil)
+  ;; (org-ellipsis "↴")
   ;; (org-ellipsis "…")
   :hook
   (org-mode . org-bullets-mode))
+
+
+(use-package org-present
+  :ensure t ;hide-mode-line
+  :hook
+  (org-present-mode . hide-mode-line-mode)
+  :bind (("s-." . org-present-next)
+         ("s-," . org-present-prev)))
 
 
 (use-package org-books
