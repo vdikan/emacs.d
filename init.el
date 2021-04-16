@@ -421,7 +421,7 @@
 
 
 (use-package org-books
-  :custom (org-books-file (format "%s/Books.org" *lvar-org-brain-dir*)))
+  :custom (org-books-file (format "%s/Books-Revised.org" *lvar-org-brain-dir*)))
 
 
 ;; Allows you to edit entries directly from org-brain-visualize
