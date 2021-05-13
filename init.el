@@ -477,7 +477,7 @@
               (set-face-attribute
                'variable-pitch (selected-frame)
                :font (font-spec :family "Anonymous Pro" :size 30))))
-  (setq elfeed-db-directory "~/Grimoire/feeds/elfeed-db")
+  (setq elfeed-db-directory "~/Feeds/elfeed-db")
   (add-hook 'elfeed-new-entry-hook
             (elfeed-make-tagger :before "2 weeks ago"
                                 :remove 'unread))
