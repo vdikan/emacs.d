@@ -332,8 +332,6 @@
   (setq org-agenda-files (list *lvar-org-brain-dir*))
 
   :config
-  (use-package ox-rst)
-  (use-package ox-reveal)
   (require 'ob-clojure)
   (defun insert-worklog-preamble ()
     "Standard preamble to insert for org->latex export."
@@ -366,9 +364,6 @@
      (ditaa . t)))
 
   :custom
-  (org-reveal-root
-   (format "file://%s/talks/_org_reveal/reveal.js"
-           (file-truename *lvar-grimoire-dir*)))
   (org-babel-lisp-eval-fn #'sly-eval)
   (org-confirm-babel-evaluate nil)
   (org-startup-indented t)
@@ -393,6 +388,14 @@
       :unnarrowed t)
      ("t" "Todo" entry (file+headline *lvar-org-agenda-file* "Agenda")
       "* TODO  %?\n  %i\n  %a"))))
+
+
+(use-package ox-rst)
+(use-package ox-reveal
+  :custom
+  (org-reveal-root
+   (format "file://%s/talks/_org_reveal/reveal.js"
+           (file-truename *lvar-grimoire-dir*))))
 
 
 (use-package org-bullets
