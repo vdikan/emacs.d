@@ -106,7 +106,23 @@
   (initial-scratch-message ";;; Good morning, Captain!\n\n")
   (debug-on-quit nil)
   (column-number-mode 1)
-  (reb-re-syntax 'string))
+  (reb-re-syntax 'string)
+
+  :config
+  ;;  Appearance
+  (use-package modus-vivendi-theme
+    :ensure t
+    :config
+    (blink-cursor-mode 0)
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (load-theme 'modus-vivendi t))
+
+  (setq default-frame-alist
+        (append default-frame-alist
+                '((cursor-color . "MediumSlateBlue")
+                  (unsplittable . t)
+                  ))))
 
 
 (use-package calc                       ; should I move it to calc.el?
@@ -131,20 +147,6 @@
                (vhart  "2.18769126364*10^(6) m s^(-1)"
                        "Hartree velocity unit [ a0*E_Hart/hbar ]" atU))
              math-units-table nil))))
-
-
-;;  Appearance
-(use-package modus-vivendi-theme
-  :ensure t
-  :config
-  (blink-cursor-mode 0)
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (load-theme 'modus-vivendi t)
-  ;; (load-theme 'deeper-blue t)
-  (setq default-frame-alist
-        (append default-frame-alist
-                '((cursor-color . "MediumSlateBlue")))))
 
 
 (use-package all-the-icons
