@@ -121,7 +121,7 @@
   (setq default-frame-alist
         (append default-frame-alist
                 '((cursor-color . "MediumSlateBlue")
-                  (unsplittable . t)
+                  ;; (unsplittable . t)
                   ))))
 
 
@@ -254,10 +254,6 @@
          ("C-x M-g" . magit-dispatch))
   :config
   (global-magit-file-mode))
-
-
-(use-package evil-magit
-  :after (magit evil))
 
 
 (use-package mu4e
