@@ -1,0 +1,33 @@
+# -*-	mode: conf; -*-
+# my aliases and settings
+local-settings.el
+elfeed.org
+dynmods
+#
+abbrev_defs
+auto-save-list
+elpa
+emojis
+eshell
+history
+ido.last
+jabber-history
+jabber-otr
+magithub
+places
+quelpa
+recentf
+request
+secrets
+smex-items
+tramp
+url
+# backups
+*~
+\#*\#
+# compiled files
+*.elc
+projectile-bookmarks.eld
+*.html
+ac-comphist.dat
+bookmarks
