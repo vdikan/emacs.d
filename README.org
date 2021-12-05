@@ -1,3 +1,8 @@
 :Emacs Config
 
 ** /under heavy fire.../
+
+*** /...a new beginning.../
+
+This repo moved to private host,
+using Hub as occasional mirror.
