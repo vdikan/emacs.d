@@ -251,12 +251,6 @@
   (tramp-default-method "ssh"))
 
 
-(use-package magit
-  :ensure t
-  :bind (("C-x g"   . magit-status)
-         ("C-x M-g" . magit-dispatch)))
-
-
 ;;; Elisp development tools packages section:
 (use-package s
   :ensure nil
@@ -1053,6 +1047,15 @@ Used to be part of my Brain setup, now moved into Roam partition.")
   (my-leader-def
     :states '(normal visual emacs)
     "y" 'browse-kill-ring))
+
+
+(use-package magit
+  :ensure t
+  :general
+  (my-leader-def
+    :states '(normal visual emacs)
+    "g"   'magit-status
+    "M-g" 'magit-dispatch))
 
 
 (use-package org-ref
