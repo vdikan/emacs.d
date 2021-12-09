@@ -80,6 +80,9 @@
   ;; (load-file (let ((coding-system-for-read 'utf-8))
   ;;              (shell-command-to-string "agda-mode locate")))
 
+  (let ((default-directory "~/.emacs.d/lisp-dev/"))
+    (normal-top-level-add-subdirs-to-load-path))
+
   ;; For Rust dynamic modules.
   ;; https://github.com/ubolonton/emacs-module-rs/tree/master/rs-module
   ;;NOTE: Subject to many possible changes/reorganizations.
