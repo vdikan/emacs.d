@@ -430,6 +430,12 @@ Used to be part of my Brain setup, now moved into Roam partition.")
   (org-mode . org-bullets-mode))
 
 
+(use-package org-auto-tangle
+  :defer t
+  :init (setf org-auto-tangle-default t)
+  :hook (org-mode . org-auto-tangle-mode))
+
+
 (use-package org-present
   :ensure t ;hide-mode-line
   :hook
