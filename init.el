@@ -449,70 +449,6 @@ Used to be part of my Brain setup, now moved into Roam partition.")
            (file-truename (format "%s/books_revised.org" *lvar-org-roam-dir*))))
 
 
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory (file-truename *lvar-org-roam-dir*))
-  (org-roam-db-location
-   (file-truename (format "%s/org/org-roam.db" *lvar-grimoire-dir*)))
-
-  ;; Daily note taking
-  (org-roam-dailies-directory "daily/")
-  (org-roam-dailies-capture-templates
-   '(("d" "default" entry
-      "* %?"
-      :target (file+head "%<%Y-%m-%d>.org"
-                         "#+title: %<%Y-%m-%d>\n"))))
-
-  ;; Generic capture templates. Mind the subdirs in
-  (org-roam-capture-templates
-   '(("d" "default" plain "%?"
-      :target (file+head "${slug}.org"
-                         "#+title: ${title}\n")
-      :unnarrowed t)
-     ("l" "Lit-Notes" plain "%?"
-      :target (file+head "literature/${slug}.org"
-                         "#+category: books\n#+title: ${title}\n#+filetags: read\n")
-      :unnarrowed t)
-     ("m" "Media" plain "%?"
-      :target (file+head "media/${slug}.org"
-                         "#+category: media\n#+title: ${title}\n#+filetags: media\n")
-      :unnarrowed t)
-     ("k" "Kata-Log" plain "%?"
-      :target (file+head "kata-log/${slug}.org"
-                         "#+title: ${title}\n#+filetags: kata\n")
-      :unnarrowed t)
-     ("p" "Projects" plain "%?"
-      :target (file+head "projects/${slug}.org"
-                         "#+title: ${title}\n#+filetags: project\n")
-      :unnarrowed t)
-     ("a" "Art" plain "%?"
-      :target (file+head "art/${slug}.org"
-                         "#+title: ${title}\n#+filetags: art\n")
-      :unnarrowed t)
-     ("r" "Research" plain "%?"
-      :target (file+head "research/${slug}.org"
-                         "#+title: ${title}\n#+filetags: research\n")
-      :unnarrowed t)
-     ("t" "Engineering & Tech" plain "%?"
-      :target (file+head "tech/${slug}.org"
-                         "#+title: ${title}\n#+filetags: tech\n")
-      :unnarrowed t)
-     ("u" "Setup & Utilities" plain "%?"
-      :target (file+head "setup-utils/${slug}.org"
-                         "#+title: ${title}\n#+filetags: setup\n")
-      :unnarrowed t)))
-
-  :config
-  (add-to-list 'display-buffer-alist
-               '("\\*org-roam\\*"
-                 (display-buffer-in-direction)
-                 (direction . right)
-                 (window-width . 0.26)
-                 (window-height . fit-window-to-buffer)))
-  (org-roam-db-autosync-mode))
-
-
 (use-package deft
   :after org
   :bind
@@ -959,13 +895,6 @@ Used to be part of my Brain setup, now moved into Roam partition.")
     "am"  'mu4e
     ;; "aa"  'org-ref                      ; spawns HELM-ish interface
     "af"  'elfeed
-    "ar"  '(:ignore t :which-key "Org-Roam")
-    "arr" 'org-roam-node-find
-    "ari" 'org-roam-node-insert
-    "arb" 'org-roam-buffer-toggle
-    "arc" 'org-roam-capture
-    "ard" 'org-roam-dailies-goto-date
-    "ar." 'org-roam-dailies-find-today
     "ao"  'org-agenda
     "at"  'telega
     "ae"  'go-social-with-bitlbee
@@ -1096,3 +1025,79 @@ Used to be part of my Brain setup, now moved into Roam partition.")
   (org-ref-insert-ref-function 'org-ref-insert-ref-link)
   (org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
   :init (require 'org-ref-ivy))
+
+
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename *lvar-org-roam-dir*))
+  (org-roam-db-location
+   (file-truename (format "%s/org/org-roam.db" *lvar-grimoire-dir*)))
+
+  ;; Daily note taking
+  (org-roam-dailies-directory "daily/")
+  (org-roam-dailies-capture-templates
+   '(("d" "default" entry
+      "* %?"
+      :target (file+head "%<%Y-%m-%d>.org"
+                         "#+title: %<%Y-%m-%d>\n"))))
+
+  ;; Generic capture templates. Mind the subdirs in
+  (org-roam-capture-templates
+   '(("d" "default" plain "%?"
+      :target (file+head "${slug}.org"
+                         "#+title: ${title}\n")
+      :unnarrowed t)
+     ("l" "Lit-Notes" plain "%?"
+      :target (file+head "literature/${slug}.org"
+                         "#+category: books\n#+title: ${title}\n#+filetags: read\n")
+      :unnarrowed t)
+     ("m" "Media" plain "%?"
+      :target (file+head "media/${slug}.org"
+                         "#+category: media\n#+title: ${title}\n#+filetags: media\n")
+      :unnarrowed t)
+     ("k" "Kata-Log" plain "%?"
+      :target (file+head "kata-log/${slug}.org"
+                         "#+title: ${title}\n#+filetags: kata\n")
+      :unnarrowed t)
+     ("p" "Projects" plain "%?"
+      :target (file+head "projects/${slug}.org"
+                         "#+title: ${title}\n#+filetags: project\n")
+      :unnarrowed t)
+     ("a" "Art" plain "%?"
+      :target (file+head "art/${slug}.org"
+                         "#+title: ${title}\n#+filetags: art\n")
+      :unnarrowed t)
+     ("r" "Research" plain "%?"
+      :target (file+head "research/${slug}.org"
+                         "#+title: ${title}\n#+filetags: research\n")
+      :unnarrowed t)
+     ("t" "Engineering & Tech" plain "%?"
+      :target (file+head "tech/${slug}.org"
+                         "#+title: ${title}\n#+filetags: tech\n")
+      :unnarrowed t)
+     ("u" "Setup & Utilities" plain "%?"
+      :target (file+head "setup-utils/${slug}.org"
+                         "#+title: ${title}\n#+filetags: setup\n")
+      :unnarrowed t)))
+
+  :config
+  (require 'my-org)
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.26)
+                 (window-height . fit-window-to-buffer)))
+  (org-roam-db-autosync-mode)
+  :general
+  (my-leader-def
+    :states '(normal visual emacs)
+    "ar"  '(:ignore t :which-key "Org-Roam")
+    "arr" 'org-roam-node-find
+    "arh" 'my-org/roamify-header
+    "ari" 'org-roam-node-insert
+    "arb" 'org-roam-buffer-toggle
+    "arc" 'org-roam-capture
+    "ard" 'org-roam-dailies-goto-date
+    "ar." 'org-roam-dailies-find-today))
