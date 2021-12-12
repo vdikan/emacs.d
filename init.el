@@ -449,34 +449,6 @@ Used to be part of my Brain setup, now moved into Roam partition.")
            (file-truename (format "%s/books_revised.org" *lvar-org-roam-dir*))))
 
 
-(use-package deft
-  :after org
-  :bind
-  ("C-c n d" . deft)
-  :custom
-  (deft-recursive t)
-  (deft-use-filter-string-for-filename t)
-  (deft-default-extension "org")
-  (deft-directory org-roam-directory))
-
-
-(use-package org-download
-  :ensure t
-  :defer t
-  :after org
-  :init
-  (with-eval-after-load 'org (org-download-enable))
-  :custom
-  (org-download-screenshot-method "mate-screenshot -a")
-  (org-download-image-org-width 800)
-  ;; :bind
-  ;; (:map org-mode-map
-  ;;       (("s-Y" . org-download-screenshot)
-  ;;        ("s-y" . org-download-yank)))
-  :config
-  (setq-default org-download-image-dir *lvar-org-scrot-dir*))
-
-
 (use-package elfeed
   :ensure elfeed-org
   :custom
@@ -1101,3 +1073,31 @@ Used to be part of my Brain setup, now moved into Roam partition.")
     "arc" 'org-roam-capture
     "ard" 'org-roam-dailies-goto-date
     "ar." 'org-roam-dailies-find-today))
+
+
+(use-package deft
+  :after org
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory org-roam-directory))
+
+
+(use-package org-download
+  :ensure t
+  :defer t
+  :after org
+  :init
+  (with-eval-after-load 'org (org-download-enable))
+  :custom
+  (org-download-screenshot-method "mate-screenshot -a")
+  (org-download-image-org-width 800)
+  ;; :bind
+  ;; (:map org-mode-map
+  ;;       (("s-Y" . org-download-screenshot)
+  ;;        ("s-y" . org-download-yank)))
+  :config
+  (setq-default org-download-image-dir *lvar-org-scrot-dir*))
