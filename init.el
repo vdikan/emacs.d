@@ -926,7 +926,7 @@ Used to be part of my Brain setup, now moved into Roam partition.")
             :which-key "my olde Journal (for reference, no new edits)")
     "or" '((lambda() (interactive)
              (switch-to-buffer
-              (find-file-noselect "~/Refs/refs.bib")))
+              (find-file-noselect "~/Refs/phd.bib")))
            :which-key "Main Bibtex file")
     "on" '((lambda() (interactive)
              (switch-to-buffer
@@ -973,9 +973,10 @@ Used to be part of my Brain setup, now moved into Roam partition.")
   :general                ; first time I use :general kw in 'use-package
   (:keymaps 'org-mode-map "C-c ]" 'org-ref-insert-link)
   :custom
-  (bibtex-completion-bibliography '("~/Refs/refs.bib" ; default references file
+  (bibtex-completion-bibliography '("~/Refs/phd.bib" ; default references file
                                     "~/Refs/cs.bib"
-                                    "~/Refs/math.bib"))
+                                    "~/Refs/math.bib"
+                                    "~/Refs/formal.bib"))
   (bibtex-completion-library-path '("~/Refs/pdfs/"))
   (bibtex-completion-notes-path
    (file-truename (format "%s/papers.org" *lvar-org-roam-dir*)))
