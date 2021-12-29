@@ -1019,39 +1019,43 @@ Used to be part of my Brain setup, now moved into Roam partition.")
   (org-roam-capture-templates
    '(("d" "default" plain "%?"
       :target (file+head "${slug}.org"
-                         "#+title: ${title}\n")
+                         "#+title: ${title}\n#+auto_tangle: nil\n")
       :unnarrowed t)
      ("l" "Lit-Notes" plain "%?"
       :target (file+head "literature/${slug}.org"
-                         "#+category: books\n#+title: ${title}\n#+filetags: read\n")
+                         "#+category: books\n#+title: ${title}\n#+auto_tangle: nil\n#+filetags: read\n")
       :unnarrowed t)
      ("m" "Media" plain "%?"
       :target (file+head "media/${slug}.org"
-                         "#+category: media\n#+title: ${title}\n#+filetags: media\n")
+                         "#+category: media\n#+title: ${title}\n#+auto_tangle: nil\n#+filetags: media\n")
       :unnarrowed t)
      ("k" "Kata-Log" plain "%?"
       :target (file+head "kata-log/${slug}.org"
-                         "#+title: ${title}\n#+filetags: kata\n")
+                         "#+title: ${title}\n#+auto_tangle: nil\n#+filetags: kata\n")
       :unnarrowed t)
      ("p" "Projects" plain "%?"
       :target (file+head "projects/${slug}.org"
-                         "#+title: ${title}\n#+filetags: project\n")
+                         "#+category: projects\n#+title: ${title}\n#+auto_tangle: nil\n#+filetags: project\n")
+      :unnarrowed t)
+     ("g" "Gaming" plain "%?"
+      :target (file+head "gaming/${slug}.org"
+                         "#+category: prpgs\n#+title: ${title}\n#+auto_tangle: nil\n#+filetags: gaming\n")
       :unnarrowed t)
      ("a" "Art" plain "%?"
       :target (file+head "art/${slug}.org"
-                         "#+title: ${title}\n#+filetags: art\n")
+                         "#+title: ${title}\n#+auto_tangle: nil\n#+filetags: art\n")
       :unnarrowed t)
      ("r" "Research" plain "%?"
       :target (file+head "research/${slug}.org"
-                         "#+title: ${title}\n#+filetags: research\n")
+                         "#+title: ${title}\n#+auto_tangle: nil\n#+filetags: research\n")
       :unnarrowed t)
      ("t" "Engineering & Tech" plain "%?"
       :target (file+head "tech/${slug}.org"
-                         "#+title: ${title}\n#+filetags: tech\n")
+                         "#+title: ${title}\n#+auto_tangle: nil\n#+filetags: tech\n")
       :unnarrowed t)
      ("u" "Setup & Utilities" plain "%?"
       :target (file+head "setup-utils/${slug}.org"
-                         "#+title: ${title}\n#+filetags: setup\n")
+                         "#+title: ${title}\n#+auto_tangle: nil\n#+filetags: setup\n")
       :unnarrowed t)))
 
   :config
