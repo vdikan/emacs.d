@@ -1106,3 +1106,9 @@ Used to be part of my Brain setup, now moved into Roam partition.")
   ;;        ("s-y" . org-download-yank)))
   :config
   (setq-default org-download-image-dir *lvar-org-scrot-dir*))
+
+
+(use-package proof-general)
+
+(use-package company-coq
+  :hook (coq-mode . company-coq-mode))
