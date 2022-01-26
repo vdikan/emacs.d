@@ -978,9 +978,14 @@ Used to be part of my Brain setup, now moved into Roam partition.")
                                     "~/Refs/math.bib"
                                     "~/Refs/formal.bib"))
   (bibtex-completion-library-path '("~/Refs/pdfs/"))
+  ;; (bibtex-completion-notes-path
+  ;;  (file-truename (format "%s/papers.org" *lvar-org-roam-dir*)))
   (bibtex-completion-notes-path
-   (file-truename (format "%s/papers.org" *lvar-org-roam-dir*)))
+   (file-truename (format "%s/research/paper-notes/" *lvar-org-roam-dir*)))
   (bibtex-completion-additional-search-fields '(keywords))
+  (bibtex-completion-notes-template-multiple-files
+   "#+category: research\n#+title: ${title} (${year})\n#+auto_tangle: nil\n#+filetags: research paper_notes ${=type=}\n
+*${author-or-editor}*\n\nSee [[cite:&${=key=}]]\n")
   (bibtex-completion-pdf-open-function (lambda (fpath)
                                          (call-process "atril" nil 0 nil fpath)))
   ;; autokey formatting:
@@ -1047,7 +1052,7 @@ Used to be part of my Brain setup, now moved into Roam partition.")
       :unnarrowed t)
      ("r" "Research" plain "%?"
       :target (file+head "research/${slug}.org"
-                         "#+title: ${title}\n#+auto_tangle: nil\n#+filetags: research\n")
+                         "#+category: research\n#+title: ${title}\n#+auto_tangle: nil\n#+filetags: research\n")
       :unnarrowed t)
      ("t" "Engineering & Tech" plain "%?"
       :target (file+head "tech/${slug}.org"
